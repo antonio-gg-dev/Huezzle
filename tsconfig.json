@@ -12,6 +12,7 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "noEmit": true,
     "types": [
       "webpack-env",
       "jest"
