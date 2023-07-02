@@ -1,5 +1,6 @@
 export class Cell {
   constructor (
-    private readonly color: string
+    public readonly color: string,
+    public readonly isFixed: boolean = false
   ) {}
 }

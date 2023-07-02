@@ -43,17 +43,21 @@ export class Board {
   }
 
   public shuffle (): Board {
-    const rowLength = this._cells[0].length
-    const flatCells = this._cells
+    let movableIndex = 0
+    const movableCells = this._cells
       .flat()
+      .filter((cell) => !cell.isFixed)
       .sort(() => this.random() - 0.5)
-    const newCells: Cell[][] = []
 
-    for (let i = 0; i < flatCells.length; i += rowLength) {
-      newCells.push(flatCells.slice(i, i + rowLength))
-    }
+    this._cells = this._cells.map((row) =>
+      row.map((cell) => {
+        if (cell.isFixed) {
+          return cell
+        }
 
-    this._cells = newCells
+        return movableCells[movableIndex++]
+      })
+    )
 
     return this
   }

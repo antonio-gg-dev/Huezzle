@@ -1,5 +1,7 @@
 import { Board } from '@/entities/Board'
 import {
+  anotherFixedCell,
+  fixedCell,
   blackCell,
   blueCell,
   greenCell,
@@ -148,6 +150,19 @@ describe('@/entities/Board', () => {
         secondBoard.shuffle()
 
         expect(firstBoard.cells).toStrictEqual(secondBoard.cells)
+      })
+
+      it('should not shuffle fixed cells', () => {
+        const board = new Board([
+          [fixedCell, yellowCell, greenCell],
+          [pinkCell, orangeCell, blueCell],
+          [purpleCell, redCell, anotherFixedCell]
+        ])
+
+        board.shuffle()
+
+        expect(board.cells[0][0]).toBe(fixedCell)
+        expect(board.cells[2][2]).toBe(anotherFixedCell)
       })
     })
   })

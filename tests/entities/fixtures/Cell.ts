@@ -35,3 +35,13 @@ export const purpleCell = {
 export const pinkCell = {
   color: 'pink'
 } as unknown as Cell
+
+export const fixedCell = {
+  color: 'fixed',
+  isFixed: true
+} as unknown as Cell
+
+export const anotherFixedCell = {
+  color: 'another-fixed',
+  isFixed: true
+} as unknown as Cell
