@@ -2,28 +2,33 @@ import { Cell } from '@/entities/Cell'
 
 export class Board {
   private _movements = 0
+  private readonly cellsInitialState: Cell[]
 
   constructor (
     public readonly cells: Cell[][]
-  ) {}
+  ) {
+    this.cellsInitialState = cells.flat()
+  }
 
-  swap (fromX: number, fromY: number, toX: number, toY: number): Board {
-    const temp = this.cells[toY][toX]
+  public swap (fromX: number, fromY: number, toX: number, toY: number): Board {
+    const auxiliary = this.cells[toY][toX]
     this.cells[toY][toX] = this.cells[fromY][fromX]
-    this.cells[fromY][fromX] = temp
+    this.cells[fromY][fromX] = auxiliary
 
     if (fromX !== toX || fromY !== toY) {
-      this.movements++
+      this._movements++
     }
 
     return this
   }
 
-  get movements () {
+  public get movements (): number {
     return this._movements
   }
 
-  private set movements (value: number) {
-    this._movements = value
+  public get isSolved (): boolean {
+    return this.cells
+      .flat()
+      .every((cell, index) => this.cellsInitialState[index] === cell)
   }
 }

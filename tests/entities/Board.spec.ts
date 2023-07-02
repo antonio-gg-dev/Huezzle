@@ -83,5 +83,39 @@ describe('@/entities/Board', () => {
         expect(board.movements).toBe(0)
       })
     })
+
+    describe('is solved', () => {
+      it('should be true just right after instanced', () => {
+        const board = new Board([
+          [purpleCell, redCell],
+          [blueCell, blackCell]
+        ])
+
+        expect(board.isSolved).toBe(true)
+      })
+
+      it('should be false if not is in its initial state', () => {
+        const board = new Board([
+          [purpleCell, redCell],
+          [blueCell, blackCell]
+        ])
+
+        board.swap(1, 1, 0, 0)
+
+        expect(board.isSolved).toBe(false)
+      })
+
+      it('should be true again if it returns to its initial state', () => {
+        const board = new Board([
+          [purpleCell, redCell],
+          [blueCell, blackCell]
+        ])
+
+        board.swap(1, 1, 0, 0)
+          .swap(1, 1, 0, 0)
+
+        expect(board.isSolved).toBe(true)
+      })
+    })
   })
 })
