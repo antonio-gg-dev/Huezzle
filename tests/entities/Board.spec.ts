@@ -130,6 +130,25 @@ describe('@/entities/Board', () => {
 
         expect(board.isSolved).toBe(false)
       })
+
+      it('should be shuffled constantly if shuffled the same day', () => {
+        const firstBoard = new Board([
+          [whiteCell, yellowCell, greenCell],
+          [pinkCell, orangeCell, blueCell],
+          [purpleCell, redCell, blackCell]
+        ])
+
+        const secondBoard = new Board([
+          [whiteCell, yellowCell, greenCell],
+          [pinkCell, orangeCell, blueCell],
+          [purpleCell, redCell, blackCell]
+        ])
+
+        firstBoard.shuffle()
+        secondBoard.shuffle()
+
+        expect(firstBoard.cells).toStrictEqual(secondBoard.cells)
+      })
     })
   })
 })

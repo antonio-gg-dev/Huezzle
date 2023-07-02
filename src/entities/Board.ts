@@ -1,15 +1,19 @@
 import { Cell } from '@/entities/Cell'
+import SeedRandom from 'seedrandom'
+import { DateTime } from 'luxon'
 
 export class Board {
   private _movements = 0
   private readonly cellsInitialState: Cell[]
   private _cells
+  private readonly random: () => number
 
   constructor (
     cells: Cell[][]
   ) {
     this._cells = cells
     this.cellsInitialState = cells.flat()
+    this.random = SeedRandom(DateTime.now().toISODate() ?? '')
   }
 
   public swap (fromX: number, fromY: number, toX: number, toY: number): Board {
@@ -42,7 +46,7 @@ export class Board {
     const rowLength = this._cells[0].length
     const flatCells = this._cells
       .flat()
-      .sort(() => Math.random() - 0.5)
+      .sort(() => this.random() - 0.5)
     const newCells: Cell[][] = []
 
     for (let i = 0; i < flatCells.length; i += rowLength) {
