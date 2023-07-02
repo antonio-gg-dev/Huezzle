@@ -117,5 +117,19 @@ describe('@/entities/Board', () => {
         expect(board.isSolved).toBe(true)
       })
     })
+
+    describe('shuffle', () => {
+      it('should stop being solved after being shuffled', () => {
+        const board = new Board([
+          [whiteCell, yellowCell, greenCell],
+          [pinkCell, orangeCell, blueCell],
+          [purpleCell, redCell, blackCell]
+        ])
+
+        board.shuffle()
+
+        expect(board.isSolved).toBe(false)
+      })
+    })
   })
 })
