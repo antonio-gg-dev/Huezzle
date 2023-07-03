@@ -1,6 +1,7 @@
 import { Cell } from '@/entities/Cell'
 import SeedRandom from 'seedrandom'
 import { DateTime } from 'luxon'
+import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
 
 export class Board {
   private _movements = 0
@@ -11,6 +12,12 @@ export class Board {
   constructor (
     cells: Cell[][]
   ) {
+    const rowLength = cells[0].length
+
+    if (!cells.every((row) => row.length === rowLength)) {
+      throw new UnevenRowLengthError()
+    }
+
     this._cells = cells
     this.cellsInitialState = cells.flat()
     this.random = SeedRandom(DateTime.now().toISODate() ?? '')

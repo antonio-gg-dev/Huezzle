@@ -12,8 +12,18 @@ import {
   whiteCell,
   yellowCell
 } from './fixtures/Cell'
+import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
 
 describe('@/entities/Board', () => {
+  describe('construction', () => {
+    it('should throw an error for uneven row lengths in the cell matrix', () => {
+      expect(() => new Board([
+        [blackCell, redCell],
+        [blueCell]
+      ])).toThrowError(new UnevenRowLengthError())
+    })
+  })
+
   describe('swap', () => {
     it('should swap cells properly', () => {
       const board = new Board([
