@@ -2,6 +2,7 @@ import { Cell } from '@/entities/Cell'
 import SeedRandom from 'seedrandom'
 import { DateTime } from 'luxon'
 import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
+import { FixedRowError } from '@/exceptions/FixedRowError'
 
 export class Board {
   private _movements = 0
@@ -24,6 +25,10 @@ export class Board {
   }
 
   public swap (fromX: number, fromY: number, toX: number, toY: number): Board {
+    if (this._cells[fromY][fromX].isFixed || this._cells[toY][toX].isFixed) {
+      throw new FixedRowError()
+    }
+
     const auxiliary = this._cells[toY][toX]
     this._cells[toY][toX] = this._cells[fromY][fromX]
     this._cells[fromY][fromX] = auxiliary

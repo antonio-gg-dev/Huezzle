@@ -13,6 +13,7 @@ import {
   yellowCell
 } from './fixtures/Cell'
 import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
+import { FixedRowError } from '@/exceptions/FixedRowError'
 
 describe('@/entities/Board', () => {
   describe('construction', () => {
@@ -59,6 +60,18 @@ describe('@/entities/Board', () => {
       board.swap(0, 0, 0, 0)
 
       expect(board.cells).toStrictEqual([[blackCell, blueCell]])
+    })
+
+    it('should throw an error when swap from fixed cell', () => {
+      const board = new Board([[fixedCell, orangeCell]])
+
+      expect(() => board.swap(0, 0, 1, 0)).toThrowError(new FixedRowError())
+    })
+
+    it('should throw an error when swap to fixed cell', () => {
+      const board = new Board([[fixedCell, orangeCell]])
+
+      expect(() => board.swap(1, 0, 0, 0)).toThrowError(new FixedRowError())
     })
   })
 
