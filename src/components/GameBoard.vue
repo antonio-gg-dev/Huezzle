@@ -1,21 +1,21 @@
 <template>
-  <div class="board">
-    <template
-      v-for="(row, index) in board.cells"
-      :key="`r-${index}`"
+  <TransitionGroup
+    tag="div"
+    class="board"
+    @click="board.shuffle()"
+    name="fade"
+  >
+    <div
+      v-for="cell in board.cells.flat()"
+      :key="cell.color"
+      class="cell"
+      :style="{
+        backgroundColor: cell.color,
+      } as CSSStyleDeclaration"
     >
-      <div
-        v-for="(cell, index) in row"
-        :key="`c-${index}`"
-        class="cell"
-        :style="{
-          backgroundColor: cell.color,
-        } as CSSStyleDeclaration"
-      >
 
-      </div>
-    </template>
-  </div>
+    </div>
+  </TransitionGroup>
 </template>
 
 <script lang="ts">
@@ -42,5 +42,9 @@ export default defineComponent({
 
 .cell {
   aspect-ratio: 1 / 1
+}
+
+.fade-move {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }
 </style>
