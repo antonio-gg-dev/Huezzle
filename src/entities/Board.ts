@@ -1,14 +1,13 @@
 import { Cell } from '@/entities/Cell'
-import SeedRandom from 'seedrandom'
-import { DateTime } from 'luxon'
 import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
 import { FixedRowError } from '@/exceptions/FixedRowError'
+import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 
 export class Board {
   private _movements = 0
   private readonly cellsInitialState: Cell[]
   private _cells
-  private readonly random: () => number
+  private readonly random: DayBasedRandomGenerator
 
   constructor (
     cells: Cell[][]
@@ -21,7 +20,7 @@ export class Board {
 
     this._cells = cells
     this.cellsInitialState = cells.flat()
-    this.random = SeedRandom(DateTime.now().toISODate() ?? '')
+    this.random = new DayBasedRandomGenerator('board')
   }
 
   public swap (fromX: number, fromY: number, toX: number, toY: number): Board {
@@ -56,13 +55,13 @@ export class Board {
 
   public shuffle (): Board {
     let movableIndex = 0
-    const shuffleAmount = Math.floor(this.random() * 5) + 5
+    const shuffleAmount = Math.round(this.random.minMax(5, 10))
     const movableCells = this._cells
       .flat()
       .filter((cell) => !cell.isFixed)
 
     for (let i = 0; i < shuffleAmount; i++) {
-      movableCells.sort(() => this.random() - 0.5)
+      movableCells.sort(() => this.random.minMax(-1, 1))
     }
 
     this._cells = this._cells.map((row) =>
