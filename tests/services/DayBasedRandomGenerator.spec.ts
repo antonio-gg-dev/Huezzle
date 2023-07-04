@@ -72,4 +72,46 @@ describe('@/services/DayBasedRandomGenerator', () => {
       }
     })
   })
+
+  describe('hash', () => {
+    it('should generate a new random string each time its called', () => {
+      const random = new DayBasedRandomGenerator('seed')
+
+      for (let i = 0; i < 20; i++) {
+        expect(random.hash()).not.toBe(random.hash())
+      }
+    })
+
+    it('should generate predictable random strings when many created with the same seed', () => {
+      const firstRandom = new DayBasedRandomGenerator('seed')
+      const secondRandom = new DayBasedRandomGenerator('seed')
+
+      for (let i = 0; i < 20; i++) {
+        expect(firstRandom.hash()).toBe(secondRandom.hash())
+      }
+    })
+
+    it('should not generate the same strings when many created with the different seeds', () => {
+      const firstRandom = new DayBasedRandomGenerator('one seed')
+      const secondRandom = new DayBasedRandomGenerator('another seed')
+
+      for (let i = 0; i < 20; i++) {
+        expect(firstRandom.hash()).not.toBe(secondRandom.hash())
+      }
+    })
+
+    it.each`
+      given
+      ${2}
+      ${5}
+      ${7}
+      ${30}
+    `('should return strings with given length of "$given"', ({ given }) => {
+      const random = new DayBasedRandomGenerator('seed')
+
+      for (let i = 0; i < 5; i++) {
+        expect(random.hash(given)).toHaveLength(given)
+      }
+    })
+  })
 })

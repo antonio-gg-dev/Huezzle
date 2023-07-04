@@ -8,6 +8,6 @@ export class Cell {
     public readonly color: string,
     public readonly isFixed: boolean = false
   ) {
-    this.id = String(Cell.random.rnd())
+    this.id = Cell.random.hash(8)
   }
 }

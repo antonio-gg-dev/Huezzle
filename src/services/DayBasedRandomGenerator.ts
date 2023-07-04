@@ -16,4 +16,13 @@ export class DayBasedRandomGenerator {
   minMax (min: number, max: number): number {
     return min + (this.random() * (max - min))
   }
+
+  hash (length = 6): string {
+    let hash = ''
+    while (hash.length < length) {
+      hash += this.random().toString(36).substring(2, 20)
+    }
+
+    return hash.substring(0, length)
+  }
 }
