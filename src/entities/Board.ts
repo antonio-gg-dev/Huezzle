@@ -5,7 +5,7 @@ import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 
 export class Board {
   private _movements = 0
-  private readonly cellsInitialState: Cell[]
+  private readonly colorsInitialState: string[]
   private _cells
   private readonly random: DayBasedRandomGenerator
 
@@ -19,7 +19,7 @@ export class Board {
     }
 
     this._cells = cells
-    this.cellsInitialState = cells.flat()
+    this.colorsInitialState = cells.flat().map(cell => cell.color)
     this.random = new DayBasedRandomGenerator('board')
   }
 
@@ -50,7 +50,7 @@ export class Board {
   public get isSolved (): boolean {
     return this._cells
       .flat()
-      .every((cell, index) => this.cellsInitialState[index] === cell)
+      .every((cell, index) => this.colorsInitialState[index] === cell.color)
   }
 
   public shuffle (): Board {
