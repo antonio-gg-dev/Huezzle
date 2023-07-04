@@ -56,10 +56,14 @@ export class Board {
 
   public shuffle (): Board {
     let movableIndex = 0
+    const shuffleAmount = Math.floor(this.random() * 5) + 5
     const movableCells = this._cells
       .flat()
       .filter((cell) => !cell.isFixed)
-      .sort(() => this.random() - 0.5)
+
+    for (let i = 0; i < shuffleAmount; i++) {
+      movableCells.sort(() => this.random() - 0.5)
+    }
 
     this._cells = this._cells.map((row) =>
       row.map((cell) => {
