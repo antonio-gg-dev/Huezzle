@@ -33,10 +33,12 @@ export class GameGenerator {
   }
 
   public generate (): Board {
-    const topLeftColor = new Color('hsl', [0, 100, 50])
-    const topRightColor = new Color('hsl', [60, 100, 50])
-    const bottomLeftColor = new Color('hsl', [120, 100, 50])
-    const bottomRightColor = new Color('hsl', [180, 100, 50])
+    const contrast = this.random.minMax(60, 90)
+    const brightness = this.random.minMax(40, 60)
+    const topRightColor = this.generateTopRightColor(contrast, brightness)
+    const bottomLeftColor = this.generateBottomLeftColor(contrast, brightness, topRightColor)
+    const topLeftColor = this.generateTopLeftColor(contrast, brightness, bottomLeftColor, topRightColor)
+    const bottomRightColor = this.generateBottomRightColor(contrast, brightness, bottomLeftColor, topRightColor, topLeftColor)
 
     const heightStepOptions = {
       space: 'lab',
@@ -66,6 +68,72 @@ export class GameGenerator {
     }
 
     return new Board(cells)
+  }
+
+  private generateBottomRightColor (contrast: number, brightness: number, bottomLeftColor: Color, topRightColor: Color, topLeftColor: Color) {
+    let bottomRightColor: Color
+    let counter = 0
+
+    while (true) {
+      if (counter === 5) {
+        bottomRightColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness + 40])
+        break
+      }
+
+      bottomRightColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+
+      if (
+        Color.contrast(bottomRightColor, bottomLeftColor, { algorithm: 'wcag21' }) > 2 &&
+        Color.contrast(bottomRightColor, topRightColor, { algorithm: 'wcag21' }) > 2 &&
+        Color.contrast(bottomRightColor, topLeftColor, { algorithm: 'wcag21' }) > 2
+      ) {
+        break
+      }
+
+      counter++
+    }
+    return bottomRightColor
+  }
+
+  private generateTopLeftColor (contrast: number, brightness: number, bottomLeftColor: Color, topRightColor: Color) {
+    let topLeftColor: Color
+    let counter = 0
+
+    while (true) {
+      if (counter === 5) {
+        topLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness - 40])
+        break
+      }
+
+      topLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+
+      if (
+        Color.contrast(topLeftColor, bottomLeftColor, { algorithm: 'wcag21' }) > 2 &&
+        Color.contrast(topLeftColor, topRightColor, { algorithm: 'wcag21' }) > 2
+      ) {
+        break
+      }
+
+      counter++
+    }
+    return topLeftColor
+  }
+
+  private generateBottomLeftColor (contrast: number, brightness: number, topRightColor: Color) {
+    let bottomLeftColor: Color
+
+    while (true) {
+      bottomLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+
+      if (Color.contrast(topRightColor, bottomLeftColor, { algorithm: 'wcag21' }) > 2) {
+        break
+      }
+    }
+    return bottomLeftColor
+  }
+
+  private generateTopRightColor (contrast: number, brightness: number) {
+    return new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
   }
 
   private static calculateDifficulty (date: DateTime): Difficulty {
@@ -143,8 +211,8 @@ export class GameGenerator {
           x: 0,
           y: 0
         }, {
-          x: 0,
-          y: 1
+          x: 1,
+          y: 0
         }, {
           x: 0,
           y: boardHeight - 1
