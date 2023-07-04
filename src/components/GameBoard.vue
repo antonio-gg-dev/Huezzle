@@ -7,7 +7,7 @@
   >
     <div
       v-for="cell in board.cells.flat()"
-      :key="cell.color"
+      :key="cell.id"
       class="cell"
       :style="{
         backgroundColor: cell.color,
@@ -45,6 +45,6 @@ export default defineComponent({
 }
 
 .fade-move {
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  transition: all 0.3s ease-in-out;
 }
 </style>
