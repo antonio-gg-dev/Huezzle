@@ -8,8 +8,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import GameBoard from '@/components/GameBoard.vue'
-import { Board } from '@/entities/Board'
-import { Cell } from '@/entities/Cell'
+import { GameGenerator } from '@/services/GameGenerator'
 
 export default defineComponent({
   name: 'App',
@@ -18,12 +17,7 @@ export default defineComponent({
   },
   data () {
     return {
-      board: new Board([
-        [new Cell('#FF3C00', true), new Cell('#FF7600'), new Cell('#FFB000'), new Cell('#FFEA00', true)],
-        [new Cell('#AA6255'), new Cell('#BD8F3F'), new Cell('#D1BC29'), new Cell('#E4E912')],
-        [new Cell('#5588AA'), new Cell('#7CA87D'), new Cell('#A3C751'), new Cell('#CAE725')],
-        [new Cell('#00AEFF', true), new Cell('#3AC1BC'), new Cell('#75D37A'), new Cell('#AFE637')]
-      ])
+      board: new GameGenerator().generate()
     }
   }
 })
