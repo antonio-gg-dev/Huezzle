@@ -1,6 +1,8 @@
 import { Board } from '@/entities/Board'
 import { DateTime } from 'luxon'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
+import Color from 'colorjs.io'
+import { Cell } from '@/entities/Cell'
 
 const enum Difficulty {
   chill = 'chill',
@@ -8,7 +10,7 @@ const enum Difficulty {
   challenge = 'challenge',
 }
 
-interface Coordinates {
+interface Coordinate {
   x: number,
   y: number
 }
@@ -19,7 +21,7 @@ export class GameGenerator {
   private readonly difficulty: Difficulty
   private readonly boardWidth: number
   private readonly boardHeight: number
-  private readonly frozenCells: Coordinates[]
+  private readonly frozenCells: Coordinate[]
 
   constructor () {
     this.date = DateTime.now()
@@ -31,7 +33,39 @@ export class GameGenerator {
   }
 
   public generate (): Board {
-    return new Board([])
+    const topLeftColor = new Color('hsl', [0, 100, 50])
+    const topRightColor = new Color('hsl', [60, 100, 50])
+    const bottomLeftColor = new Color('hsl', [120, 100, 50])
+    const bottomRightColor = new Color('hsl', [180, 100, 50])
+
+    const heightStepOptions = {
+      space: 'lab',
+      outputSpace: 'srgb',
+      steps: this.boardHeight
+    }
+
+    const widthStepOptions = {
+      space: 'lab',
+      outputSpace: 'srgb',
+      steps: this.boardWidth
+    }
+
+    const leftGradient = Color.steps(topLeftColor, bottomLeftColor, heightStepOptions)
+      .map(color => new Color('srgb', color.coords).toString({ format: 'hex' }))
+    const rightGradient = Color.steps(topRightColor, bottomRightColor, heightStepOptions)
+      .map(color => new Color('srgb', color.coords).toString({ format: 'hex' }))
+
+    const cells: Cell[][] = []
+
+    for (let height = 0; height < this.boardHeight; height++) {
+      cells.push(Color.steps(leftGradient[height], rightGradient[height], widthStepOptions)
+        .map((color, width) => new Cell(
+          new Color('srgb', color.coords).toString({ format: 'hex' }),
+          this.frozenCells.findIndex(coordinate => coordinate.x === width && coordinate.y === height) !== -1
+        )))
+    }
+
+    return new Board(cells)
   }
 
   private static calculateDifficulty (date: DateTime): Difficulty {
@@ -77,7 +111,7 @@ export class GameGenerator {
     }
   }
 
-  private static calculateFrozenCells (difficulty: Difficulty, boardWidth: number, boardHeight: number): Coordinates[] {
+  private static calculateFrozenCells (difficulty: Difficulty, boardWidth: number, boardHeight: number): Coordinate[] {
     switch (difficulty) {
       case Difficulty.chill:
         return [{
