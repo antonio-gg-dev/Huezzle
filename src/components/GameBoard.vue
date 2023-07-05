@@ -5,15 +5,15 @@
     @click="board.shuffle()"
     name="fade"
     :style="{
-      '--rowWidth': board.cells[0].length
+      '--rowWidth': board.rowLength
     } as CSSStyleDeclaration"
   >
     <div
-      v-for="cell in board.cells.flat()"
+      v-for="cell in board.cells"
       :key="cell.id"
       class="cell"
       :style="{
-        backgroundColor: cell.color,
+        backgroundColor: cell.color
       } as CSSStyleDeclaration"
     >
       {{ cell.isFixed ? 'X' : '' }}
