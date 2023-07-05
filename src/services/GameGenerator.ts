@@ -35,10 +35,10 @@ export class GameGenerator {
   public generate (): Board {
     const contrast = this.random.minMax(60, 90)
     const brightness = this.random.minMax(40, 60)
-    const topRightColor = this.generateTopRightColor(contrast, brightness)
-    const bottomLeftColor = this.generateBottomLeftColor(contrast, brightness, topRightColor)
-    const topLeftColor = this.generateTopLeftColor(contrast, brightness, bottomLeftColor, topRightColor)
-    const bottomRightColor = this.generateBottomRightColor(contrast, brightness, bottomLeftColor, topRightColor, topLeftColor)
+    const firstColor = this.generateFirstColor(contrast, brightness)
+    const secondColor = this.generateSecondColor(contrast, brightness, firstColor)
+    const thirdColor = this.generateThirdColor(contrast, brightness, firstColor, secondColor)
+    const fourthColor = this.generateFourthColor(contrast, brightness, firstColor, secondColor, thirdColor)
 
     const heightStepOptions = {
       space: 'lab',
@@ -51,6 +51,18 @@ export class GameGenerator {
       outputSpace: 'srgb',
       steps: this.boardWidth
     }
+
+    const [
+      topLeftColor,
+      bottomLeftColor,
+      topRightColor,
+      bottomRightColor
+    ] = this.orderColors(
+      firstColor,
+      secondColor,
+      thirdColor,
+      fourthColor
+    )
 
     const leftGradient = Color.steps(topLeftColor, bottomLeftColor, heightStepOptions)
       .map(color => new Color('srgb', color.coords).toString({ format: 'hex' }))
@@ -70,69 +82,69 @@ export class GameGenerator {
     return new Board(cells)
   }
 
-  private generateBottomRightColor (contrast: number, brightness: number, bottomLeftColor: Color, topRightColor: Color, topLeftColor: Color) {
-    let bottomRightColor: Color
-    let counter = 0
+  private generateFourthColor (contrast: number, brightness: number, firstColor: Color, secondColor: Color, thirdColor: Color) {
+    let fourthColor: Color
+    let attempts = 0
 
     while (true) {
-      if (counter === 5) {
-        bottomRightColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness + this.random.minMax(30, 40)])
+      if (attempts === 5) {
+        fourthColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness + this.random.minMax(30, 40)])
         break
       }
 
-      bottomRightColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+      fourthColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
 
       if (
-        Color.contrast(bottomRightColor, bottomLeftColor, { algorithm: 'wcag21' }) > 2 &&
-        Color.contrast(bottomRightColor, topRightColor, { algorithm: 'wcag21' }) > 2 &&
-        Color.contrast(bottomRightColor, topLeftColor, { algorithm: 'wcag21' }) > 2
+        Color.contrast(fourthColor, firstColor, { algorithm: 'wcag21' }) > 2 &&
+        Color.contrast(fourthColor, secondColor, { algorithm: 'wcag21' }) > 2 &&
+        Color.contrast(fourthColor, thirdColor, { algorithm: 'wcag21' }) > 2
       ) {
         break
       }
 
-      counter++
+      attempts++
     }
-    return bottomRightColor
+    return fourthColor
   }
 
-  private generateTopLeftColor (contrast: number, brightness: number, bottomLeftColor: Color, topRightColor: Color) {
-    let topLeftColor: Color
-    let counter = 0
+  private generateThirdColor (contrast: number, brightness: number, firstColor: Color, secondColor: Color) {
+    let thirdColor: Color
+    let attempts = 0
 
     while (true) {
-      if (counter === 5) {
-        topLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness - this.random.minMax(30, 40)])
+      if (attempts === 5) {
+        thirdColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness - this.random.minMax(30, 40)])
         break
       }
 
-      topLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+      thirdColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
 
       if (
-        Color.contrast(topLeftColor, bottomLeftColor, { algorithm: 'wcag21' }) > 2 &&
-        Color.contrast(topLeftColor, topRightColor, { algorithm: 'wcag21' }) > 2
+        Color.contrast(thirdColor, firstColor, { algorithm: 'wcag21' }) > 2 &&
+        Color.contrast(thirdColor, secondColor, { algorithm: 'wcag21' }) > 2
       ) {
         break
       }
 
-      counter++
+      attempts++
     }
-    return topLeftColor
+    return thirdColor
   }
 
-  private generateBottomLeftColor (contrast: number, brightness: number, topRightColor: Color) {
-    let bottomLeftColor: Color
+  private generateSecondColor (contrast: number, brightness: number, firstColor: Color) {
+    let secondColor: Color
 
     while (true) {
-      bottomLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+      secondColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
 
-      if (Color.contrast(topRightColor, bottomLeftColor, { algorithm: 'wcag21' }) > 2) {
+      if (Color.contrast(firstColor, secondColor, { algorithm: 'wcag21' }) > 2) {
         break
       }
     }
-    return bottomLeftColor
+    return secondColor
   }
 
-  private generateTopRightColor (contrast: number, brightness: number) {
+  private generateFirstColor (contrast: number, brightness: number) {
     return new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
   }
 
@@ -218,5 +230,38 @@ export class GameGenerator {
           y: boardHeight - 1
         }]
     }
+  }
+
+  private orderColors (firstColor: Color, secondColor: Color, thirdColor: Color, fourthColor: Color): [Color, Color, Color, Color] {
+    switch (Math.floor(this.random.minMax(0, 4))) {
+      case 1:
+        return [
+          secondColor,
+          fourthColor,
+          thirdColor,
+          firstColor
+        ]
+      case 2:
+        return [
+          fourthColor,
+          firstColor,
+          secondColor,
+          thirdColor
+        ]
+      case 3:
+        return [
+          firstColor,
+          thirdColor,
+          fourthColor,
+          secondColor
+        ]
+    }
+
+    return [
+      thirdColor,
+      secondColor,
+      firstColor,
+      fourthColor
+    ]
   }
 }
