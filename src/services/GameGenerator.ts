@@ -76,7 +76,7 @@ export class GameGenerator {
 
     while (true) {
       if (counter === 5) {
-        bottomRightColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness + 40])
+        bottomRightColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness + this.random.minMax(30, 40)])
         break
       }
 
@@ -101,7 +101,7 @@ export class GameGenerator {
 
     while (true) {
       if (counter === 5) {
-        topLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness - 40])
+        topLeftColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness - this.random.minMax(30, 40)])
         break
       }
 
