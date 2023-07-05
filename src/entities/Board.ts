@@ -1,45 +1,54 @@
 import { Cell } from '@/entities/Cell'
 import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
-import { FixedRowError } from '@/exceptions/FixedRowError'
+import { FixedCellError } from '@/exceptions/FixedCellError'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
+import { CellNotFound } from '@/exceptions/CellNotFound'
 
 export class Board {
   private _movements = 0
   private readonly colorsInitialState: string[]
   private _cells
   private readonly random: DayBasedRandomGenerator
+  public readonly rowLength: number
 
   constructor (
     cells: Cell[][]
   ) {
-    const rowLength = cells[0].length
+    this.rowLength = cells[0].length
 
-    if (!cells.every((row) => row.length === rowLength)) {
+    if (!cells.every((row) => row.length === this.rowLength)) {
       throw new UnevenRowLengthError()
     }
 
-    this._cells = cells
+    this._cells = cells.flat()
     this.colorsInitialState = cells.flat().map(cell => cell.color)
     this.random = new DayBasedRandomGenerator('board')
   }
 
-  public swap (fromX: number, fromY: number, toX: number, toY: number): Board {
-    if (this._cells[fromY][fromX].isFixed || this._cells[toY][toX].isFixed) {
-      throw new FixedRowError()
+  public swap (fromId: Cell['id'], toId: Cell['id']): Board {
+    const fromIndex = this._cells.findIndex(cell => cell.id === fromId)
+    const toIndex = this._cells.findIndex(cell => cell.id === toId)
+
+    if (fromIndex === -1 || toIndex === -1) {
+      throw new CellNotFound()
     }
 
-    const auxiliary = this._cells[toY][toX]
-    this._cells[toY][toX] = this._cells[fromY][fromX]
-    this._cells[fromY][fromX] = auxiliary
+    if (this._cells[fromIndex].isFixed || this._cells[toIndex].isFixed) {
+      throw new FixedCellError()
+    }
 
-    if (fromX !== toX || fromY !== toY) {
+    const auxiliary = this._cells[toIndex]
+    this._cells[toIndex] = this._cells[fromIndex]
+    this._cells[fromIndex] = auxiliary
+
+    if (fromId !== toId) {
       this._movements++
     }
 
     return this
   }
 
-  public get cells (): Cell[][] {
+  public get cells (): Cell[] {
     return this._cells
   }
 
@@ -64,15 +73,13 @@ export class Board {
       movableCells.sort(() => this.random.minMax(-1, 1))
     }
 
-    this._cells = this._cells.map((row) =>
-      row.map((cell) => {
-        if (cell.isFixed) {
-          return cell
-        }
+    this._cells = this._cells.map((cell) => {
+      if (cell.isFixed) {
+        return cell
+      }
 
-        return movableCells[movableIndex++]
-      })
-    )
+      return movableCells[movableIndex++]
+    })
 
     return this
   }

@@ -13,7 +13,8 @@ import {
   yellowCell
 } from './fixtures/Cell'
 import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
-import { FixedRowError } from '@/exceptions/FixedRowError'
+import { FixedCellError } from '@/exceptions/FixedCellError'
+import { CellNotFound } from '@/exceptions/CellNotFound'
 
 describe('@/entities/Board', () => {
   describe('construction', () => {
@@ -32,46 +33,58 @@ describe('@/entities/Board', () => {
         [blueCell, whiteCell]
       ])
 
-      board.swap(0, 0, 1, 1)
+      board.swap(blackCell.id, whiteCell.id)
 
       expect(board.cells).toStrictEqual([
-        [whiteCell/* <- */, redCell],
-        [blueCell, /* -> */blackCell]
+        whiteCell/* <- */, redCell,
+        blueCell, /* -> */blackCell
       ])
 
-      board.swap(0, 1, 1, 1)
+      board.swap(blackCell.id, blueCell.id)
 
       expect(board.cells).toStrictEqual([
-        [whiteCell, redCell],
-        [blackCell/* <- */, /* -> */blueCell]
+        whiteCell, redCell,
+        blackCell/* <- */, /* -> */blueCell
       ])
 
-      board.swap(0, 1, 1, 0)
+      board.swap(redCell.id, blackCell.id)
 
       expect(board.cells).toStrictEqual([
-        [whiteCell, /* -> */blackCell],
-        [redCell/* <- */, blueCell]
+        whiteCell, /* -> */blackCell,
+        redCell/* <- */, blueCell
       ])
     })
 
     it('should "swap" one cell to itself', () => {
       const board = new Board([[blackCell, blueCell]])
 
-      board.swap(0, 0, 0, 0)
+      board.swap(blackCell.id, blackCell.id)
 
-      expect(board.cells).toStrictEqual([[blackCell, blueCell]])
+      expect(board.cells).toStrictEqual([blackCell, blueCell])
     })
 
     it('should throw an error when swap from fixed cell', () => {
       const board = new Board([[fixedCell, orangeCell]])
 
-      expect(() => board.swap(0, 0, 1, 0)).toThrowError(new FixedRowError())
+      expect(() => board.swap(fixedCell.id, orangeCell.id)).toThrowError(new FixedCellError())
     })
 
     it('should throw an error when swap to fixed cell', () => {
       const board = new Board([[fixedCell, orangeCell]])
 
-      expect(() => board.swap(1, 0, 0, 0)).toThrowError(new FixedRowError())
+      expect(() => board.swap(orangeCell.id, fixedCell.id)).toThrowError(new FixedCellError())
+    })
+
+    it('should throw an error when swap from unknown cell', () => {
+      const board = new Board([[redCell, orangeCell]])
+
+      expect(() => board.swap(blueCell.id, redCell.id)).toThrowError(new CellNotFound())
+    })
+
+    it('should throw an error when swap to unknown cell', () => {
+      const board = new Board([[redCell, orangeCell]])
+
+      expect(() => board.swap(redCell.id, blueCell.id)).toThrowError(new CellNotFound())
     })
   })
 
@@ -88,15 +101,15 @@ describe('@/entities/Board', () => {
         [yellowCell, orangeCell]
       ])
 
-      board.swap(0, 1, 0, 0)
+      board.swap(redCell.id, pinkCell.id)
 
       expect(board.movements).toBe(1)
 
-      board.swap(0, 1, 0, 0)
+      board.swap(redCell.id, pinkCell.id)
 
       expect(board.movements).toBe(2)
 
-      board.swap(0, 1, 0, 0)
+      board.swap(redCell.id, pinkCell.id)
 
       expect(board.movements).toBe(3)
     })
@@ -104,7 +117,7 @@ describe('@/entities/Board', () => {
     it('should not count when swap a cell to itself', () => {
       const board = new Board([[greenCell, yellowCell]])
 
-      board.swap(1, 0, 1, 0)
+      board.swap(yellowCell.id, yellowCell.id)
 
       expect(board.movements).toBe(0)
     })
@@ -126,7 +139,7 @@ describe('@/entities/Board', () => {
         [blueCell, blackCell]
       ])
 
-      board.swap(1, 1, 0, 0)
+      board.swap(blackCell.id, purpleCell.id)
 
       expect(board.isSolved).toBe(false)
     })
@@ -137,8 +150,8 @@ describe('@/entities/Board', () => {
         [blueCell, blackCell]
       ])
 
-      board.swap(1, 1, 0, 0)
-        .swap(1, 1, 0, 0)
+      board.swap(blackCell.id, purpleCell.id)
+        .swap(blackCell.id, purpleCell.id)
 
       expect(board.isSolved).toBe(true)
     })
@@ -185,8 +198,8 @@ describe('@/entities/Board', () => {
 
       board.shuffle()
 
-      expect(board.cells[0][0]).toBe(fixedCell)
-      expect(board.cells[2][2]).toBe(anotherFixedCell)
+      expect(board.cells[0]).toBe(fixedCell)
+      expect(board.cells[8]).toBe(anotherFixedCell)
     })
   })
 })
