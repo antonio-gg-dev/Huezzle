@@ -1,9 +1,12 @@
 <template>
   <TransitionGroup
     tag="div"
-    class="board"
-    @click="board.shuffle()"
-    name="fade"
+    :class="[
+      'game-board__board',
+      !board.isShuffled && 'game-board__board--not-shuffled'
+    ]"
+    @click="!board.isShuffled && board.shuffle()"
+    name="game-board__fade"
     :style="{
       '--rowWidth': board.rowLength
     } as CSSStyleDeclaration"
@@ -11,7 +14,7 @@
     <div
       v-for="cell in board.cells"
       :key="cell.id"
-      class="cell"
+      class="game-board__cell"
       :style="{
         backgroundColor: cell.color
       } as CSSStyleDeclaration"
@@ -36,21 +39,28 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.board {
-  display: grid;
-  grid-template-columns: repeat(var(--rowWidth), 1fr);
-  width: 400px;
-  margin: 0 auto;
-}
+.game-board {
+  &__board {
+    display: grid;
+    grid-template-columns: repeat(var(--rowWidth), 1fr);
+    width: 400px;
+    margin: 0 auto;
 
-.cell {
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    &--not-shuffled {
+      cursor: pointer;
+    }
+  }
 
-.fade-move {
-  transition: all 0.3s ease-in-out;
+  &__cell {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+  }
+
+  &__fade-move {
+    transition: all 0.3s ease-in-out;
+  }
 }
 </style>

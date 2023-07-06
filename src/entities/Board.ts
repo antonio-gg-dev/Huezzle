@@ -6,6 +6,7 @@ import { CellNotFound } from '@/exceptions/CellNotFound'
 
 export class Board {
   private _movements = 0
+  private _isShuffled = false
   private readonly colorsInitialState: string[]
   private _cells
   private readonly random: DayBasedRandomGenerator
@@ -26,6 +27,10 @@ export class Board {
   }
 
   public swap (fromId: Cell['id'], toId: Cell['id']): Board {
+    if (!this._isShuffled) {
+      return this
+    }
+
     const fromIndex = this._cells.findIndex(cell => cell.id === fromId)
     const toIndex = this._cells.findIndex(cell => cell.id === toId)
 
@@ -62,7 +67,17 @@ export class Board {
       .every((cell, index) => this.colorsInitialState[index] === cell.color)
   }
 
+  public get isShuffled (): boolean {
+    return this._isShuffled
+  }
+
   public shuffle (): Board {
+    if (this._isShuffled) {
+      return this
+    }
+
+    this._isShuffled = true
+
     let movableIndex = 0
     const shuffleAmount = Math.round(this.random.minMax(5, 10))
     const movableCells = this._cells
