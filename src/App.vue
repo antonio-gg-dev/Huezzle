@@ -1,8 +1,15 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <h1 class="app__header">
+    Huezzle
+  </h1>
+
   <GameBoard
     :board="board"
   />
+
+  <footer>
+    Holi
+  </footer>
 </template>
 
 <script lang="ts">
@@ -11,7 +18,6 @@ import GameBoard from '@/components/GameBoard.vue'
 import { GameGenerator } from '@/services/GameGenerator'
 
 export default defineComponent({
-  name: 'App',
   components: {
     GameBoard
   },
@@ -23,13 +29,14 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss" scoped>
+.app {
+  &__header {
+    margin: 0;
+    font-size: 3rem;
+    text-align: center;
+    font-weight: lighter;
+    align-self: center;
+  }
 }
 </style>

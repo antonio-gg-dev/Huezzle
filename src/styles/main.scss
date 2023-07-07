@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+  box-sizing: content-box;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  max-width: calc(100vh * 9 / 16);
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+}

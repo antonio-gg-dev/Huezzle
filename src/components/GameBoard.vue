@@ -14,12 +14,16 @@
     <div
       v-for="cell in board.cells"
       :key="cell.id"
-      class="game-board__cell"
+      :class="[
+        'game-board__cell',
+        cell.isFixed && 'game-board__cell--fixed',
+        board.isShuffled && !cell.isFixed && 'game-board__cell--draggable'
+      ]"
       :style="{
-        backgroundColor: cell.color
+        '--color': cell.color
       } as CSSStyleDeclaration"
+      :draggable="board.isShuffled && !cell.isFixed"
     >
-      {{ cell.isFixed ? 'X' : '' }}
     </div>
   </TransitionGroup>
 </template>
@@ -27,8 +31,15 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Board } from '@/entities/Board'
+import { Cell } from '@/entities/Cell'
 
 export default defineComponent({
+  data () {
+    return {
+      fromId: null as Cell['id'] | null,
+      toId: null as Cell['id'] | null
+    }
+  },
   props: {
     board: {
       required: true,
@@ -43,8 +54,9 @@ export default defineComponent({
   &__board {
     display: grid;
     grid-template-columns: repeat(var(--rowWidth), 1fr);
-    width: 400px;
-    margin: 0 auto;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background-color: #000;
 
     &--not-shuffled {
       cursor: pointer;
@@ -52,11 +64,19 @@ export default defineComponent({
   }
 
   &__cell {
-    aspect-ratio: 1 / 1;
+    background-color: var(--color);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: grab;
+
+    &--draggable {
+      cursor: grab;
+    }
+
+    &--fixed {
+      box-shadow: inset 0 0 0 1vh var(--color),
+        inset 0 0 0 1.5vh #fff;
+    }
   }
 
   &__fade-move {
