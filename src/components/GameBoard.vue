@@ -1,4 +1,16 @@
 <template>
+  <div
+    ref="ghost"
+    class="game-board__ghost"
+    :style="{
+      '--color': ghostColor,
+      '--width': ghostWidth,
+      '--height': ghostHeight,
+      '--top': ghostTop,
+      '--left': ghostLeft,
+    }"
+  />
+
   <TransitionGroup
     tag="div"
     :class="[
@@ -9,7 +21,7 @@
     name="game-board__fade"
     :style="{
       '--rowWidth': board.rowLength
-    } as CSSStyleDeclaration"
+    }"
   >
     <div
       v-for="cell in board.cells"
@@ -17,14 +29,18 @@
       :class="[
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
-        board.isShuffled && !cell.isFixed && 'game-board__cell--draggable'
+        !cell.isFixed && board.isShuffled && 'game-board__cell--draggable',
+        fromId === cell.id && 'game-board__cell--grabbed'
       ]"
       :style="{
         '--color': cell.color
       } as CSSStyleDeclaration"
       :draggable="board.isShuffled && !cell.isFixed"
-    >
-    </div>
+      @dragstart="event => grab(event, cell)"
+      @dragover.prevent="over"
+      @drop="drop(cell)"
+      @touchstart="event => grab(event, cell)"
+    />
   </TransitionGroup>
 </template>
 
@@ -36,14 +52,62 @@ import { Cell } from '@/entities/Cell'
 export default defineComponent({
   data () {
     return {
+      ghostColor: null as Cell['color'] | null,
       fromId: null as Cell['id'] | null,
-      toId: null as Cell['id'] | null
+      toId: null as Cell['id'] | null,
+      ghostWidth: null as string | null,
+      ghostHeight: null as string | null,
+      ghostTop: null as string | null,
+      ghostLeft: null as string | null
     }
   },
   props: {
     board: {
       required: true,
       type: Board as PropType<Board>
+    }
+  },
+  methods: {
+    grab (event: DragEvent, cell: Cell) {
+      if (!this.board.isShuffled) {
+        return
+      }
+
+      const target = event.currentTarget as HTMLElement
+
+      if (target) {
+        this.ghostWidth = `${target.offsetWidth}px`
+        this.ghostHeight = `${target.offsetHeight}px`
+      }
+
+      this.ghostTop = `${event.pageY}px`
+      this.ghostLeft = `${event.pageX}px`
+      this.fromId = cell.id
+      this.ghostColor = cell.color
+    },
+
+    drop (cell: Cell) {
+      if (!this.board.isShuffled) {
+        return
+      }
+
+      if (this.fromId === null) {
+        return
+      }
+
+      this.board.swap(this.fromId, cell.id)
+
+      this.fromId = null
+      this.ghostColor = null
+    },
+
+    over (event: DragEvent) {
+      if (!this.board.isShuffled) {
+        return
+      }
+
+      this.ghostTop = `${event.pageY}px`
+      this.ghostLeft = `${event.pageX}px`
     }
   }
 })
@@ -75,12 +139,27 @@ export default defineComponent({
 
     &--fixed {
       box-shadow: inset 0 0 0 1vh var(--color),
-        inset 0 0 0 1.5vh #fff;
+        inset 0 0 0 1.25vh #fff;
+    }
+
+    &--grabbed {
+      background-color: #00000001;
     }
   }
 
+  &__ghost {
+    width: var(--width, 0);
+    height: var(--height, 0);
+    top: var(--top, 0);
+    left: var(--left, 0);
+    background-color: var(--color, transparent);
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
   &__fade-move {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
   }
 }
 </style>
