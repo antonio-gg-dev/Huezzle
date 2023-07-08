@@ -174,9 +174,9 @@ export class GameGenerator {
       case Difficulty.chill:
         return Math.round(random.minMax(6, 8))
       case Difficulty.skilled:
-        return Math.round(random.minMax(8, 10))
+        return Math.round(random.minMax(6, 10))
       case Difficulty.challenge:
-        return Math.round(random.minMax(10, 12))
+        return Math.round(random.minMax(8, 12))
     }
   }
 
@@ -185,9 +185,9 @@ export class GameGenerator {
       case Difficulty.chill:
         return Math.round(random.minMax(8, 10))
       case Difficulty.skilled:
-        return Math.round(random.minMax(10, 12))
+        return Math.round(random.minMax(8, 12))
       case Difficulty.challenge:
-        return Math.round(random.minMax(12, 14))
+        return Math.round(random.minMax(10, 14))
     }
   }
 
