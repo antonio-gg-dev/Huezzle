@@ -40,11 +40,12 @@
       :style="{
         '--color': cell.color
       } as CSSStyleDeclaration"
-      :draggable="board.isShuffled && !cell.isFixed"
-      @dragstart="event => grab(event, cell)"
-      @dragover.prevent="over"
-      @drop="drop(cell)"
+      @mousedown="event => grab(event, cell)"
+      @mousemove="over"
+      @mouseup="drop(cell)"
       @touchstart="event => grab(event, cell)"
+      @touchmove="over"
+      @touchstop="drop(cell)"
     />
   </TransitionGroup>
 </template>
