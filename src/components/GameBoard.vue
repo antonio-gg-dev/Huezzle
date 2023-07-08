@@ -1,7 +1,10 @@
 <template>
   <div
     ref="ghost"
-    class="game-board__ghost"
+    :class="[
+      'game-board__ghost',
+      ghostActive && 'game-board__ghost--active',
+    ]"
     :style="{
       '--color': ghostColor,
       '--width': ghostWidth,
@@ -30,7 +33,7 @@
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
         !cell.isFixed && board.isShuffled && 'game-board__cell--draggable',
-        fromId === cell.id && 'game-board__cell--grabbed'
+        fromId === cell.id && ghostActive && 'game-board__cell--grabbed'
       ]"
       :style="{
         '--color': cell.color
@@ -52,9 +55,8 @@ import { Cell } from '@/entities/Cell'
 export default defineComponent({
   data () {
     return {
-      ghostColor: null as Cell['color'] | null,
       fromId: null as Cell['id'] | null,
-      toId: null as Cell['id'] | null,
+      ghostColor: null as Cell['color'] | null,
       ghostWidth: null as string | null,
       ghostHeight: null as string | null,
       ghostTop: null as string | null,
@@ -65,6 +67,15 @@ export default defineComponent({
     board: {
       required: true,
       type: Board as PropType<Board>
+    }
+  },
+  computed: {
+    ghostActive (): boolean {
+      return this.ghostColor !== null &&
+        this.ghostWidth !== null &&
+        this.ghostHeight !== null &&
+        this.ghostTop !== null &&
+        this.ghostLeft !== null
     }
   },
   methods: {
@@ -119,7 +130,7 @@ export default defineComponent({
     display: grid;
     grid-template-columns: repeat(var(--rowWidth), 1fr);
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 5;
     background-color: #000;
 
     &--not-shuffled {
@@ -148,18 +159,29 @@ export default defineComponent({
   }
 
   &__ghost {
-    width: var(--width, 0);
-    height: var(--height, 0);
-    top: var(--top, 0);
-    left: var(--left, 0);
-    background-color: var(--color, transparent);
-    position: fixed;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(1.2);
+    display: none;
+
+    &--active {
+      display: block;
+      width: var(--width, 0);
+      height: var(--height, 0);
+      top: var(--top, 0);
+      left: var(--left, 0);
+      background-color: var(--color, transparent);
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1.2);
+      animation: scale 0.2s ease-in-out;
+
+      @keyframes scale {
+        0% { transform: translate(-50%, -50%) scale(1); }
+        100% { transform: translate(-50%, -50%) scale(1.2); }
+      }
+    }
   }
 
   &__fade-move {
-    transition: all 0.5s ease-in-out;
+    transition: transform 0.2s ease-in-out;
   }
 }
 </style>

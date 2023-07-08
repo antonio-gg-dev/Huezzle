@@ -192,44 +192,26 @@ export class GameGenerator {
   }
 
   private static calculateFrozenCells (difficulty: Difficulty, boardWidth: number, boardHeight: number): Coordinate[] {
-    switch (difficulty) {
-      case Difficulty.chill:
-        return [{
-          x: 0,
-          y: 0
-        }, {
-          x: boardWidth - 1,
-          y: 0
-        }, {
-          x: 0,
-          y: boardHeight - 1
-        }, {
-          x: boardWidth - 1,
-          y: boardHeight - 1
-        }]
-      case Difficulty.skilled:
-        return [{
-          x: 0,
-          y: 0
-        }, {
-          x: boardWidth - 1,
-          y: 0
-        }, {
-          x: 0,
-          y: boardHeight - 1
-        }]
-      case Difficulty.challenge:
-        return [{
-          x: 0,
-          y: 0
-        }, {
-          x: 1,
-          y: 0
-        }, {
-          x: 0,
-          y: boardHeight - 1
-        }]
-    }
+    // TODO: Chess & Square patterns for chill, corners (current) for challenge, all + side for skilled
+    return [{
+      x: 0,
+      y: 0
+    }, {
+      x: boardWidth - 1,
+      y: 0
+    }, {
+      x: 0,
+      y: boardHeight - 1
+    }, {
+      x: boardWidth - 1,
+      y: boardHeight - 1
+    }]
+
+    // switch (difficulty) {
+    //   case Difficulty.chill:
+    //   case Difficulty.skilled:
+    //   case Difficulty.challenge:
+    // }
   }
 
   private orderColors (firstColor: Color, secondColor: Color, thirdColor: Color, fourthColor: Color): [Color, Color, Color, Color] {
