@@ -172,27 +172,27 @@ export class GameGenerator {
   private static calculateBoardWidth (difficulty: Difficulty, random: DayBasedRandomGenerator): number {
     switch (difficulty) {
       case Difficulty.chill:
-        return Math.round(random.minMax(6, 8))
+        return random.from([7, 9])
       case Difficulty.skilled:
-        return Math.round(random.minMax(6, 10))
+        return random.from([7, 9, 11])
       case Difficulty.challenge:
-        return Math.round(random.minMax(8, 12))
+        return random.from([9, 11, 13])
     }
   }
 
   private static calculateBoardHeight (difficulty: Difficulty, random: DayBasedRandomGenerator): number {
     switch (difficulty) {
       case Difficulty.chill:
-        return Math.round(random.minMax(8, 10))
+        return random.from([9, 11])
       case Difficulty.skilled:
-        return Math.round(random.minMax(8, 12))
+        return random.from([9, 11, 13])
       case Difficulty.challenge:
-        return Math.round(random.minMax(10, 14))
+        return random.from([11, 13, 15])
     }
   }
 
   private static calculateFrozenCells (difficulty: Difficulty, boardWidth: number, boardHeight: number): Coordinate[] {
-    // TODO: Chess & Square patterns for chill, corners (current) for challenge, all + side for skilled
+    // TODO: Chess, Dots & Window for chill, Only Corners (current) for challenge, all + Y-sides, X-sides, and Square for skilled
     return [{
       x: 0,
       y: 0
@@ -215,35 +215,14 @@ export class GameGenerator {
   }
 
   private orderColors (firstColor: Color, secondColor: Color, thirdColor: Color, fourthColor: Color): [Color, Color, Color, Color] {
-    switch (Math.floor(this.random.minMax(0, 4))) {
-      case 1:
-        return [
-          secondColor,
-          fourthColor,
-          thirdColor,
-          firstColor
-        ]
-      case 2:
-        return [
-          fourthColor,
-          firstColor,
-          secondColor,
-          thirdColor
-        ]
-      case 3:
-        return [
-          firstColor,
-          thirdColor,
-          fourthColor,
-          secondColor
-        ]
-    }
-
-    return [
-      thirdColor,
-      secondColor,
-      firstColor,
-      fourthColor
-    ]
+    return this.random.from([[
+      secondColor, fourthColor, thirdColor, firstColor
+    ], [
+      fourthColor, firstColor, secondColor, thirdColor
+    ], [
+      firstColor, thirdColor, fourthColor, secondColor
+    ], [
+      thirdColor, secondColor, firstColor, fourthColor
+    ]])
   }
 }

@@ -186,7 +186,7 @@ export default defineComponent({
       position: fixed;
       pointer-events: none;
       transform: translate(-50%, -50%) scale(1.2);
-      animation: scale 0.2s ease-in-out;
+      animation: scale 0.1s linear;
 
       @keyframes scale {
         0% {
@@ -204,7 +204,7 @@ export default defineComponent({
   }
 
   &__fade-move {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s linear;
   }
 }
 </style>

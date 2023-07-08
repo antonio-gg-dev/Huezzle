@@ -17,6 +17,10 @@ export class DayBasedRandomGenerator {
     return min + (this.random() * (max - min))
   }
 
+  from <T> (values: T[]): T {
+    return values[Math.floor(this.minMax(0, values.length))]
+  }
+
   hash (length = 6): string {
     let hash = ''
     while (hash.length < length) {
