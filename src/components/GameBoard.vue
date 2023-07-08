@@ -9,6 +9,8 @@
       '--color': ghostColor,
       '--width': ghostWidth,
       '--height': ghostHeight,
+      '--startTop': ghostStartTop,
+      '--startLeft': ghostStartLeft,
       '--top': ghostTop,
       '--left': ghostLeft,
     }"
@@ -59,6 +61,8 @@ export default defineComponent({
       ghostColor: null as Cell['color'] | null,
       ghostWidth: null as string | null,
       ghostHeight: null as string | null,
+      ghostStartTop: null as string | null,
+      ghostStartLeft: null as string | null,
       ghostTop: null as string | null,
       ghostLeft: null as string | null
     }
@@ -74,6 +78,8 @@ export default defineComponent({
       return this.ghostColor !== null &&
         this.ghostWidth !== null &&
         this.ghostHeight !== null &&
+        this.ghostStartTop !== null &&
+        this.ghostStartLeft !== null &&
         this.ghostTop !== null &&
         this.ghostLeft !== null
     }
@@ -87,10 +93,13 @@ export default defineComponent({
       const target = event.currentTarget as HTMLElement
 
       if (target) {
+        const rect = target.getBoundingClientRect()
+
+        this.ghostStartTop = `${rect.top}px`
+        this.ghostStartLeft = `${rect.left}px`
         this.ghostWidth = `${target.offsetWidth}px`
         this.ghostHeight = `${target.offsetHeight}px`
       }
-
       this.ghostTop = `${event.pageY}px`
       this.ghostLeft = `${event.pageX}px`
       this.fromId = cell.id
@@ -110,6 +119,12 @@ export default defineComponent({
 
       this.fromId = null
       this.ghostColor = null
+      this.ghostWidth = null
+      this.ghostHeight = null
+      this.ghostStartTop = null
+      this.ghostStartLeft = null
+      this.ghostTop = null
+      this.ghostLeft = null
     },
 
     over (event: DragEvent) {
@@ -174,8 +189,16 @@ export default defineComponent({
       animation: scale 0.2s ease-in-out;
 
       @keyframes scale {
-        0% { transform: translate(-50%, -50%) scale(1); }
-        100% { transform: translate(-50%, -50%) scale(1.2); }
+        0% {
+          top: var(--startTop, 0);
+          left: var(--startLeft, 0);
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          top: var(--top, 0);
+          left: var(--left, 0);
+          transform: translate(-50%, -50%) scale(1.2);
+        }
       }
     }
   }
