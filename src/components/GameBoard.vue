@@ -31,6 +31,7 @@
     <div
       v-for="cell in board.cells"
       :key="cell.id"
+      :id="cell.id"
       :class="[
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
@@ -42,10 +43,10 @@
       } as CSSStyleDeclaration"
       @mousedown="event => grab(event, cell)"
       @mousemove="over"
-      @mouseup="drop(cell)"
+      @mouseup="drop(cell.id)"
       @touchstart="event => grab(event, cell)"
       @touchmove="over"
-      @touchstop="drop(cell)"
+      @touchend="touchDrop"
     />
   </TransitionGroup>
 </template>
@@ -86,7 +87,7 @@ export default defineComponent({
     }
   },
   methods: {
-    grab (event: DragEvent, cell: Cell) {
+    grab (event: MouseEvent | TouchEvent, cell: Cell) {
       if (!this.board.isShuffled) {
         return
       }
@@ -101,13 +102,14 @@ export default defineComponent({
         this.ghostWidth = `${target.offsetWidth}px`
         this.ghostHeight = `${target.offsetHeight}px`
       }
-      this.ghostTop = `${event.pageY}px`
-      this.ghostLeft = `${event.pageX}px`
+
+      this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
+      this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
       this.fromId = cell.id
       this.ghostColor = cell.color
     },
 
-    drop (cell: Cell) {
+    drop (cellId: Cell['id']) {
       if (!this.board.isShuffled) {
         return
       }
@@ -116,7 +118,7 @@ export default defineComponent({
         return
       }
 
-      this.board.swap(this.fromId, cell.id)
+      this.board.swap(this.fromId, cellId)
 
       this.fromId = null
       this.ghostColor = null
@@ -128,13 +130,22 @@ export default defineComponent({
       this.ghostLeft = null
     },
 
-    over (event: DragEvent) {
+    touchDrop (event: TouchEvent) {
+      const cellId = document.elementFromPoint(
+        event.changedTouches[0].pageX,
+        event.changedTouches[0].pageY
+      )?.id ?? ''
+
+      return this.drop(cellId)
+    },
+
+    over (event: MouseEvent | TouchEvent) {
       if (!this.board.isShuffled) {
         return
       }
 
-      this.ghostTop = `${event.pageY}px`
-      this.ghostLeft = `${event.pageX}px`
+      this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
+      this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
     }
   }
 })
@@ -176,6 +187,7 @@ export default defineComponent({
 
   &__ghost {
     display: none;
+    pointer-events: none;
 
     &--active {
       display: block;
@@ -185,7 +197,6 @@ export default defineComponent({
       left: var(--left, 0);
       background-color: var(--color, transparent);
       position: fixed;
-      pointer-events: none;
       transform: translate(-50%, -50%) scale(1.2);
       animation: scale 0.1s linear;
 
