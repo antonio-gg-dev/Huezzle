@@ -131,10 +131,18 @@ export default defineComponent({
     },
 
     touchDrop (event: TouchEvent) {
+      if (!this.fromId) {
+        return
+      }
+
       const cellId = document.elementFromPoint(
         event.changedTouches[0].pageX,
         event.changedTouches[0].pageY
-      )?.id ?? ''
+      )?.id
+
+      if (!cellId) {
+        return this.drop(this.fromId)
+      }
 
       return this.drop(cellId)
     },
@@ -178,6 +186,7 @@ export default defineComponent({
     &--fixed {
       box-shadow: inset 0 0 0 1vh var(--color),
         inset 0 0 0 1.25vh #fff;
+      pointer-events: none;
     }
 
     &--grabbed {
