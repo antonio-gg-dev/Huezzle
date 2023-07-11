@@ -31,7 +31,8 @@
     <div
       v-for="cell in board.cells"
       :key="cell.id"
-      :id="cell.id"
+      :data-cell-id="cell.id"
+      :data-cell-color="cell.color"
       :class="[
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
@@ -41,12 +42,6 @@
       :style="{
         '--color': cell.color
       } as CSSStyleDeclaration"
-      @mousedown="event => grab(event, cell)"
-      @mousemove="over"
-      @mouseup="drop(cell.id)"
-      @touchstart="event => grab(event, cell)"
-      @touchmove="over"
-      @touchend="touchDrop"
     />
   </TransitionGroup>
 </template>
@@ -87,29 +82,34 @@ export default defineComponent({
     }
   },
   methods: {
-    grab (event: MouseEvent | TouchEvent, cell: Cell) {
+    grab (event: MouseEvent | TouchEvent) {
       if (!this.board.isShuffled) {
         return
       }
 
-      const target = event.currentTarget as HTMLElement
+      const cell = document.elementFromPoint(
+        'pageX' in event ? event.pageX : event.touches[0].pageX,
+        'pageY' in event ? event.pageY : event.touches[0].pageY
+      )
 
-      if (target) {
-        const rect = target.getBoundingClientRect()
-
-        this.ghostStartTop = `${rect.top}px`
-        this.ghostStartLeft = `${rect.left}px`
-        this.ghostWidth = `${target.offsetWidth}px`
-        this.ghostHeight = `${target.offsetHeight}px`
+      if (!cell) {
+        return
       }
+
+      const rect = cell.getBoundingClientRect()
+
+      this.ghostStartTop = `${rect.top}px`
+      this.ghostStartLeft = `${rect.left}px`
+      this.ghostWidth = `${rect.width}px`
+      this.ghostHeight = `${rect.height}px`
 
       this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
       this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
-      this.fromId = cell.id
-      this.ghostColor = cell.color
+      this.fromId = cell.getAttribute('data-cell-id') ?? null
+      this.ghostColor = cell.getAttribute('data-cell-color') ?? null
     },
 
-    drop (cellId: Cell['id']) {
+    drop (event: MouseEvent | TouchEvent) {
       if (!this.board.isShuffled) {
         return
       }
@@ -118,7 +118,14 @@ export default defineComponent({
         return
       }
 
-      this.board.swap(this.fromId, cellId)
+      const cellId = document.elementFromPoint(
+        'pageX' in event ? event.pageX : event.changedTouches[0].pageX,
+        'pageY' in event ? event.pageY : event.changedTouches[0].pageY
+      )?.getAttribute('data-cell-id')
+
+      if (cellId) {
+        this.board.swap(this.fromId, cellId)
+      }
 
       this.fromId = null
       this.ghostColor = null
@@ -130,23 +137,6 @@ export default defineComponent({
       this.ghostLeft = null
     },
 
-    touchDrop (event: TouchEvent) {
-      if (!this.fromId) {
-        return
-      }
-
-      const cellId = document.elementFromPoint(
-        event.changedTouches[0].pageX,
-        event.changedTouches[0].pageY
-      )?.id
-
-      if (!cellId) {
-        return this.drop(this.fromId)
-      }
-
-      return this.drop(cellId)
-    },
-
     over (event: MouseEvent | TouchEvent) {
       if (!this.board.isShuffled) {
         return
@@ -155,6 +145,15 @@ export default defineComponent({
       this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
       this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
     }
+  },
+
+  mounted () {
+    document.addEventListener('mousedown', this.grab)
+    document.addEventListener('touchstart', this.grab)
+    document.addEventListener('mousemove', this.over)
+    document.addEventListener('touchmove', this.over)
+    document.addEventListener('mouseup', this.drop)
+    document.addEventListener('touchend', this.drop)
   }
 })
 </script>
@@ -190,7 +189,7 @@ export default defineComponent({
     }
 
     &--grabbed {
-      background-color: #00000001;
+      background-color: transparent;
     }
   }
 
