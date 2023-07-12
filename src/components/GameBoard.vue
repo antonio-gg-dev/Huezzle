@@ -36,7 +36,7 @@
       :class="[
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
-        !cell.isFixed && board.isShuffled && 'game-board__cell--draggable',
+        !cell.isFixed && board.isShuffled && !board.isSolved && 'game-board__cell--draggable',
         fromId === cell.id && ghostActive && 'game-board__cell--grabbed'
       ]"
       :style="{
@@ -44,14 +44,27 @@
       } as CSSStyleDeclaration"
     />
   </TransitionGroup>
+
+  <VictoryPopup
+    v-if="board.isShuffled && board.isSolved && time && isVictoryPopupOpen"
+    :movements="board.movements"
+    :time="time"
+    @close="isVictoryPopupOpen = false"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Board } from '@/entities/Board'
 import { Cell } from '@/entities/Cell'
+import VictoryPopup from '@/components/VictoryPopup.vue'
+import { DateTime, Duration } from 'luxon'
 
 export default defineComponent({
+  components: {
+    VictoryPopup
+  },
+
   data () {
     return {
       fromId: null as Cell['id'] | null,
@@ -61,15 +74,20 @@ export default defineComponent({
       ghostStartTop: null as string | null,
       ghostStartLeft: null as string | null,
       ghostTop: null as string | null,
-      ghostLeft: null as string | null
+      ghostLeft: null as string | null,
+      startAt: DateTime.now(),
+      endAt: null as DateTime | null,
+      isVictoryPopupOpen: true
     }
   },
+
   props: {
     board: {
       required: true,
       type: Board as PropType<Board>
     }
   },
+
   computed: {
     ghostActive (): boolean {
       return this.ghostColor !== null &&
@@ -79,11 +97,20 @@ export default defineComponent({
         this.ghostStartLeft !== null &&
         this.ghostTop !== null &&
         this.ghostLeft !== null
+    },
+
+    time (): Duration | null {
+      if (!this.endAt) {
+        return null
+      }
+
+      return this.endAt.diff(this.startAt)
     }
   },
+
   methods: {
     grab (event: MouseEvent | TouchEvent) {
-      if (!this.board.isShuffled) {
+      if (!this.board.isShuffled || this.board.isSolved) {
         return
       }
 
@@ -110,7 +137,7 @@ export default defineComponent({
     },
 
     drop (event: MouseEvent | TouchEvent) {
-      if (!this.board.isShuffled) {
+      if (!this.board.isShuffled || this.board.isSolved) {
         return
       }
 
@@ -138,12 +165,20 @@ export default defineComponent({
     },
 
     over (event: MouseEvent | TouchEvent) {
-      if (!this.board.isShuffled) {
+      if (!this.board.isShuffled || this.board.isSolved) {
         return
       }
 
       this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
       this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
+    }
+  },
+
+  watch: {
+    'board.isSolved' () {
+      if (this.board.isSolved) {
+        this.endAt = DateTime.now()
+      }
     }
   },
 
@@ -196,6 +231,7 @@ export default defineComponent({
   &__ghost {
     display: none;
     pointer-events: none;
+    z-index: 2;
 
     &--active {
       display: block;
@@ -225,6 +261,7 @@ export default defineComponent({
 
   &__fade-move {
     transition: transform 0.2s linear;
+    z-index: 1;
   }
 }
 </style>
