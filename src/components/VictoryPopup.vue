@@ -54,7 +54,10 @@ import { DateTime, Duration } from 'luxon'
 import ShareButton from '@/components/ShareButton.vue'
 
 export default defineComponent({
-  components: { ShareButton },
+  components: {
+    ShareButton
+  },
+
   props: {
     movements: {
       required: true,
@@ -65,6 +68,7 @@ export default defineComponent({
       type: Object as PropType<Duration>
     }
   },
+
   data () {
     const target = DateTime.now()
       .plus({ days: 1 })
@@ -76,6 +80,7 @@ export default defineComponent({
       target
     }
   },
+
   mounted () {
     this.loop = setInterval(() => {
       this.remaining = this.target.diff(DateTime.now())
@@ -86,6 +91,7 @@ export default defineComponent({
       }
     }, 1000)
   },
+
   beforeUnmount () {
     clearInterval(this.loop ?? undefined)
   }

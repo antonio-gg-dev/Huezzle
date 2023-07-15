@@ -30,6 +30,7 @@ export default defineComponent({
       type: Object as PropType<Duration>
     }
   },
+
   computed: {
     canShare (): boolean {
       return typeof navigator.share === 'function'
@@ -38,6 +39,7 @@ export default defineComponent({
       return typeof navigator.clipboard?.writeText === 'function'
     }
   },
+
   methods: {
     share () {
       const launchDate = DateTime.fromISO('2023-08-01')

@@ -1,4 +1,4 @@
-# huezzle
+# Huezzle
 
 ## Project setup
 ```
