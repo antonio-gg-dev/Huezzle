@@ -35,7 +35,7 @@ export default defineComponent({
     margin: 0;
     font-size: 3rem;
     text-align: center;
-    font-weight: lighter;
+    font-weight: 300;
     align-self: center;
   }
 }
