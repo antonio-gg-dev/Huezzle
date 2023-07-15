@@ -3,10 +3,18 @@
     class="victory-popup__backdrop"
     @click="$emit('close')"
   >
-    <div class="victory-popup__popup">
+    <div
+      class="victory-popup__popup"
+      @click.stop
+    >
       Victory!<br>
       Movements: {{ movements }}<br>
-      Time: {{ time.toFormat("m:ss") }}
+      Time: {{ time.toFormat('m:ss') }}
+
+      <ShareButton
+        :time="time"
+        :movements="movements"
+      />
     </div>
   </div>
 </template>
@@ -14,8 +22,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Duration } from 'luxon'
+import ShareButton from '@/components/ShareButton.vue'
 
 export default defineComponent({
+  components: { ShareButton },
   props: {
     movements: {
       required: true,
@@ -40,6 +50,7 @@ export default defineComponent({
     background-color: #fff5;
     backdrop-filter: blur(4px);
     animation: fade 0.1s linear;
+    z-index: 3;
 
     @keyframes fade {
       0% {
@@ -57,6 +68,7 @@ export default defineComponent({
     padding: 2rem 4rem;
     border-radius: 0.1rem;
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
+    z-index: 4;
   }
 }
 </style>
