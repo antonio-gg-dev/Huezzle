@@ -5,11 +5,7 @@ import Color from 'colorjs.io'
 import { Cell } from '@/entities/Cell'
 import { Difficulty } from '@/constants/Difficulty'
 import { BoardSizeGenerator } from '@/services/BoardSizeGenerator'
-
-interface Coordinate {
-  x: number,
-  y: number
-}
+import { Coordinate, FrozenCellsGenerator } from '@/services/FrozenCellsGenerator'
 
 export class GameGenerator {
   private readonly date: DateTime
@@ -27,7 +23,7 @@ export class GameGenerator {
     const [width, height] = new BoardSizeGenerator(this.difficulty).generate()
     this.boardWidth = width
     this.boardHeight = height
-    this.frozenCells = GameGenerator.calculateFrozenCells(this.difficulty, this.boardWidth, this.boardHeight)
+    this.frozenCells = new FrozenCellsGenerator(this.difficulty, width, height).generate()
   }
 
   public generate (): Board {
@@ -165,29 +161,6 @@ export class GameGenerator {
     }
 
     return Difficulty.chill
-  }
-
-  private static calculateFrozenCells (difficulty: Difficulty, boardWidth: number, boardHeight: number): Coordinate[] {
-    // TODO: Chess, Dots & Window for chill, Only Corners (current) for challenge, all + Y-sides, X-sides, and Square for skilled
-    return [{
-      x: 0,
-      y: 0
-    }, {
-      x: boardWidth - 1,
-      y: 0
-    }, {
-      x: 0,
-      y: boardHeight - 1
-    }, {
-      x: boardWidth - 1,
-      y: boardHeight - 1
-    }]
-
-    // switch (difficulty) {
-    //   case Difficulty.chill:
-    //   case Difficulty.skilled:
-    //   case Difficulty.challenge:
-    // }
   }
 
   private orderColors (firstColor: Color, secondColor: Color, thirdColor: Color, fourthColor: Color): [Color, Color, Color, Color] {
