@@ -23,7 +23,6 @@ export class FrozenCellsGenerator {
         return this.random.from([
           () => this.generateChess(),
           () => this.generateDots(),
-          () => this.generateWindow(),
           () => this.generateSquare()
         ])()
       case Difficulty.skilled:
