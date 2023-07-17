@@ -10,7 +10,7 @@
       alt=""
     >
 
-    {{ canShare ? 'Share' : 'Copy to clipboard' }}
+    {{ $t(canShare ? 'share_button_label' : 'clipboard_button_label') }}
   </button>
 </template>
 
@@ -43,12 +43,13 @@ export default defineComponent({
   methods: {
     share () {
       const launchDate = DateTime.fromISO('2023-08-01')
-      const huzzleNumber = Math.floor(DateTime.now().diff(launchDate).as('days'))
+      const number = Math.floor(DateTime.now().diff(launchDate).as('days'))
       const url = 'https://huezzle.antonio.gg'
-      const message = `The Huezzle of the day #${huzzleNumber}:
-🕑 Time: ${this.time.toFormat('m:ss')}
-🔄 Movements: ${this.movements}
-`
+      const message = this.$t('share_message', {
+        number: number,
+        time: this.time.toFormat('m:ss'),
+        movements: this.movements
+      })
 
       if (this.canShare) {
         navigator.share({
@@ -59,7 +60,7 @@ export default defineComponent({
       }
 
       if (this.canCopyToClipboard) {
-        navigator.clipboard.writeText(message + url)
+        navigator.clipboard.writeText(`${message}\n${url}`)
       }
     }
   }

@@ -8,7 +8,7 @@
       @click.stop
     >
       <h1 class="victory-popup__header">
-        Victory!
+        {{ $t('victory_header' )}}
       </h1>
 
       <span class="victory-popup__score victory-popup__score--time">
@@ -17,8 +17,8 @@
           src="/img/time.svg"
           alt=""
         >
-
-        Time: <strong>{{ time.toFormat('m:ss') }}</strong>
+        {{ $t('victory_time_label') }}
+        <strong>{{ time.toFormat('m:ss') }}</strong>
       </span>
 
       <span class="victory-popup__score victory-popup__score--movements">
@@ -27,8 +27,8 @@
           src="/img/movements.svg"
           alt=""
         >
-
-        Movements: <strong>{{ movements }}</strong>
+        {{ $t('victory_movements_label') }}
+        <strong>{{ movements }}</strong>
       </span>
 
       <ShareButton
@@ -41,7 +41,7 @@
         class="victory-popup__next"
         v-if="remaining"
       >
-        Next Huezzle:
+        {{ $t('victory_next_huezzle_label') }}
         <strong class="victory-popup__countdown">{{ remaining.toFormat('h:mm:ss') }}</strong>
       </div>
     </div>

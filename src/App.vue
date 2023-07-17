@@ -8,7 +8,6 @@
   />
 
   <footer>
-    Holi
   </footer>
 </template>
 
