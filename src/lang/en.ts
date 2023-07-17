@@ -5,5 +5,6 @@ export const en = {
   victory_header: 'Victory!',
   victory_time_label: 'Time:',
   victory_movements_label: 'Movements:',
-  victory_next_huezzle_label: 'Next Huezzle:'
+  victory_next_huezzle_label: 'Next Huezzle:',
+  game_start_message: 'Touch to start'
 }

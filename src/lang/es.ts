@@ -5,5 +5,6 @@ export const es = {
   victory_header: '¡Victoria!',
   victory_time_label: 'Tiempo:',
   victory_movements_label: 'Movimientos:',
-  victory_next_huezzle_label: 'Siguiente Huezzle:'
+  victory_next_huezzle_label: 'Siguiente Huezzle:',
+  game_start_message: 'Toca para comenzar'
 }

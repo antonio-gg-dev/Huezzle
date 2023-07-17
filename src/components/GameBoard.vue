@@ -16,6 +16,13 @@
     }"
   />
 
+  <div
+    class="game-board__start"
+    v-if="!board.isShuffled"
+  >
+    {{ $t('game_start_message') }}
+  </div>
+
   <TransitionGroup
     tag="div"
     :class="[
@@ -195,6 +202,27 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .game-board {
+  &__start {
+    text-align: center;
+    color: #fffa;
+    font-weight: 700;
+    font-size: 2rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: blink 0.8s linear alternate infinite;
+
+    @keyframes blink {
+      0% {
+        color: #fffe;
+      }
+      100% {
+        color: #fff5;
+      }
+    }
+  }
+
   &__board {
     display: grid;
     grid-template-columns: repeat(var(--rowWidth), 1fr);
