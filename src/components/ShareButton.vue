@@ -1,16 +1,30 @@
 <template>
   <button
-    v-if="canShare || canCopyToClipboard"
+    v-if="canShare"
     @click="share"
-    class="share-button__share"
+    class="share-button__button share-button__button--share"
   >
     <img
       class="share-button__icon"
-      :src="canShare ? '/img/share.svg' : '/img/clipboard.svg'"
+      src="/img/share.svg"
       alt=""
     >
 
-    {{ $t(canShare ? 'share_button_label' : 'clipboard_button_label') }}
+    {{ $t('share_button_label') }}
+  </button>
+
+  <button
+    v-if="canCopyToClipboard"
+    @click="clipboard"
+    class="share-button__button share-button__button--clipboard"
+  >
+    <img
+      class="share-button__icon"
+      src="/img/clipboard.svg"
+      alt=""
+    >
+
+    {{ $t('clipboard_button_label') }}
   </button>
 </template>
 
@@ -37,30 +51,33 @@ export default defineComponent({
     },
     canCopyToClipboard (): boolean {
       return typeof navigator.clipboard?.writeText === 'function'
+    },
+    message (): string {
+      const launchDate = DateTime.fromISO('2023-08-01')
+      const number = Math.floor(DateTime.now().diff(launchDate).as('days'))
+      return this.$t('share_message', {
+        number: number,
+        time: this.time.toFormat('m:ss'),
+        movements: this.movements
+      })
+    },
+    url (): string {
+      return 'https://huezzle.antonio.gg'
     }
   },
 
   methods: {
     share () {
-      const launchDate = DateTime.fromISO('2023-08-01')
-      const number = Math.floor(DateTime.now().diff(launchDate).as('days'))
-      const url = 'https://huezzle.antonio.gg'
-      const message = this.$t('share_message', {
-        number: number,
-        time: this.time.toFormat('m:ss'),
-        movements: this.movements
-      })
-
       if (this.canShare) {
         navigator.share({
-          title: message,
-          url: url
+          title: this.message,
+          url: this.url
         })
-        return
       }
-
+    },
+    clipboard () {
       if (this.canCopyToClipboard) {
-        navigator.clipboard.writeText(`${message}\n${url}`)
+        navigator.clipboard.writeText(`${this.message}\n${this.url}`)
       }
     }
   }
@@ -69,7 +86,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .share-button {
-  &__share {
+  &__button {
     all: unset;
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
     display: flex;
@@ -81,9 +98,19 @@ export default defineComponent({
     border-radius: 99rem;
     transition: background-color 0.2s linear;
     cursor: pointer;
+    justify-self: center;
+    margin-bottom: 2rem;
 
     &:hover, &focus {
       background-color: #44db86;
+    }
+
+    &--share {
+      grid-area: share;
+    }
+
+    &--clipboard {
+      grid-area: clipboard;
     }
   }
 

@@ -129,25 +129,28 @@ export default defineComponent({
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
     z-index: 4;
     display: grid;
-    gap: 2rem 4rem;
+    gap: 0 4rem;
     grid-template-areas:
       "header"
       "time"
       "movements"
       "share"
+      "clipboard"
       "next";
 
     @media (min-width: 768px) {
       grid-template-areas:
-      "header header"
-      "time   movements"
-      "share  share"
-      "next   next";
+      "header    header"
+      "time      movements"
+      "share     share"
+      "clipboard clipboard"
+      "next      next";
     }
   }
 
   &__header {
-    margin: 0;
+    all: unset;
+    margin-bottom: 2rem;
     font-size: 3rem;
     text-align: center;
     font-weight: 300;
@@ -155,6 +158,7 @@ export default defineComponent({
   }
 
   &__score {
+    margin-bottom: 2rem;
     font-size: 1.5rem;
     display: flex;
     gap: 1rem;
@@ -173,11 +177,6 @@ export default defineComponent({
     height: 1.5rem;
   }
 
-  &__share-button {
-    grid-area: share;
-    justify-self: center;
-  }
-
   &__next {
     font-size: 2rem;
     text-align: center;
@@ -186,7 +185,6 @@ export default defineComponent({
 
   &__countdown {
     display: inline-block;
-    width: 8rem;
     text-align: center;
     letter-spacing: 0.3rem;
 

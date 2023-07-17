@@ -31,7 +31,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .app {
   &__header {
-    margin: 0;
+    all: unset;
     font-size: 3rem;
     text-align: center;
     font-weight: 300;
