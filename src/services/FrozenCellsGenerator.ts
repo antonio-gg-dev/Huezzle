@@ -1,5 +1,5 @@
-import { Difficulty } from '@/constants/Difficulty'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
+import { Difficulty } from '@/services/DifficultyGenerator'
 
 export interface Coordinate {
   x: number,

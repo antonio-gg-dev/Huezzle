@@ -3,9 +3,9 @@ import { DateTime } from 'luxon'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 import Color from 'colorjs.io'
 import { Cell } from '@/entities/Cell'
-import { Difficulty } from '@/constants/Difficulty'
 import { BoardSizeGenerator } from '@/services/BoardSizeGenerator'
 import { Coordinate, FrozenCellsGenerator } from '@/services/FrozenCellsGenerator'
+import { Difficulty, DifficultyGenerator } from '@/services/DifficultyGenerator'
 
 export class GameGenerator {
   private readonly date: DateTime
@@ -19,7 +19,7 @@ export class GameGenerator {
     this.date = DateTime.now()
     this.random = new DayBasedRandomGenerator('game generator')
 
-    this.difficulty = GameGenerator.calculateDifficulty(this.date)
+    this.difficulty = new DifficultyGenerator(this.date).generate()
     const [width, height] = new BoardSizeGenerator(this.difficulty).generate()
     this.boardWidth = width
     this.boardHeight = height
@@ -140,27 +140,6 @@ export class GameGenerator {
 
   private generateFirstColor (contrast: number, brightness: number) {
     return new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
-  }
-
-  private static calculateDifficulty (date: DateTime): Difficulty {
-    switch (date.weekday) {
-      case (1): /* Monday */
-        return Difficulty.skilled
-      case (2): /* Tuesday */
-        return Difficulty.chill
-      case (3): /* Wednesday */
-        return Difficulty.chill
-      case (4): /* Thursday */
-        return Difficulty.skilled
-      case (5): /* Friday */
-        return Difficulty.skilled
-      case (6): /* Saturday */
-        return Difficulty.challenge
-      case (7): /* Sunday */
-        return Difficulty.challenge
-    }
-
-    return Difficulty.chill
   }
 
   private orderColors (firstColor: Color, secondColor: Color, thirdColor: Color, fourthColor: Color): [Color, Color, Color, Color] {

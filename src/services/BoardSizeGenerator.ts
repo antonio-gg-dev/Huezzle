@@ -1,5 +1,5 @@
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
-import { Difficulty } from '@/constants/Difficulty'
+import { Difficulty } from '@/services/DifficultyGenerator'
 
 export class BoardSizeGenerator {
   private readonly random: DayBasedRandomGenerator
