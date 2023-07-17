@@ -3,12 +3,8 @@ import { DateTime } from 'luxon'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 import Color from 'colorjs.io'
 import { Cell } from '@/entities/Cell'
-
-const enum Difficulty {
-  chill = 'chill',
-  skilled = 'skilled',
-  challenge = 'challenge',
-}
+import { Difficulty } from '@/constants/Difficulty'
+import { BoardSizeGenerator } from '@/services/BoardSizeGenerator'
 
 interface Coordinate {
   x: number,
@@ -26,9 +22,11 @@ export class GameGenerator {
   constructor () {
     this.date = DateTime.now()
     this.random = new DayBasedRandomGenerator('game generator')
+
     this.difficulty = GameGenerator.calculateDifficulty(this.date)
-    this.boardWidth = GameGenerator.calculateBoardWidth(this.difficulty, this.random)
-    this.boardHeight = GameGenerator.calculateBoardHeight(this.difficulty, this.random)
+    const [width, height] = new BoardSizeGenerator(this.difficulty).generate()
+    this.boardWidth = width
+    this.boardHeight = height
     this.frozenCells = GameGenerator.calculateFrozenCells(this.difficulty, this.boardWidth, this.boardHeight)
   }
 
@@ -167,28 +165,6 @@ export class GameGenerator {
     }
 
     return Difficulty.chill
-  }
-
-  private static calculateBoardWidth (difficulty: Difficulty, random: DayBasedRandomGenerator): number {
-    switch (difficulty) {
-      case Difficulty.chill:
-        return random.from([7, 9])
-      case Difficulty.skilled:
-        return random.from([7, 9, 11])
-      case Difficulty.challenge:
-        return random.from([9, 11, 13])
-    }
-  }
-
-  private static calculateBoardHeight (difficulty: Difficulty, random: DayBasedRandomGenerator): number {
-    switch (difficulty) {
-      case Difficulty.chill:
-        return random.from([9, 11])
-      case Difficulty.skilled:
-        return random.from([9, 11, 13])
-      case Difficulty.challenge:
-        return random.from([11, 13, 15])
-    }
   }
 
   private static calculateFrozenCells (difficulty: Difficulty, boardWidth: number, boardHeight: number): Coordinate[] {
