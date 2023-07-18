@@ -119,9 +119,14 @@ export default defineComponent({
         opacity: 100%;
       }
     }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #1115;
+    }
   }
 
   &__popup {
+    text-align: center;
     cursor: default;
     background-color: #fff;
     padding: 3rem 4rem;
@@ -146,13 +151,16 @@ export default defineComponent({
       "clipboard clipboard"
       "next      next";
     }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #222;
+    }
   }
 
   &__header {
     all: unset;
     margin-bottom: 2rem;
     font-size: 3rem;
-    text-align: center;
     font-weight: 300;
     grid-area: header;
   }
@@ -163,6 +171,7 @@ export default defineComponent({
     display: flex;
     gap: 1rem;
     align-items: baseline;
+    justify-content: center;
 
     &--movements {
       grid-area: movements;
@@ -175,17 +184,19 @@ export default defineComponent({
 
   &__icon {
     height: 1.5rem;
+
+    @media (prefers-color-scheme: dark) {
+      filter: invert(1);
+    }
   }
 
   &__next {
     font-size: 2rem;
-    text-align: center;
     grid-area: next;
   }
 
   &__countdown {
     display: inline-block;
-    text-align: center;
     letter-spacing: 0.3rem;
 
     @media (min-width: 768px) {

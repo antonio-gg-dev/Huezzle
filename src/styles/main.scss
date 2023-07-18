@@ -15,6 +15,11 @@ body {
   overflow: hidden;
   font-family: sans-serif;
   user-select: none;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+    background-color: #111;
+  }
 }
 
 #app {
