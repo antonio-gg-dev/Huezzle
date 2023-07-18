@@ -71,6 +71,7 @@ export default defineComponent({
       if (this.canShare) {
         navigator.share({
           title: this.message,
+          text: this.message,
           url: this.url
         })
       }

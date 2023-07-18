@@ -1,7 +1,7 @@
 export const es = {
   clipboard_button_label: 'Copiar al portapapeles',
   share_button_label: 'Compartir',
-  share_message: 'El Huezzle del día #{number}:\n🕑 Tiempo: {time}\n🔄 Movimientos: {movements}',
+  share_message: 'El Huezzle del día #{number}:\n🕑 Tiempo: {time}\n🔄 Movimientos: {movements}\n',
   victory_header: '¡Victoria!',
   victory_time_label: 'Tiempo:',
   victory_movements_label: 'Movimientos:',
