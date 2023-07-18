@@ -91,7 +91,7 @@ export default defineComponent({
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
     display: flex;
     gap: 1rem;
-    align-items: baseline;
+    align-items: center;
     font-size: 1.5rem;
     background-color: #2ecc71;
     padding: 1rem 2rem;
@@ -100,6 +100,7 @@ export default defineComponent({
     cursor: pointer;
     justify-self: center;
     margin-bottom: 2rem;
+    text-align: center;
 
     &:hover, &focus {
       background-color: #44db86;
