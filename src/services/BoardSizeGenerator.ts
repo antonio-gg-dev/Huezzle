@@ -13,11 +13,11 @@ export class BoardSizeGenerator {
   public generate (): [number, number] {
     switch (this.difficulty) {
       case Difficulty.chill:
-        return [5, 7]
+        return this.random.from([[7, 7], [7, 9]])
       case Difficulty.skilled:
-        return this.random.from([[5, 7], [7, 9]])
+        return this.random.from([[7, 7], [7, 9], [9, 9]])
       case Difficulty.challenge:
-        return [7, 9]
+        return this.random.from([[9, 9], [9, 11]])
     }
   }
 }

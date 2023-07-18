@@ -212,13 +212,17 @@ export default defineComponent({
     left: 50%;
     transform: translate(-50%, -50%);
     animation: blink 0.8s linear alternate infinite;
+    text-shadow: 0 0.1rem 0.2rem #0008;
+    pointer-events: none;
 
     @keyframes blink {
       0% {
         color: #fffe;
+        text-shadow: 0 0.1rem 0.2rem #0008;
       }
       100% {
         color: #fff5;
+        text-shadow: 0 0.1rem 0.2rem #0000;
       }
     }
   }
@@ -247,7 +251,7 @@ export default defineComponent({
 
     &--fixed {
       box-shadow: inset 0 0 0 1vh var(--color),
-        inset 0 0 0 1.25vh #fff;
+        inset 0 0 0 1.25vh #fff8;
       pointer-events: none;
     }
 
