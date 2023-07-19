@@ -120,7 +120,7 @@ export default defineComponent({
       if (this.board.isShuffled) {
         return
       }
-      
+
       this.board.shuffle()
       this.startAt = DateTime.now()
     },
