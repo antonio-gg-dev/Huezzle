@@ -42,7 +42,9 @@
         v-if="remaining"
       >
         {{ $t('victory_next_huezzle_label') }}
-        <strong class="victory-popup__countdown">{{ remaining.toFormat('h:mm:ss') }}</strong>
+        <strong class="victory-popup__countdown">
+          {{ remaining.toFormat('h:mm:ss') }}
+        </strong>
       </div>
     </div>
   </div>
@@ -196,12 +198,9 @@ export default defineComponent({
   }
 
   &__countdown {
-    display: inline-block;
+    display: block;
+    margin-top: 0.8rem;
     letter-spacing: 0.3rem;
-
-    @media (min-width: 768px) {
-      margin-left: 1rem;
-    }
   }
 }
 </style>
