@@ -29,7 +29,7 @@
       'game-board__board',
       !board.isShuffled && 'game-board__board--not-shuffled'
     ]"
-    @click="!board.isShuffled && board.shuffle()"
+    @click="shuffle"
     name="game-board__fade"
     :style="{
       '--rowWidth': board.rowLength
@@ -82,7 +82,7 @@ export default defineComponent({
       ghostStartLeft: null as string | null,
       ghostTop: null as string | null,
       ghostLeft: null as string | null,
-      startAt: DateTime.now(),
+      startAt: null as DateTime | null,
       endAt: null as DateTime | null,
       isVictoryPopupOpen: true
     }
@@ -107,7 +107,7 @@ export default defineComponent({
     },
 
     time (): Duration | null {
-      if (!this.endAt) {
+      if (!this.endAt || !this.startAt) {
         return null
       }
 
@@ -116,6 +116,15 @@ export default defineComponent({
   },
 
   methods: {
+    shuffle () {
+      if (board.isShuffled) {
+        return
+      }
+      
+      board.shuffle()
+      this.startAt = DateTime.now()
+    },
+
     grab (event: MouseEvent | TouchEvent) {
       if (!this.board.isShuffled || this.board.isSolved) {
         return
