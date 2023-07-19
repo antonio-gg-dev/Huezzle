@@ -66,6 +66,9 @@ import { Board } from '@/entities/Board'
 import { Cell } from '@/entities/Cell'
 import VictoryPopup from '@/components/VictoryPopup.vue'
 import { DateTime, Duration } from 'luxon'
+import { ScoreHistoric } from '@/services/ScoreHistoric'
+import { Score } from '@/entities/Score'
+import { DifficultyGenerator } from '@/services/DifficultyGenerator'
 
 export default defineComponent({
   components: {
@@ -194,6 +197,19 @@ export default defineComponent({
     'board.isSolved' () {
       if (this.board.isSolved) {
         this.endAt = DateTime.now()
+
+        if (!this.startAt || !this.time) {
+          return
+        }
+
+        new ScoreHistoric(localStorage).save(
+          this.startAt,
+          new Score(
+            new DifficultyGenerator(this.startAt).generate(),
+            this.time,
+            this.board.movements
+          )
+        )
       }
     }
   },
