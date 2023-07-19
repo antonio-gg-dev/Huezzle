@@ -117,11 +117,11 @@ export default defineComponent({
 
   methods: {
     shuffle () {
-      if (board.isShuffled) {
+      if (this.board.isShuffled) {
         return
       }
       
-      board.shuffle()
+      this.board.shuffle()
       this.startAt = DateTime.now()
     },
 
