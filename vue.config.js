@@ -7,6 +7,9 @@ module.exports = defineConfig({
     themeColor: '#2ecc71',
     manifestOptions: {
       display: 'fullscreen'
+    },
+    workboxOptions: {
+      skipWaiting: true
     }
   },
   devServer: {

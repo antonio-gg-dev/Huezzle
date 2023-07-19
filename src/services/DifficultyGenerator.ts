@@ -20,7 +20,7 @@ export class DifficultyGenerator {
       case (3): /* Wednesday */
         return Difficulty.chill
       case (4): /* Thursday */
-        return Difficulty.skilled
+        return Difficulty.chill
       case (5): /* Friday */
         return Difficulty.skilled
       case (6): /* Saturday */

@@ -14,16 +14,23 @@ if (process.env.NODE_ENV === 'production') {
       console.log('Service worker has been registered.')
     },
     cached () {
-      console.log('Content has been cached for offline use.')
+      console.log('Game has been cached for offline use.')
     },
     updatefound () {
-      console.log('New content is downloading.')
+      console.log('New version is downloading.')
     },
     updated () {
-      console.log('New content is available; please refresh.')
+      console.log('New version is available; reloading.')
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          caches.delete(cacheName)
+        })
+      }).finally(() => {
+        window.location.reload()
+      })
     },
     offline () {
-      console.log('No internet connection found. App is running in offline mode.')
+      console.log('No internet connection found. Game is running in offline mode.')
     },
     error (error) {
       console.error('Error during service worker registration:', error)
