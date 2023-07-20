@@ -225,6 +225,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s linear;
 
     &--draggable {
       cursor: grab;
@@ -273,7 +274,7 @@ export default defineComponent({
   }
 
   &__fade-move {
-    transition: transform 0.2s linear;
+    pointer-events: none;
     z-index: 1;
   }
 }

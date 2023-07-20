@@ -50,7 +50,7 @@ export default defineComponent({
     height: 50%;
     aspect-ratio: 1 / 1;
     border-radius: 100%;
-    transition: background-color 0.2s linear;
+    transition: all 0.2s linear;
     background-color: transparent;
     cursor: pointer;
     place-items: center;
@@ -70,11 +70,6 @@ export default defineComponent({
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
     }
-  }
-
-  &__fade-enter-active,
-  &__fade-leave-active {
-    transition: all 0.2s linear;
   }
 
   &__fade-enter-from,
