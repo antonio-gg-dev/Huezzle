@@ -5,10 +5,23 @@
     class="footer-options__container"
   >
     <button
+      key="victory"
+      class="footer-options__button"
+      :title="$t('footer_statistics_button_label')"
+      @click="$emit('openStatisticsPopup')"
+    >
+      <img
+        class="footer-options__icon"
+        src="/img/statistics.svg"
+        alt=""
+      >
+    </button>
+
+    <button
       v-if="showVictoryButton"
       key="victory"
       class="footer-options__button"
-      :title="$t('share_button_label')"
+      :title="$t('footer_victory_button_label')"
       @click="$emit('openVictoryPopup')"
     >
       <img
@@ -25,8 +38,10 @@ import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   emits: [
-    'openVictoryPopup'
+    'openVictoryPopup',
+    'openStatisticsPopup'
   ],
+
   props: {
     showVictoryButton: {
       required: true,

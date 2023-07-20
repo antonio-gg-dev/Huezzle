@@ -59,6 +59,10 @@ export default defineComponent({
     ShareButtons
   },
 
+  emits: [
+    'close'
+  ],
+
   props: {
     movements: {
       required: true,

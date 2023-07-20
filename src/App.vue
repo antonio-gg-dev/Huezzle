@@ -5,19 +5,27 @@
 
   <GameBoard
     :board="board"
+    :already-played="!!score"
     @start="start"
   />
 
   <FooterOptions
     :show-victory-button="!!score"
-    @open-victory-popup="isVictoryPopupOpen = true"
+    @open-victory-popup="openPopup = 'victory'"
+    @open-statistics-popup="openPopup = 'statistics'"
   />
 
   <VictoryPopup
-    v-if="score && isVictoryPopupOpen"
+    v-if="score && openPopup === 'victory'"
     :movements="score.movements"
     :time="score.time"
-    @close="isVictoryPopupOpen = false"
+    @close="openPopup = null"
+  />
+
+  <StatisticsPopup
+    v-if="openPopup === 'statistics'"
+    @close="openPopup = null"
+    :scores="scoreRepository.getAll()"
   />
 </template>
 
@@ -31,9 +39,11 @@ import { Score } from '@/entities/Score'
 import { DifficultyGenerator } from '@/services/DifficultyGenerator'
 import { bindings } from '@/bindings'
 import FooterOptions from '@/components/FooterOptions.vue'
+import StatisticsPopup from '@/components/StatisticsPopup.vue'
 
 export default defineComponent({
   components: {
+    StatisticsPopup,
     FooterOptions,
     VictoryPopup,
     GameBoard
@@ -43,7 +53,7 @@ export default defineComponent({
     return {
       ...bindings,
       board: new GameGenerator().generate(),
-      isVictoryPopupOpen: true,
+      openPopup: 'victory' as null | 'victory' | 'statistics',
       startAt: null as DateTime | null,
       endAt: null as DateTime | null,
       score: bindings.scoreRepository.get(DateTime.now())
@@ -75,6 +85,7 @@ export default defineComponent({
           return
         }
 
+        this.openPopup = 'victory'
         this.score = new Score(
           new DifficultyGenerator(this.startAt).generate(),
           this.time,

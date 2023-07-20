@@ -18,7 +18,7 @@
 
   <div
     class="game-board__start"
-    v-if="!board.isShuffled"
+    v-if="!board.isShuffled && !alreadyPlayed"
   >
     {{ $t('game_start_message') }}
   </div>
@@ -27,7 +27,7 @@
     tag="div"
     :class="[
       'game-board__board',
-      !board.isShuffled && 'game-board__board--not-shuffled'
+      !board.isShuffled && !alreadyPlayed && 'game-board__board--not-shuffled'
     ]"
     @click="shuffle"
     name="game-board__fade"
@@ -76,6 +76,10 @@ export default defineComponent({
     board: {
       required: true,
       type: Board as PropType<Board>
+    },
+    alreadyPlayed: {
+      required: true,
+      type: Boolean as PropType<boolean>
     }
   },
 
@@ -97,7 +101,7 @@ export default defineComponent({
 
   methods: {
     shuffle () {
-      if (this.board.isShuffled) {
+      if (this.board.isShuffled || this.alreadyPlayed) {
         return
       }
 

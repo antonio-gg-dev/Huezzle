@@ -6,5 +6,8 @@ export const es = {
   victory_time_label: 'Tiempo:',
   victory_movements_label: 'Movimientos:',
   victory_next_huezzle_label: 'Siguiente Huezzle:',
-  game_start_message: 'Toca para comenzar'
+  game_start_message: 'Toca para comenzar',
+  footer_victory_button_label: 'Ver resultado',
+  footer_statistics_button_label: 'Ver estadísticas',
+  statistics_header: 'Estadísticas'
 }
