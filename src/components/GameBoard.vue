@@ -51,30 +51,14 @@
       } as CSSStyleDeclaration"
     />
   </TransitionGroup>
-
-  <VictoryPopup
-    v-if="board.isShuffled && board.isSolved && time && isVictoryPopupOpen"
-    :movements="board.movements"
-    :time="time"
-    @close="isVictoryPopupOpen = false"
-  />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Board } from '@/entities/Board'
 import { Cell } from '@/entities/Cell'
-import VictoryPopup from '@/components/VictoryPopup.vue'
-import { DateTime, Duration } from 'luxon'
-import { ScoreHistoric } from '@/services/ScoreHistoric'
-import { Score } from '@/entities/Score'
-import { DifficultyGenerator } from '@/services/DifficultyGenerator'
 
 export default defineComponent({
-  components: {
-    VictoryPopup
-  },
-
   data () {
     return {
       fromId: null as Cell['id'] | null,
@@ -84,10 +68,7 @@ export default defineComponent({
       ghostStartTop: null as string | null,
       ghostStartLeft: null as string | null,
       ghostTop: null as string | null,
-      ghostLeft: null as string | null,
-      startAt: null as DateTime | null,
-      endAt: null as DateTime | null,
-      isVictoryPopupOpen: true
+      ghostLeft: null as string | null
     }
   },
 
@@ -98,6 +79,10 @@ export default defineComponent({
     }
   },
 
+  emits: [
+    'start'
+  ],
+
   computed: {
     ghostActive (): boolean {
       return this.ghostColor !== null &&
@@ -107,14 +92,6 @@ export default defineComponent({
         this.ghostStartLeft !== null &&
         this.ghostTop !== null &&
         this.ghostLeft !== null
-    },
-
-    time (): Duration | null {
-      if (!this.endAt || !this.startAt) {
-        return null
-      }
-
-      return this.endAt.diff(this.startAt)
     }
   },
 
@@ -125,7 +102,7 @@ export default defineComponent({
       }
 
       this.board.shuffle()
-      this.startAt = DateTime.now()
+      this.$emit('start')
     },
 
     grab (event: MouseEvent | TouchEvent) {
@@ -190,27 +167,6 @@ export default defineComponent({
 
       this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
       this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
-    }
-  },
-
-  watch: {
-    'board.isSolved' () {
-      if (this.board.isSolved) {
-        this.endAt = DateTime.now()
-
-        if (!this.startAt || !this.time) {
-          return
-        }
-
-        new ScoreHistoric(localStorage).save(
-          this.startAt,
-          new Score(
-            new DifficultyGenerator(this.startAt).generate(),
-            this.time,
-            this.board.movements
-          )
-        )
-      }
     }
   },
 

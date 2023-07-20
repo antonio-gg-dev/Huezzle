@@ -31,8 +31,7 @@
         <strong>{{ movements }}</strong>
       </span>
 
-      <ShareButton
-        class="victory-popup__share-button"
+      <ShareButtons
         :time="time"
         :movements="movements"
       />
@@ -53,11 +52,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { DateTime, Duration } from 'luxon'
-import ShareButton from '@/components/ShareButton.vue'
+import ShareButtons from '@/components/ShareButtons.vue'
 
 export default defineComponent({
   components: {
-    ShareButton
+    ShareButtons
   },
 
   props: {

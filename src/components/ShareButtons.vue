@@ -2,10 +2,10 @@
   <button
     v-if="canShare"
     @click="share"
-    class="share-button__button share-button__button--share"
+    class="share-buttons__button share-buttons__button--share"
   >
     <img
-      class="share-button__icon"
+      class="share-buttons__icon"
       src="/img/share.svg"
       alt=""
     >
@@ -16,10 +16,10 @@
   <button
     v-if="canCopyToClipboard"
     @click="clipboard"
-    class="share-button__button share-button__button--clipboard"
+    class="share-buttons__button share-buttons__button--clipboard"
   >
     <img
-      class="share-button__icon"
+      class="share-buttons__icon"
       src="/img/clipboard.svg"
       alt=""
     >
@@ -86,7 +86,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.share-button {
+.share-buttons {
   &__button {
     all: unset;
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
