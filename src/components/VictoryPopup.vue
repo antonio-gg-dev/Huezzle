@@ -107,8 +107,6 @@ export default defineComponent({
 .victory-popup {
   &__backdrop {
     cursor: pointer;
-    display: grid;
-    place-items: center;
     position: fixed;
     inset: 0;
     background-color: #fff5;
@@ -131,6 +129,10 @@ export default defineComponent({
   }
 
   &__popup {
+    position: fixed;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
     text-align: center;
     cursor: default;
     background-color: #fff;
@@ -140,6 +142,10 @@ export default defineComponent({
     z-index: 4;
     display: grid;
     gap: 0 4rem;
+    max-width: 100vw;
+    max-height: 70vh;
+    overflow-x: hidden;
+    overflow-y: auto;
     grid-template-areas:
       "header"
       "time"

@@ -9,5 +9,12 @@ export const es = {
   game_start_message: 'Toca para comenzar',
   footer_victory_button_label: 'Ver resultado',
   footer_statistics_button_label: 'Ver estadísticas',
-  statistics_header: 'Estadísticas'
+  statistics_header: 'Estadísticas',
+  statistics_played_games: 'Partidas jugadas',
+  statistics_total_movements: 'Movimientos totales',
+  statistics_total_time: 'Tiempo total',
+  statistics_average_movements: 'Media de movimientos',
+  statistics_average_time: 'Tiempo medio',
+  statistics_best_movements: 'Mejores movimientos',
+  statistics_best_time: 'Mejor tiempo'
 }

@@ -8,72 +8,52 @@
       @click.stop
     >
       <h1 class="statistics-popup__header">
-        WIP: {{ $t('statistics_header') }}
+        {{ $t('statistics_header') }}
       </h1>
 
-      <div>
-        {{ statistics.playedGames }}
-      </div>
-      <div>
-        {{ statistics.totalMovements }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.totalTime) }}
-      </div>
-      <div>
-        {{ averageToHuman(statistics.averageMovements) }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.averageTime) }}
-      </div>
+      <StatisticsPage
+        v-if="page === null"
+        :played-games="statistics.playedGames"
+        :total-time="statistics.totalTime"
+        :total-movements="statistics.totalMovements"
+        :average-time="statistics.averageTime"
+        :average-movements="statistics.averageMovements"
+        :best-time="statistics.bestTime"
+        :best-movements="statistics.bestMovements"
+      />
 
-      <div>
-        {{ statistics.chill.playedGames }}
-      </div>
-      <div>
-        {{ statistics.chill.totalMovements }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.chill.totalTime) }}
-      </div>
-      <div>
-        {{ averageToHuman(statistics.chill.averageMovements) }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.chill.averageTime) }}
-      </div>
+      <StatisticsPage
+        v-if="page === 'chill'"
+        :played-games="statistics.chill.playedGames"
+        :total-time="statistics.chill.totalTime"
+        :total-movements="statistics.chill.totalMovements"
+        :average-time="statistics.chill.averageTime"
+        :average-movements="statistics.chill.averageMovements"
+        :best-time="statistics.chill.bestTime"
+        :best-movements="statistics.chill.bestMovements"
+      />
 
-      <div>
-        {{ statistics.skilled.playedGames }}
-      </div>
-      <div>
-        {{ statistics.skilled.totalMovements }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.skilled.totalTime) }}
-      </div>
-      <div>
-        {{ averageToHuman(statistics.skilled.averageMovements) }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.skilled.averageTime) }}
-      </div>
+      <StatisticsPage
+        v-if="page === 'skilled'"
+        :played-games="statistics.skilled.playedGames"
+        :total-time="statistics.skilled.totalTime"
+        :total-movements="statistics.skilled.totalMovements"
+        :average-time="statistics.skilled.averageTime"
+        :average-movements="statistics.skilled.averageMovements"
+        :best-time="statistics.skilled.bestTime"
+        :best-movements="statistics.skilled.bestMovements"
+      />
 
-      <div>
-        {{ statistics.challenge.playedGames }}
-      </div>
-      <div>
-        {{ statistics.challenge.totalMovements }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.challenge.totalTime) }}
-      </div>
-      <div>
-        {{ averageToHuman(statistics.challenge.averageMovements) }}
-      </div>
-      <div>
-        {{ durationToHuman(statistics.challenge.averageTime) }}
-      </div>
+      <StatisticsPage
+        v-if="page === 'challenge'"
+        :played-games="statistics.challenge.playedGames"
+        :total-time="statistics.challenge.totalTime"
+        :total-movements="statistics.challenge.totalMovements"
+        :average-time="statistics.challenge.averageTime"
+        :average-movements="statistics.challenge.averageMovements"
+        :best-time="statistics.challenge.bestTime"
+        :best-movements="statistics.challenge.bestMovements"
+      />
     </div>
   </div>
 </template>
@@ -83,8 +63,10 @@ import { defineComponent, PropType } from 'vue'
 import { Score } from '@/entities/Score'
 import { Duration } from 'luxon'
 import { Difficulty } from '@/services/DifficultyGenerator'
+import StatisticsPage from '@/components/StatisticsPage.vue'
 
 export default defineComponent({
+  components: { StatisticsPage },
   emits: [
     'close'
   ],
@@ -96,16 +78,9 @@ export default defineComponent({
     }
   },
 
-  methods: {
-    durationToHuman (duration: Duration): string {
-      return Duration.fromISO(duration.toISO() ?? '').toHuman()
-    },
-
-    averageToHuman (average: number): string {
-      return average.toLocaleString(undefined, {
-        maximumFractionDigits: 1,
-        minimumFractionDigits: 1
-      })
+  data () {
+    return {
+      page: 'challenge' as null | Difficulty
     }
   },
 
@@ -117,26 +92,34 @@ export default defineComponent({
         totalTime: Duration.fromObject({}),
         averageMovements: 0,
         averageTime: Duration.fromObject({}),
+        bestMovements: null as null | number,
+        bestTime: null as null | Duration,
         [Difficulty.chill]: {
           playedGames: 0,
           totalMovements: 0,
           totalTime: Duration.fromObject({}),
           averageMovements: 0,
-          averageTime: Duration.fromObject({})
+          averageTime: Duration.fromObject({}),
+          bestMovements: null as null | number,
+          bestTime: null as null | Duration
         },
         [Difficulty.skilled]: {
           playedGames: 0,
           totalMovements: 0,
           totalTime: Duration.fromObject({}),
           averageMovements: 0,
-          averageTime: Duration.fromObject({})
+          averageTime: Duration.fromObject({}),
+          bestMovements: null as null | number,
+          bestTime: null as null | Duration
         },
         [Difficulty.challenge]: {
           playedGames: 0,
           totalMovements: 0,
           totalTime: Duration.fromObject({}),
           averageMovements: 0,
-          averageTime: Duration.fromObject({})
+          averageTime: Duration.fromObject({}),
+          bestMovements: null as null | number,
+          bestTime: null as null | Duration
         }
       }
 
@@ -145,12 +128,28 @@ export default defineComponent({
 
         statistics.totalMovements += score.movements
         statistics.totalTime = statistics.totalTime.plus(score.time)
+        statistics.bestMovements =
+          score.movements < (statistics.bestMovements ?? Infinity)
+            ? score.movements
+            : statistics.bestMovements
+        statistics.bestTime =
+          score.time.toMillis() < (statistics.bestTime?.toMillis() ?? Infinity)
+            ? score.time
+            : statistics.bestTime
 
         const difficulty = score.difficulty
 
         statistics[difficulty].playedGames++
         statistics[difficulty].totalMovements += score.movements
         statistics[difficulty].totalTime = statistics[difficulty].totalTime.plus(score.time)
+        statistics[difficulty].bestMovements =
+          score.movements < (statistics[difficulty].bestMovements ?? Infinity)
+            ? score.movements
+            : statistics[difficulty].bestMovements
+        statistics[difficulty].bestTime =
+          score.time.toMillis() < (statistics[difficulty].bestTime?.toMillis() ?? Infinity)
+            ? score.time
+            : statistics[difficulty].bestTime
       }
 
       if (statistics.playedGames) {
@@ -183,14 +182,13 @@ export default defineComponent({
 .statistics-popup {
   &__backdrop {
     cursor: pointer;
-    display: grid;
-    place-items: center;
     position: fixed;
     inset: 0;
     background-color: #fff5;
     backdrop-filter: blur(4px);
     animation: fade 0.1s linear;
     z-index: 3;
+    overflow: hidden;
 
     @keyframes fade {
       0% {
@@ -207,7 +205,10 @@ export default defineComponent({
   }
 
   &__popup {
-    text-align: center;
+    position: fixed;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
     cursor: default;
     background-color: #fff;
     padding: 3rem 4rem;
@@ -215,6 +216,10 @@ export default defineComponent({
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
     z-index: 4;
     gap: 0 4rem;
+    max-width: 100vw;
+    max-height: 70vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     @media (prefers-color-scheme: dark) {
       background-color: #222;
@@ -223,10 +228,11 @@ export default defineComponent({
 
   &__header {
     all: unset;
+    display: block;
+    text-align: center;
     margin-bottom: 2rem;
     font-size: 3rem;
     font-weight: 300;
-    grid-area: header;
   }
 }
 </style>
