@@ -16,7 +16,7 @@
       {{ $t('statistics_best_time') }}
 
       <strong class="statistics-page__value">
-        {{ durationToHuman(bestTime) }}
+        {{ durationToHumanShort(bestTime) }}
       </strong>
     </div>
 
@@ -32,7 +32,7 @@
       {{ $t('statistics_average_time') }}
 
       <strong class="statistics-page__value">
-        {{ durationToHuman(averageTime) }}
+        {{ durationToHumanShort(averageTime) }}
       </strong>
     </div>
 
@@ -48,7 +48,7 @@
       {{ $t('statistics_total_time') }}
 
       <strong class="statistics-page__value">
-        {{ durationToHuman(totalTime) }}
+        {{ durationToHumanLong(totalTime) }}
       </strong>
     </div>
 
@@ -128,7 +128,15 @@ export default defineComponent({
   },
 
   methods: {
-    durationToHuman (duration: Duration | null): string {
+    durationToHumanShort (duration: Duration | null): string {
+      if (!duration?.toMillis()) {
+        return '—'
+      }
+
+      return duration.toFormat('m:ss')
+    },
+
+    durationToHumanLong (duration: Duration | null): string {
       const milliseconds = duration?.toMillis()
 
       if (!milliseconds) {
@@ -225,6 +233,7 @@ export default defineComponent({
     display: block;
     font-weight: 700;
     margin-top: 0.5rem;
+    text-align: right;
   }
 }
 </style>
