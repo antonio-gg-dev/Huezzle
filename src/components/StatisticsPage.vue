@@ -129,11 +129,45 @@ export default defineComponent({
 
   methods: {
     durationToHuman (duration: Duration | null): string {
-      if (!duration || !duration.toMillis()) {
+      const milliseconds = duration?.toMillis()
+
+      if (!milliseconds) {
         return '—'
       }
 
-      return Duration.fromISO(duration.toISO() ?? '').toHuman()
+      const second = 1000
+      const minute = second * 60
+      const hour = minute * 60
+      const day = hour * 24
+      const week = day * 7
+      const month = day * 30.44
+      const year = day * 365.25
+
+      if (milliseconds >= year) {
+        return Duration.fromObject({ year: +(milliseconds / year).toFixed(1) }).toHuman()
+      }
+
+      if (milliseconds >= month) {
+        return Duration.fromObject({ month: +(milliseconds / month).toFixed(1) }).toHuman()
+      }
+
+      if (milliseconds >= week) {
+        return Duration.fromObject({ week: +(milliseconds / week).toFixed(1) }).toHuman()
+      }
+
+      if (milliseconds >= day) {
+        return Duration.fromObject({ day: +(milliseconds / day).toFixed(1) }).toHuman()
+      }
+
+      if (milliseconds >= hour) {
+        return Duration.fromObject({ hour: +(milliseconds / hour).toFixed(1) }).toHuman()
+      }
+
+      if (milliseconds >= minute) {
+        return Duration.fromObject({ minute: +(milliseconds / minute).toFixed(1) }).toHuman()
+      }
+
+      return Duration.fromObject({ second: +(milliseconds / second).toFixed(1) }).toHuman()
     },
 
     integerToHuman (number: number | null): string {
