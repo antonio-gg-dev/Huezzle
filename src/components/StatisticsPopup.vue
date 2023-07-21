@@ -11,8 +11,71 @@
         {{ $t('statistics_header') }}
       </h1>
 
+      <div class="statistics-popup__buttons">
+        <button
+          :class="[
+            'statistics-popup__button',
+            page === null && 'statistics-popup__button--active'
+          ]"
+          :title="$t('difficulty_all')"
+          @click="page = null"
+        >
+          <img
+            class="statistics-popup__icon"
+            src="/img/statistics-all.svg"
+            alt=""
+          >
+        </button>
+
+        <button
+          :class="[
+            'statistics-popup__button',
+            page === 'chill' && 'statistics-popup__button--active'
+          ]"
+          :title="$t('difficulty_chill')"
+          @click="page = 'chill'"
+        >
+          <img
+            class="statistics-popup__icon"
+            src="/img/statistics-chill.svg"
+            alt=""
+          >
+        </button>
+
+        <button
+          :class="[
+          'statistics-popup__button',
+          page === 'skilled' && 'statistics-popup__button--active'
+        ]"
+          :title="$t('difficulty_skilled')"
+          @click="page = 'skilled'"
+        >
+          <img
+            class="statistics-popup__icon"
+            src="/img/statistics-skilled.svg"
+            alt=""
+          >
+        </button>
+
+        <button
+          :class="[
+            'statistics-popup__button',
+            page === 'challenge' && 'statistics-popup__button--active'
+          ]"
+          :title="$t('difficulty_challenge')"
+          @click="page = 'challenge'"
+        >
+          <img
+            class="statistics-popup__icon"
+            src="/img/statistics-challenge.svg"
+            alt=""
+          >
+        </button>
+      </div>
+
       <StatisticsPage
         v-if="page === null"
+        :difficulty="null"
         :played-games="statistics.playedGames"
         :total-time="statistics.totalTime"
         :total-movements="statistics.totalMovements"
@@ -24,6 +87,7 @@
 
       <StatisticsPage
         v-if="page === 'chill'"
+        difficulty="chill"
         :played-games="statistics.chill.playedGames"
         :total-time="statistics.chill.totalTime"
         :total-movements="statistics.chill.totalMovements"
@@ -35,6 +99,7 @@
 
       <StatisticsPage
         v-if="page === 'skilled'"
+        difficulty="skilled"
         :played-games="statistics.skilled.playedGames"
         :total-time="statistics.skilled.totalTime"
         :total-movements="statistics.skilled.totalMovements"
@@ -46,6 +111,7 @@
 
       <StatisticsPage
         v-if="page === 'challenge'"
+        difficulty="challenge"
         :played-games="statistics.challenge.playedGames"
         :total-time="statistics.challenge.totalTime"
         :total-movements="statistics.challenge.totalMovements"
@@ -80,7 +146,7 @@ export default defineComponent({
 
   data () {
     return {
-      page: 'challenge' as null | Difficulty
+      page: null as null | Difficulty
     }
   },
 
@@ -224,6 +290,36 @@ export default defineComponent({
     @media (prefers-color-scheme: dark) {
       background-color: #222;
     }
+
+    &:before {
+      content: "";
+      display: block;
+      position: sticky;
+      height: 5rem;
+      background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
+      margin-bottom: -5rem;
+      transform: translateY(-3rem);
+      top: -1px;
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(0deg, #2220 0%, #222f 100%);
+      }
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      position: sticky;
+      height: 5rem;
+      background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
+      margin-top: -5rem;
+      transform: translateY(3rem);
+      bottom: -1px;
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(0deg, #222f 0%, #2220 100%);
+      }
+    }
   }
 
   &__header {
@@ -233,6 +329,43 @@ export default defineComponent({
     margin-bottom: 2rem;
     font-size: 3rem;
     font-weight: 300;
+  }
+
+  &__buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    margin-bottom: 2rem;
+    gap: 0.5rem;
+  }
+
+  &__button {
+    all: unset;
+    display: grid;
+    width: 5rem;
+    height: 5rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    transition: all 0.2s linear;
+    background-color: transparent;
+    cursor: pointer;
+    place-items: center;
+
+    &:hover, &:focus, &--active {
+      background-color: #eee;
+
+      @media (prefers-color-scheme: dark) {
+        background-color: #333;
+      }
+    }
+  }
+
+  &__icon {
+    height: 40%;
+
+    @media (prefers-color-scheme: dark) {
+      filter: invert(1);
+    }
   }
 }
 </style>

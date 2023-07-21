@@ -126,6 +126,36 @@ export default defineComponent({
     @media (prefers-color-scheme: dark) {
       background-color: #1115;
     }
+
+    &:before {
+      content: "";
+      display: block;
+      position: sticky;
+      height: 5rem;
+      background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
+      margin-bottom: -5rem;
+      transform: translateY(-3rem);
+      top: -1px;
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(0deg, #2220 0%, #222f 100%);
+      }
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      position: sticky;
+      height: 5rem;
+      background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
+      margin-top: -5rem;
+      transform: translateY(3rem);
+      bottom: -1px;
+
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(0deg, #222f 0%, #2220 100%);
+      }
+    }
   }
 
   &__popup {

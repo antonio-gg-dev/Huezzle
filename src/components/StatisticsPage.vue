@@ -1,5 +1,9 @@
 <template>
   <div class="statistics-page__page">
+    <h2 class="statistics-page__header">
+      {{ header }}
+    </h2>
+
     <div class="statistics-page__label">
       {{ $t('statistics_best_movements') }}
 
@@ -68,6 +72,10 @@ export default defineComponent({
   ],
 
   props: {
+    difficulty: {
+      required: true,
+      type: String as PropType<null | Difficulty>
+    },
     bestMovements: {
       required: true,
       type: Number as PropType<null | number>
@@ -101,6 +109,21 @@ export default defineComponent({
   data () {
     return {
       page: null as null | Difficulty
+    }
+  },
+
+  computed: {
+    header () {
+      switch (this.difficulty) {
+        case Difficulty.chill:
+          return this.$t('difficulty_chill')
+        case Difficulty.skilled:
+          return this.$t('difficulty_skilled')
+        case Difficulty.challenge:
+          return this.$t('difficulty_challenge')
+      }
+
+      return this.$t('difficulty_all')
     }
   },
 
@@ -145,6 +168,16 @@ export default defineComponent({
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__header {
+    margin: 0;
+    font-size: 2rem;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      grid-column: span 2;
     }
   }
 

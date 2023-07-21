@@ -16,5 +16,9 @@ export const es = {
   statistics_average_movements: 'Media de movimientos',
   statistics_average_time: 'Tiempo medio',
   statistics_best_movements: 'Mejores movimientos',
-  statistics_best_time: 'Mejor tiempo'
+  statistics_best_time: 'Mejor tiempo',
+  difficulty_all: 'Total',
+  difficulty_chill: 'Relax',
+  difficulty_skilled: 'Diestro',
+  difficulty_challenge: 'Desafío'
 }
