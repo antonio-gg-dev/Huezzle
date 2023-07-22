@@ -95,6 +95,23 @@ export default defineComponent({
         this.scoreRepository.save(this.startAt, this.score)
       }
     }
+  },
+
+  created () {
+    document.documentElement.lang = this.$i18n.locale
+
+    document.title = this.$t('meta_title')
+    document.querySelectorAll(
+      'meta[property="og:title"], meta[name="twitter:title"]'
+    ).forEach(
+      (title) => title.setAttribute('content', this.$t('meta_title'))
+    )
+
+    document.querySelectorAll(
+      'meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]'
+    ).forEach(
+      (description) => description.setAttribute('content', this.$t('meta_description'))
+    )
   }
 })
 </script>
