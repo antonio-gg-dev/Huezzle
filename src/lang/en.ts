@@ -21,6 +21,6 @@ export const en = {
   difficulty_chill: 'Chill',
   difficulty_skilled: 'Skilled',
   difficulty_challenge: 'Challenge',
-  meta_title: 'Huezzle - your daily puzzle',
+  meta_title: 'Huezzle - Your daily puzzle',
   meta_description: 'A new puzzle every day, sort the colored cells and compete against your friends and family.'
 }

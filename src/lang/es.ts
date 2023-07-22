@@ -21,6 +21,6 @@ export const es = {
   difficulty_chill: 'Relax',
   difficulty_skilled: 'Diestro',
   difficulty_challenge: 'Desafío',
-  meta_title: 'Huezzle - tu rompecabezas diario',
+  meta_title: 'Huezzle - Tu rompecabezas diario',
   meta_description: 'Un nuevo rompecabezas cada día, ordena las celdas de colores y compite contra tus amigos y familiares.'
 }
