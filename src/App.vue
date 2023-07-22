@@ -97,7 +97,7 @@ export default defineComponent({
     }
   },
 
-  created () {
+  beforeCreate () {
     document.documentElement.lang = this.$i18n.locale
 
     document.title = this.$t('meta_title')
