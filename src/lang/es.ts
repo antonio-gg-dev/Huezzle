@@ -24,5 +24,8 @@ export const es = {
   difficulty_skilled: 'Diestro',
   difficulty_challenge: 'Desafío',
   meta_title: 'Huezzle - Tu rompecabezas diario',
-  meta_description: 'Un nuevo rompecabezas cada día, ordena las celdas de colores y compite contra tus amigos y familiares.'
+  meta_description: 'Un nuevo rompecabezas cada día, ordena las celdas de colores y compite contra tus amigos y familiares.',
+  footer_settings_button_label: 'Configuración',
+  settings_header: 'Configuración',
+  setting_reset_tutorial_button_label: 'Reiniciar tutorial'
 }

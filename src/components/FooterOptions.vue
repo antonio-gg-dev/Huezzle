@@ -30,6 +30,19 @@
         alt=""
       >
     </button>
+
+    <button
+      key="settings"
+      class="footer-options__button"
+      :title="$t('footer_settings_button_label')"
+      @click="$emit('openSettingsPopup')"
+    >
+      <img
+        class="footer-options__icon"
+        src="/img/settings.svg"
+        alt=""
+      >
+    </button>
   </TransitionGroup>
 </template>
 
@@ -39,7 +52,8 @@ import { defineComponent, PropType } from 'vue'
 export default defineComponent({
   emits: [
     'openVictoryPopup',
-    'openStatisticsPopup'
+    'openStatisticsPopup',
+    'openSettingsPopup'
   ],
 
   props: {

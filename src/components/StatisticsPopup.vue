@@ -314,6 +314,7 @@ export default defineComponent({
       margin-bottom: -5rem;
       transform: translateY(-3rem);
       top: -1px;
+      pointer-events: none;
 
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(0deg, #2220 0%, #222f 100%);
@@ -329,6 +330,7 @@ export default defineComponent({
       margin-top: -5rem;
       transform: translateY(3rem);
       bottom: -1px;
+      pointer-events: none;
 
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(0deg, #222f 0%, #2220 100%);

@@ -24,5 +24,8 @@ export const en = {
   difficulty_skilled: 'Skilled',
   difficulty_challenge: 'Challenge',
   meta_title: 'Huezzle - Your daily puzzle',
-  meta_description: 'A new puzzle every day, sort the colored cells and compete against your friends and family.'
+  meta_description: 'A new puzzle every day, sort the colored cells and compete against your friends and family.',
+  footer_settings_button_label: 'Settings',
+  settings_header: 'Settings',
+  setting_reset_tutorial_button_label: 'Reset tutorial'
 }

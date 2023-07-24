@@ -14,6 +14,7 @@
     :show-victory-button="!!score"
     @open-victory-popup="openPopup = 'victory'"
     @open-statistics-popup="openPopup = 'statistics'"
+    @open-settings-popup="openPopup = 'settings'"
   />
 
   <VictoryPopup
@@ -28,6 +29,13 @@
     @close="openPopup = null"
     :scores="scoreRepository.getAll()"
   />
+
+  <SettingsPopup
+    v-if="openPopup === 'settings'"
+    @close="openPopup = null"
+    @save="settingsRepository.store(settings)"
+    :settings="settings"
+  />
 </template>
 
 <script lang="ts">
@@ -41,9 +49,11 @@ import { DifficultyGenerator } from '@/services/DifficultyGenerator'
 import { bindings } from '@/bindings'
 import FooterOptions from '@/components/FooterOptions.vue'
 import StatisticsPopup from '@/components/StatisticsPopup.vue'
+import SettingsPopup from '@/components/SettingsPopup.vue'
 
 export default defineComponent({
   components: {
+    SettingsPopup,
     StatisticsPopup,
     FooterOptions,
     VictoryPopup,
@@ -54,7 +64,7 @@ export default defineComponent({
     return {
       ...bindings,
       board: new GameGenerator().generate(),
-      openPopup: 'victory' as null | 'victory' | 'statistics',
+      openPopup: 'victory' as null | 'victory' | 'statistics' | 'settings',
       startAt: null as DateTime | null,
       endAt: null as DateTime | null,
       score: bindings.scoreRepository.get(DateTime.now()),
