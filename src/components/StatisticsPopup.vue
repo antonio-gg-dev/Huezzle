@@ -74,7 +74,10 @@
       </div>
 
       <StatisticsPage
-        v-if="page === null"
+        :class="[
+          'statistics-popup__page',
+          page === null && 'statistics-popup__page--active'
+        ]"
         :difficulty="null"
         :played-games="statistics.playedGames"
         :total-time="statistics.totalTime"
@@ -86,7 +89,10 @@
       />
 
       <StatisticsPage
-        v-if="page === 'chill'"
+        :class="[
+          'statistics-popup__page',
+          page === 'chill' && 'statistics-popup__page--active'
+        ]"
         difficulty="chill"
         :played-games="statistics.chill.playedGames"
         :total-time="statistics.chill.totalTime"
@@ -98,7 +104,10 @@
       />
 
       <StatisticsPage
-        v-if="page === 'skilled'"
+        :class="[
+          'statistics-popup__page',
+          page === 'skilled' && 'statistics-popup__page--active'
+        ]"
         difficulty="skilled"
         :played-games="statistics.skilled.playedGames"
         :total-time="statistics.skilled.totalTime"
@@ -110,7 +119,10 @@
       />
 
       <StatisticsPage
-        v-if="page === 'challenge'"
+        :class="[
+          'statistics-popup__page',
+          page === 'challenge' && 'statistics-popup__page--active'
+        ]"
         difficulty="challenge"
         :played-games="statistics.challenge.playedGames"
         :total-time="statistics.challenge.totalTime"
@@ -281,7 +293,6 @@ export default defineComponent({
     border-radius: 0.1rem;
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
     z-index: 4;
-    gap: 0 4rem;
     max-width: 100vw;
     max-height: 70vh;
     overflow-x: hidden;
@@ -365,6 +376,17 @@ export default defineComponent({
 
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
+    }
+  }
+
+  &__page {
+    overflow: hidden;
+    visibility: hidden;
+    height: 0;
+
+    &--active {
+      visibility: visible;
+      height: auto;
     }
   }
 }
