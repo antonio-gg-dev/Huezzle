@@ -361,7 +361,7 @@ export default defineComponent({
   }
 
   &__icon {
-    height: 40%;
+    height: 2rem;
 
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
