@@ -144,7 +144,10 @@ import { Difficulty } from '@/services/DifficultyGenerator'
 import StatisticsPage from '@/components/StatisticsPage.vue'
 
 export default defineComponent({
-  components: { StatisticsPage },
+  components: {
+    StatisticsPage
+  },
+
   emits: [
     'close'
   ],
