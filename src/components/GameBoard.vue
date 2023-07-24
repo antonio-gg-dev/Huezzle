@@ -188,17 +188,29 @@ export default defineComponent({
 <style scoped lang="scss">
 .game-board {
   &__start {
+    pointer-events: none;
     text-align: center;
-    color: #fffa;
     font-weight: 700;
     font-size: 2rem;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: blink 0.8s linear alternate infinite;
-    text-shadow: 0 0.1rem 0.2rem #0008;
-    pointer-events: none;
+    color: #fff0;
+    text-shadow: 0 0.1rem 0.2rem #0000;
+    animation: appear 0.2s linear 10s,
+      blink 0.8s linear 10.2s alternate infinite;
+
+    @keyframes appear {
+      0% {
+        color: #fff0;
+        text-shadow: 0 0.1rem 0.2rem #0000;
+      }
+      100% {
+        color: #fffe;
+        text-shadow: 0 0.1rem 0.2rem #0008;
+      }
+    }
 
     @keyframes blink {
       0% {
