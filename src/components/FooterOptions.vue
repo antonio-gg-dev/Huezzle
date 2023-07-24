@@ -90,6 +90,14 @@ export default defineComponent({
       @media (prefers-color-scheme: dark) {
         background-color: #222;
       }
+
+      .dark & {
+        background-color: #222;
+      }
+
+      .light & {
+        background-color: #eee;
+      }
     }
   }
 
@@ -98,6 +106,14 @@ export default defineComponent({
 
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
+    }
+
+    .dark & {
+      filter: invert(1);
+    }
+
+    .light & {
+      filter: invert(0);
     }
   }
 

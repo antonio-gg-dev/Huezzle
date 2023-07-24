@@ -1,3 +1,5 @@
+import { Theme } from '@/entities/Settings'
+
 export const es = {
   clipboard_button_label: 'Copiar al portapapeles',
   share_button_label: 'Compartir',
@@ -27,5 +29,12 @@ export const es = {
   meta_description: 'Un nuevo rompecabezas cada día, ordena las celdas de colores y compite contra tus amigos y familiares.',
   footer_settings_button_label: 'Configuración',
   settings_header: 'Configuración',
-  setting_reset_tutorial_button_label: 'Reiniciar tutorial'
+  setting_tutorial_label: 'Tutorial',
+  setting_tutorial_button: 'Reiniciar',
+  setting_theme_label: 'Tema',
+  setting_theme_button: {
+    [Theme.auto]: 'Automático',
+    [Theme.dark]: 'Oscuro',
+    [Theme.light]: 'Claro'
+  }
 }

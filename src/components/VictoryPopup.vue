@@ -11,25 +11,27 @@
         {{ $t('victory_header' )}}
       </h1>
 
-      <span class="victory-popup__score victory-popup__score--time">
-        <img
-          class="victory-popup__icon"
-          src="/img/time.svg"
-          alt=""
-        >
-        {{ $t('victory_time_label') }}
-        <strong>{{ time.toFormat('m:ss') }}</strong>
-      </span>
+      <div class="victory-popup__score-container">
+        <span class="victory-popup__score">
+          <img
+            class="victory-popup__icon"
+            src="/img/time.svg"
+            alt=""
+          >
+          {{ $t('victory_time_label') }}
+          <strong>{{ time.toFormat('m:ss') }}</strong>
+        </span>
 
-      <span class="victory-popup__score victory-popup__score--movements">
-        <img
-          class="victory-popup__icon"
-          src="/img/movements.svg"
-          alt=""
-        >
-        {{ $t('victory_movements_label') }}
-        <strong>{{ movements }}</strong>
-      </span>
+        <span class="victory-popup__score">
+          <img
+            class="victory-popup__icon"
+            src="/img/movements.svg"
+            alt=""
+          >
+          {{ $t('victory_movements_label') }}
+          <strong>{{ movements }}</strong>
+        </span>
+      </div>
 
       <ShareButtons
         :time="time"
@@ -127,6 +129,44 @@ export default defineComponent({
       background-color: #1115;
     }
 
+    .dark & {
+      background-color: #1115;
+    }
+
+    .light & {
+      background-color: #fff5;
+    }
+  }
+
+  &__popup {
+    position: fixed;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    text-align: center;
+    cursor: default;
+    background-color: #fff;
+    padding: 3rem 4rem;
+    border-radius: 0.1rem;
+    box-shadow: 0 0.1rem 0.2rem 0 #0006;
+    z-index: 4;
+    max-width: 100vw;
+    max-height: 70vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #222;
+    }
+
+    .dark & {
+      background-color: #222;
+    }
+
+    .light & {
+      background-color: #fff;
+    }
+
     &:before {
       content: "";
       display: block;
@@ -140,6 +180,14 @@ export default defineComponent({
 
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(0deg, #2220 0%, #222f 100%);
+      }
+
+      .dark & {
+        background: linear-gradient(0deg, #2220 0%, #222f 100%);
+      }
+
+      .light & {
+        background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
       }
     }
 
@@ -157,55 +205,32 @@ export default defineComponent({
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(0deg, #222f 0%, #2220 100%);
       }
-    }
-  }
 
-  &__popup {
-    position: fixed;
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    text-align: center;
-    cursor: default;
-    background-color: #fff;
-    padding: 3rem 4rem;
-    border-radius: 0.1rem;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
-    z-index: 4;
-    display: grid;
-    gap: 0 4rem;
-    max-width: 100vw;
-    max-height: 70vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    grid-template-areas:
-      "header"
-      "time"
-      "movements"
-      "share"
-      "clipboard"
-      "next";
+      .dark & {
+        background: linear-gradient(0deg, #222f 0%, #2220 100%);
+      }
 
-    @media (min-width: 768px) {
-      grid-template-areas:
-      "header    header"
-      "time      movements"
-      "share     share"
-      "clipboard clipboard"
-      "next      next";
-    }
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #222;
+      .light & {
+        background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
+      }
     }
   }
 
   &__header {
     all: unset;
+    display: block;
     margin-bottom: 2rem;
     font-size: 3rem;
     font-weight: 300;
-    grid-area: header;
+  }
+
+  &__score-container {
+    display: grid;
+    gap: 0 4rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   &__score {
@@ -215,14 +240,6 @@ export default defineComponent({
     gap: 1rem;
     align-items: baseline;
     justify-content: center;
-
-    &--movements {
-      grid-area: movements;
-    }
-
-    &--time {
-      grid-area: time;
-    }
   }
 
   &__icon {
@@ -231,11 +248,18 @@ export default defineComponent({
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
     }
+
+    .dark & {
+      filter: invert(1);
+    }
+
+    .light & {
+      filter: invert(0);
+    }
   }
 
   &__next {
     font-size: 2rem;
-    grid-area: next;
   }
 
   &__countdown {

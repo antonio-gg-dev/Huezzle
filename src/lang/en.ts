@@ -1,3 +1,5 @@
+import { Theme } from '@/entities/Settings'
+
 export const en = {
   clipboard_button_label: 'Copy to clipboard',
   share_button_label: 'Share',
@@ -27,5 +29,12 @@ export const en = {
   meta_description: 'A new puzzle every day, sort the colored cells and compete against your friends and family.',
   footer_settings_button_label: 'Settings',
   settings_header: 'Settings',
-  setting_reset_tutorial_button_label: 'Reset tutorial'
+  setting_tutorial_label: 'Tutorial',
+  setting_tutorial_button: 'Restart',
+  setting_theme_label: 'Theme',
+  setting_theme_button: {
+    [Theme.auto]: 'Auto',
+    [Theme.dark]: 'Dark',
+    [Theme.light]: 'Light'
+  }
 }

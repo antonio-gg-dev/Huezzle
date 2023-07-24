@@ -283,6 +283,14 @@ export default defineComponent({
     @media (prefers-color-scheme: dark) {
       background-color: #1115;
     }
+
+    .dark & {
+      background-color: #1115;
+    }
+
+    .light & {
+      background-color: #fff5;
+    }
   }
 
   &__popup {
@@ -305,6 +313,14 @@ export default defineComponent({
       background-color: #222;
     }
 
+    .dark & {
+      background-color: #222;
+    }
+
+    .light & {
+      background-color: #fff;
+    }
+
     &:before {
       content: "";
       display: block;
@@ -318,6 +334,14 @@ export default defineComponent({
 
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(0deg, #2220 0%, #222f 100%);
+      }
+
+      .dark & {
+        background: linear-gradient(0deg, #2220 0%, #222f 100%);
+      }
+
+      .light & {
+        background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
       }
     }
 
@@ -334,6 +358,14 @@ export default defineComponent({
 
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(0deg, #222f 0%, #2220 100%);
+      }
+
+      .dark & {
+        background: linear-gradient(0deg, #222f 0%, #2220 100%);
+      }
+
+      .light & {
+        background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
       }
     }
   }
@@ -373,6 +405,14 @@ export default defineComponent({
       @media (prefers-color-scheme: dark) {
         background-color: #333;
       }
+
+      .dark & {
+        background-color: #333;
+      }
+
+      .light & {
+        background-color: #eee;
+      }
     }
   }
 
@@ -381,6 +421,14 @@ export default defineComponent({
 
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
+    }
+
+    .dark & {
+      filter: invert(1);
+    }
+
+    .light & {
+      filter: invert(0);
     }
   }
 

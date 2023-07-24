@@ -2,7 +2,7 @@
   <button
     v-if="canShare"
     @click="share"
-    class="share-buttons__button share-buttons__button--share"
+    class="share-buttons__button"
   >
     <img
       class="share-buttons__icon"
@@ -16,7 +16,7 @@
   <button
     v-if="canCopyToClipboard"
     @click="clipboard"
-    class="share-buttons__button share-buttons__button--clipboard"
+    class="share-buttons__button"
   >
     <img
       class="share-buttons__icon"
@@ -100,19 +100,11 @@ export default defineComponent({
     transition: background-color 0.2s linear;
     cursor: pointer;
     justify-self: center;
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem;
     text-align: center;
 
     &:hover, &focus {
       background-color: #44db86;
-    }
-
-    &--share {
-      grid-area: share;
-    }
-
-    &--clipboard {
-      grid-area: clipboard;
     }
   }
 
@@ -121,6 +113,14 @@ export default defineComponent({
 
     @media (prefers-color-scheme: dark) {
       filter: invert(1);
+    }
+
+    .dark & {
+      filter: invert(1);
+    }
+
+    .light & {
+      filter: invert(0);
     }
   }
 }

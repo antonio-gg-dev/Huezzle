@@ -1,10 +1,18 @@
+export const enum Theme {
+  auto = 'auto',
+  dark = 'dark',
+  light = 'light'
+}
+
 export interface RawSettings {
   tutorialDone: boolean | undefined,
+  theme: Theme | undefined
 }
 
 export class Settings {
   constructor (
-    private tutorialDone: boolean
+    public tutorialDone: boolean,
+    public theme: Theme
   ) {}
 
   resetTutorial (): Settings {
@@ -23,15 +31,26 @@ export class Settings {
     return !this.tutorialDone
   }
 
+  setTheme (theme: Theme): Settings {
+    this.theme = theme
+    return this
+  }
+
+  getTheme (): Theme {
+    return this.theme
+  }
+
   toRaw (): RawSettings {
     return {
-      tutorialDone: this.tutorialDone
+      tutorialDone: this.tutorialDone,
+      theme: this.theme
     }
   }
 
-  static fromRaw ({ tutorialDone }: RawSettings): Settings {
+  static fromRaw ({ tutorialDone, theme }: RawSettings): Settings {
     return new Settings(
-      tutorialDone ?? false
+      tutorialDone ?? false,
+      theme ?? Theme.auto
     )
   }
 }

@@ -33,7 +33,7 @@
   <SettingsPopup
     v-if="openPopup === 'settings'"
     @close="openPopup = null"
-    @save="settingsRepository.store(settings)"
+    @save="saveSettings"
     :settings="settings"
   />
 </template>
@@ -50,6 +50,7 @@ import { bindings } from '@/bindings'
 import FooterOptions from '@/components/FooterOptions.vue'
 import StatisticsPopup from '@/components/StatisticsPopup.vue'
 import SettingsPopup from '@/components/SettingsPopup.vue'
+import { Theme } from '@/entities/Settings'
 
 export default defineComponent({
   components: {
@@ -85,6 +86,22 @@ export default defineComponent({
   methods: {
     start () {
       this.startAt = DateTime.now()
+    },
+
+    saveSettings () {
+      this.settingsRepository.store(this.settings)
+
+      this.setTheme()
+    },
+
+    setTheme () {
+      document.body.classList.remove(
+        Theme.auto,
+        Theme.dark,
+        Theme.light
+      )
+
+      document.body.classList.add(this.settings.getTheme())
     }
   },
 
@@ -129,6 +146,10 @@ export default defineComponent({
     ).forEach(
       (description) => description.setAttribute('content', this.$t('meta_description'))
     )
+  },
+
+  created () {
+    this.setTheme()
   }
 })
 </script>
