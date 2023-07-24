@@ -5,6 +5,7 @@
 
   <GameBoard
     :board="board"
+    :settings="settings"
     :already-played="!!score"
     @start="start"
   />
@@ -56,7 +57,8 @@ export default defineComponent({
       openPopup: 'victory' as null | 'victory' | 'statistics',
       startAt: null as DateTime | null,
       endAt: null as DateTime | null,
-      score: bindings.scoreRepository.get(DateTime.now())
+      score: bindings.scoreRepository.get(DateTime.now()),
+      settings: bindings.settingsRepository.get()
     }
   },
 
@@ -93,6 +95,11 @@ export default defineComponent({
         )
 
         this.scoreRepository.save(this.startAt, this.score)
+      }
+    },
+    'board.movements' () {
+      if (this.settings.showTutorial() && this.board.movements > 1) {
+        this.settingsRepository.store(this.settings.makeTutorial())
       }
     }
   },

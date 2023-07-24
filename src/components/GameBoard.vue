@@ -17,10 +17,24 @@
   />
 
   <div
-    class="game-board__start"
-    v-if="!board.isShuffled && !alreadyPlayed"
+    class="game-board__tutorial-start"
+    v-if="settings.showTutorial() && !board.isShuffled && !alreadyPlayed"
   >
-    {{ $t('game_start_message') }}
+    {{ $t('tutorial_start_message') }}
+  </div>
+
+  <div
+    class="game-board__tutorial-grab"
+    v-if="settings.showTutorial() && board.isShuffled && board.movements === 0"
+  >
+    {{ $t('tutorial_grab_message') }}
+  </div>
+
+  <div
+    class="game-board__tutorial-sort"
+    v-if="settings.showTutorial() && board.isShuffled && board.movements === 1"
+  >
+    {{ $t('tutorial_sort_message') }}
   </div>
 
   <TransitionGroup
@@ -57,6 +71,7 @@
 import { defineComponent, PropType } from 'vue'
 import { Board } from '@/entities/Board'
 import { Cell } from '@/entities/Cell'
+import { Settings } from '@/entities/Settings'
 
 export default defineComponent({
   data () {
@@ -76,6 +91,10 @@ export default defineComponent({
     board: {
       required: true,
       type: Board as PropType<Board>
+    },
+    settings: {
+      required: true,
+      type: Settings as PropType<Settings>
     },
     alreadyPlayed: {
       required: true,
@@ -187,7 +206,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .game-board {
-  &__start {
+  &__tutorial-start,
+  &__tutorial-grab,
+  &__tutorial-sort {
     pointer-events: none;
     text-align: center;
     font-weight: 700;
@@ -198,8 +219,8 @@ export default defineComponent({
     transform: translate(-50%, -50%);
     color: #fff0;
     text-shadow: 0 0.1rem 0.2rem #0000;
-    animation: appear 0.2s linear 10s,
-      blink 0.8s linear 10.2s alternate infinite;
+    animation: appear 1.4s ease-in-out 2s,
+      blink 0.9s ease-in-out 3.4s alternate infinite;
 
     @keyframes appear {
       0% {
