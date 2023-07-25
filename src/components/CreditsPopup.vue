@@ -31,7 +31,8 @@
         <li>Daniel García Cañada</li>
         <li>Emmanuel Valverde Ramos</li>
         <li>Fabrizio Fasanando Sotelo</li>
-        <li>Imanol Ramirez Poveda</li>
+        <li>Fuensanta Sansano</li>
+        <li>Imanol Ramírez Poveda</li>
         <li>Jesús Valera Reales</li>
         <li>José María Valera Reales</li>
         <li>Luz María Agulló Chazarra</li>
@@ -39,6 +40,7 @@
         <li>Noah Cuadrado</li>
         <li>Rocío Tomé</li>
         <li>Roger Vila Crespo</li>
+
         <li class="credits-popup__long">{{ $t('credits_libraries') }}</li>
         <li>{{ $t('credits_family') }}</li>
       </ul>
