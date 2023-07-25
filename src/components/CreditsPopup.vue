@@ -1,99 +1,67 @@
 <template>
   <div
-    class="settings-popup__backdrop"
+    class="credits-popup__backdrop"
     @click="$emit('close')"
   >
     <div
-      class="settings-popup__popup"
+      class="credits-popup__popup"
       @click.stop
     >
-      <h1 class="settings-popup__header">
-        {{ $t('settings_header') }}
+      <h1 class="credits-popup__header">
+        {{ $t('credits_header') }}
       </h1>
 
-      <div class="settings-popup__grid">
-        <div class="settings-popup__label">
-          {{ $t('setting_theme_label') }}
-        </div>
+      <h2 class="credits-popup__section">
+        {{ $t('credits_developer') }}
+      </h2>
 
-        <button
-          @click="switchTheme"
-          class="settings-popup__button"
-        >
-          {{ $t('setting_theme_button.' + settings.getTheme()) }}
-        </button>
+      <ul class="credits-popup__list">
+        <li>Antonio González Gea</li>
+      </ul>
 
-        <div class="settings-popup__label">
-          {{ $t('setting_tutorial_label') }}
-        </div>
+      <h2 class="credits-popup__section">
+        {{ $t('credits_thanks') }}
+        <small class="credits-popup__sub">
+          {{ $t('credits_sub_thanks')}}
+        </small>
+      </h2>
 
-        <button
-          @click="resetTutorial"
-          class="settings-popup__button"
-          :disabled="settings.showTutorial()"
-        >
-          {{ $t('setting_tutorial_button') }}
-        </button>
+      <ul class="credits-popup__list">
+        <li>Cristian Manuel Garrido García</li>
+        <li>Daniel García Cañada</li>
+        <li>Emmanuel Valverde Ramos</li>
+        <li>Fabrizio Fasanando Sotelo</li>
+        <li>Imanol Ramirez Poveda</li>
+        <li>Jesús Valera Reales</li>
+        <li>José María Valera Reales</li>
+        <li>Luz María Agulló Chazarra</li>
+        <li>Melania Agulló Chazarra</li>
+        <li>Noah Cuadrado</li>
+        <li>Rocío Tomé</li>
+        <li>Roger Vila Crespo</li>
+        <li class="credits-popup__long">{{ $t('credits_libraries') }}</li>
+        <li>{{ $t('credits_family') }}</li>
+      </ul>
 
-        <div class="settings-popup__label">
-          {{ $t('setting_credits_label') }}
-        </div>
-
-        <button
-          @click="$emit('credits')"
-          class="settings-popup__button"
-        >
-          {{ $t('setting_credits_button') }}
-        </button>
+      <div class="credits-popup__copy">
+        © 2023 - Antonio González Gea
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { Theme, Settings } from '@/entities/Settings'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   emits: [
-    'close',
-    'save',
-    'credits'
-  ],
-
-  props: {
-    settings: {
-      required: true,
-      type: Settings as PropType<Settings>
-    }
-  },
-
-  methods: {
-    resetTutorial () {
-      this.settings.resetTutorial()
-      this.$emit('save')
-    },
-    switchTheme () {
-      switch (this.settings.getTheme()) {
-        case Theme.auto:
-          this.settings.setTheme(Theme.dark)
-          break
-        case Theme.dark:
-          this.settings.setTheme(Theme.light)
-          break
-        case Theme.light:
-          this.settings.setTheme(Theme.auto)
-          break
-      }
-
-      this.$emit('save')
-    }
-  }
+    'close'
+  ]
 })
 </script>
 
 <style scoped lang="scss">
-.settings-popup {
+.credits-popup {
   &__backdrop {
     cursor: pointer;
     position: fixed;
@@ -218,60 +186,44 @@ export default defineComponent({
     text-align: center;
     font-size: 3rem;
     font-weight: 300;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
   }
 
-  &__label {
-    font-size: 1.5rem;
-  }
-
-  &__button {
+  &__section {
     all: unset;
-    display: inline-block;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
-    align-items: center;
+    display: block;
+    text-align: center;
     font-size: 1.5rem;
-    background-color: transparent;
-    padding: 1rem 2rem;
-    border-radius: 99rem;
-    transition: background-color 0.2s linear;
-    cursor: pointer;
-    place-self: end;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
 
-    @media (prefers-color-scheme: dark) {
-      color: #fff;
+  &__sub {
+    display: block;
+    font-size: 1rem;
+  }
+
+  &__list {
+    all: unset;
+    display: block;
+    list-style: none;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
+
+    li {
+      margin-bottom: 1rem;
     }
+  }
 
-    .dark & {
-      color: #fff;
-    }
+  &__long {
+    font-size: 1rem;
+  }
 
-    .light & {
-      color: #000;
-    }
-
-    &:hover, &focus {
-      background-color: #eee;
-
-      @media (prefers-color-scheme: dark) {
-          background-color: #333;
-      }
-
-      .dark & {
-        background-color: #333;
-      }
-
-      .light & {
-        background-color: #eee;
-      }
-    }
-
-    &:disabled {
-      cursor: default;
-      background-color: transparent;
-      opacity: 0.6;
-      box-shadow: none;
-    }
+  &__copy {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
   }
 }
 </style>

@@ -25,16 +25,22 @@
   />
 
   <StatisticsPopup
-    v-if="openPopup === 'statistics'"
+    v-else-if="openPopup === 'statistics'"
     @close="openPopup = null"
     :scores="scoreRepository.getAll()"
   />
 
   <SettingsPopup
-    v-if="openPopup === 'settings'"
+    v-else-if="openPopup === 'settings'"
     @close="openPopup = null"
     @save="saveSettings"
+    @credits="openPopup = 'credits'"
     :settings="settings"
+  />
+
+  <CreditsPopup
+    v-else-if="openPopup === 'credits'"
+    @close="openPopup = null"
   />
 </template>
 
@@ -51,9 +57,11 @@ import FooterOptions from '@/components/FooterOptions.vue'
 import StatisticsPopup from '@/components/StatisticsPopup.vue'
 import SettingsPopup from '@/components/SettingsPopup.vue'
 import { Theme } from '@/entities/Settings'
+import CreditsPopup from '@/components/CreditsPopup.vue'
 
 export default defineComponent({
   components: {
+    CreditsPopup,
     SettingsPopup,
     StatisticsPopup,
     FooterOptions,
@@ -65,7 +73,7 @@ export default defineComponent({
     return {
       ...bindings,
       board: new GameGenerator().generate(),
-      openPopup: 'victory' as null | 'victory' | 'statistics' | 'settings',
+      openPopup: 'victory' as null | 'victory' | 'statistics' | 'settings' | 'credits',
       startAt: null as DateTime | null,
       endAt: null as DateTime | null,
       score: bindings.scoreRepository.get(DateTime.now()),

@@ -36,5 +36,13 @@ export const es = {
     [Theme.auto]: 'Automático',
     [Theme.dark]: 'Oscuro',
     [Theme.light]: 'Claro'
-  }
+  },
+  setting_credits_label: 'Créditos',
+  setting_credits_button: 'Ver',
+  credits_header: 'Huezzle',
+  credits_developer: 'un juego desarrollado por',
+  credits_thanks: 'Agradecimientos',
+  credits_sub_thanks: 'por apoyar el desarrollo, aportar ideas y ayudar probando el juego',
+  credits_libraries: 'Todas las personas que han desarrollado las bibliotecas y herramientas que me han ayudado a crear este juego',
+  credits_family: 'y en especial a mis amigos y a mi familia'
 }
