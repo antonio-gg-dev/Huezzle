@@ -45,6 +45,18 @@
         >
           {{ $t('setting_credits_button') }}
         </button>
+
+        <div class="settings-popup__label">
+          {{ $t('setting_support_label') }}
+        </div>
+
+        <a
+          class="settings-popup__button"
+          target="_blank"
+          href="https://ko-fi.com/antoniogg"
+        >
+          Ko-fi
+        </a>
       </div>
     </div>
   </div>

@@ -39,6 +39,7 @@ export const en = {
   },
   setting_credits_label: 'Credits',
   setting_credits_button: 'Show',
+  setting_support_label: 'Support developer',
   credits_header: 'Huezzle',
   credits_developer: 'a game developed by',
   credits_thanks: 'Thanks',

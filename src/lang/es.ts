@@ -39,6 +39,7 @@ export const es = {
   },
   setting_credits_label: 'Créditos',
   setting_credits_button: 'Ver',
+  setting_support_label: 'Apoyar al desarrollador',
   credits_header: 'Huezzle',
   credits_developer: 'un juego desarrollado por',
   credits_thanks: 'Agradecimientos',
