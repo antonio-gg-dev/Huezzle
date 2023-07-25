@@ -30,6 +30,7 @@
         <button
           @click="resetTutorial"
           class="settings-popup__button"
+          :disabled="settings.showTutorial()"
         >
           {{ $t('setting_tutorial_button') }}
         </button>
@@ -252,6 +253,13 @@ export default defineComponent({
       .light & {
         background-color: #eee;
       }
+    }
+
+    &:disabled {
+      cursor: default;
+      background-color: transparent;
+      opacity: 0.6;
+      box-shadow: none;
     }
   }
 }
