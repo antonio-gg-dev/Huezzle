@@ -115,18 +115,15 @@ export default defineComponent({
     },
 
     switchTheme () {
-      switch (this.settings.getTheme()) {
-        case Theme.auto:
-          this.settings.setTheme(Theme.dark)
-          break
-        case Theme.dark:
-          this.settings.setTheme(Theme.light)
-          break
-        case Theme.light:
-          this.settings.setTheme(Theme.auto)
-          break
-      }
+      const available = [
+        Theme.auto,
+        Theme.dark,
+        Theme.light
+      ]
+      const current = this.settings.getTheme()
+      const next = available[available.findIndex(theme => current === theme) + 1] ?? Theme.auto
 
+      this.settings.setTheme(next)
       this.$emit('save')
     },
 

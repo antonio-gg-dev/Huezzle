@@ -273,9 +273,24 @@ export default defineComponent({
     }
 
     &--fixed {
-      box-shadow: inset 0 0 0 1vh var(--color),
-        inset 0 0 0 1.25vh #fff8;
       pointer-events: none;
+      box-shadow: inset 0 0 0 1vh var(--color),
+        inset 0 0 0 1.25vh #fff6;
+
+      @media (prefers-color-scheme: dark) {
+        box-shadow: inset 0 0 0 1vh var(--color),
+          inset 0 0 0 1.25vh #0006;
+      }
+
+      .dark & {
+        box-shadow: inset 0 0 0 1vh var(--color),
+          inset 0 0 0 1.25vh #0006;
+      }
+
+      .light & {
+        box-shadow: inset 0 0 0 1vh var(--color),
+          inset 0 0 0 1.25vh #fff6;
+      }
     }
 
     &--grabbed {
