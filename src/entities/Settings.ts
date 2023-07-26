@@ -6,13 +6,15 @@ export const enum Theme {
 
 export interface RawSettings {
   tutorialDone: boolean | undefined,
-  theme: Theme | undefined
+  theme: Theme | undefined,
+  language: string | null | undefined
 }
 
 export class Settings {
   constructor (
     public tutorialDone: boolean,
-    public theme: Theme
+    public theme: Theme,
+    public language: string | null
   ) {}
 
   resetTutorial (): Settings {
@@ -40,17 +42,29 @@ export class Settings {
     return this.theme
   }
 
+  setLanguage (language: string | null): Settings {
+    this.language = language
+    return this
+  }
+
+  getLanguage (): string {
+    return this.language ?? navigator.language
+  }
+
   toRaw (): RawSettings {
     return {
       tutorialDone: this.tutorialDone,
-      theme: this.theme
+      theme: this.theme,
+      language: this.language
     }
   }
 
-  static fromRaw ({ tutorialDone, theme }: RawSettings): Settings {
+  static fromRaw ({ tutorialDone, theme, language }: RawSettings): Settings {
     return new Settings(
       tutorialDone ?? false,
-      theme ?? Theme.auto
+      theme ?? Theme.auto,
+      language ?? null
+
     )
   }
 }

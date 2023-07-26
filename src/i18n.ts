@@ -1,9 +1,10 @@
 import { createI18n } from 'vue-i18n'
 import { en } from '@/lang/en'
 import { es } from '@/lang/es'
+import { bindings } from '@/bindings'
 
 export const i18n = createI18n({
-  locale: navigator.language,
+  locale: bindings.settingsRepository.get().getLanguage(),
   fallbackLocale: 'en',
   messages: { en, es }
 })

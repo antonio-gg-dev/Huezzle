@@ -13,18 +13,29 @@
 
       <div class="settings-popup__grid">
         <div class="settings-popup__label">
-          {{ $t('setting_theme_label') }}
+          {{ $t('settings_language_label') }}
+        </div>
+
+        <button
+          @click="switchLanguage"
+          class="settings-popup__button"
+        >
+          {{ $t(settings.language === null ? 'settings_language_auto' : 'settings_language_name') }}
+        </button>
+
+        <div class="settings-popup__label">
+          {{ $t('settings_theme_label') }}
         </div>
 
         <button
           @click="switchTheme"
           class="settings-popup__button"
         >
-          {{ $t('setting_theme_button.' + settings.getTheme()) }}
+          {{ $t('settings_theme_button.' + settings.getTheme()) }}
         </button>
 
         <div class="settings-popup__label">
-          {{ $t('setting_tutorial_label') }}
+          {{ $t('settings_tutorial_label') }}
         </div>
 
         <button
@@ -32,22 +43,22 @@
           class="settings-popup__button"
           :disabled="settings.showTutorial()"
         >
-          {{ $t('setting_tutorial_button') }}
+          {{ $t('settings_tutorial_button') }}
         </button>
 
         <div class="settings-popup__label">
-          {{ $t('setting_credits_label') }}
+          {{ $t('settings_credits_label') }}
         </div>
 
         <button
           @click="$emit('credits')"
           class="settings-popup__button"
         >
-          {{ $t('setting_credits_button') }}
+          {{ $t('settings_credits_button') }}
         </button>
 
         <div class="settings-popup__label">
-          {{ $t('setting_support_label') }}
+          {{ $t('settings_support_label') }}
         </div>
 
         <a
@@ -98,6 +109,18 @@ export default defineComponent({
           break
       }
 
+      this.$emit('save')
+    },
+
+    switchLanguage () {
+      const available = [
+        ...this.$i18n.availableLocales
+      ]
+      const current = this.$i18n.locale
+      const next = available[available.findIndex(language => current === language) + 1] ?? null
+
+      this.settings.setLanguage(next)
+      this.$i18n.locale = this.settings.getLanguage()
       this.$emit('save')
     }
   }
