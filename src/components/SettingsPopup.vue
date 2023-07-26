@@ -104,9 +104,7 @@ export default defineComponent({
 
   methods: {
     switchLanguage () {
-      const available = [
-        ...this.$i18n.availableLocales
-      ]
+      const available = this.$i18n.availableLocales
       const current = this.$i18n.locale
       const next = available[available.findIndex(language => current === language) + 1] ?? null
 

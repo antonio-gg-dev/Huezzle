@@ -35,13 +35,13 @@ export class GameGenerator {
     const fourthColor = this.generateFourthColor(contrast, brightness, firstColor, secondColor, thirdColor)
 
     const heightStepOptions = {
-      space: 'lab',
+      space: 'srgb',
       outputSpace: 'srgb',
       steps: this.boardHeight
     }
 
     const widthStepOptions = {
-      space: 'lab',
+      space: 'srgb',
       outputSpace: 'srgb',
       steps: this.boardWidth
     }
