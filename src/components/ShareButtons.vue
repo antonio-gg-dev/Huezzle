@@ -97,7 +97,7 @@ export default defineComponent({
     background-color: #2ecc71;
     padding: 1rem 2rem;
     border-radius: 99rem;
-    transition: background-color 0.2s linear;
+    transition: background-color calc(0.2s * var(--speed, 1)) linear;
     cursor: pointer;
     justify-self: center;
     margin: 0 auto 2rem;

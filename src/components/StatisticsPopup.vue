@@ -267,7 +267,7 @@ export default defineComponent({
     inset: 0;
     background-color: #fff5;
     backdrop-filter: blur(4px);
-    animation: fade 0.1s linear;
+    animation: fade calc(0.1s * var(--speed, 1)) linear;
     z-index: 3;
     overflow: hidden;
 
@@ -393,7 +393,7 @@ export default defineComponent({
     height: 5rem;
     aspect-ratio: 1 / 1;
     border-radius: 100%;
-    transition: all 0.2s linear;
+    transition: all calc(0.2s * var(--speed, 1)) linear;
     background-color: transparent;
     cursor: pointer;
     place-items: center;

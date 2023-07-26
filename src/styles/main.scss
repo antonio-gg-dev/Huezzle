@@ -42,6 +42,27 @@ body {
     color: #000;
     background: #fff;
   }
+
+  &.disabled {
+    --speed: 0;
+
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  &.fast {
+    --speed: 0.5;
+  }
+
+  &.normal {
+    --speed: 1;
+  }
+
+  &.slow {
+    --speed: 2;
+  }
 }
 
 #app {

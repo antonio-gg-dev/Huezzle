@@ -113,7 +113,7 @@ export default defineComponent({
     inset: 0;
     background-color: #fff5;
     backdrop-filter: blur(4px);
-    animation: fade 0.1s linear;
+    animation: fade calc(0.1s * var(--speed, 1)) linear;
     z-index: 3;
 
     @keyframes fade {

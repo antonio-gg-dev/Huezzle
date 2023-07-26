@@ -79,7 +79,7 @@ export default defineComponent({
     height: 50%;
     aspect-ratio: 1 / 1;
     border-radius: 100%;
-    transition: all 0.2s linear;
+    transition: all calc(0.2s * var(--speed, 1)) linear;
     background-color: transparent;
     cursor: pointer;
     place-items: center;

@@ -1,4 +1,4 @@
-import { Theme } from '@/entities/Settings'
+import { Animations, Theme } from '@/entities/Settings'
 
 export const en = {
   clipboard_button_label: 'Copy to clipboard',
@@ -36,6 +36,13 @@ export const en = {
     [Theme.auto]: 'Auto',
     [Theme.dark]: 'Dark',
     [Theme.light]: 'Light'
+  },
+  settings_animations_label: 'Animations',
+  settings_animations_button: {
+    [Animations.disabled]: 'Disabled',
+    [Animations.fast]: 'Fast',
+    [Animations.normal]: 'Normal',
+    [Animations.slow]: 'Slow'
   },
   settings_credits_label: 'Credits',
   settings_credits_button: 'Show',

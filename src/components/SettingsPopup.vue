@@ -24,6 +24,17 @@
         </button>
 
         <div class="settings-popup__label">
+          {{ $t('settings_animations_label') }}
+        </div>
+
+        <button
+          @click="switchAnimations"
+          class="settings-popup__button"
+        >
+          {{ $t('settings_animations_button.' + settings.getAnimations()) }}
+        </button>
+
+        <div class="settings-popup__label">
           {{ $t('settings_theme_label') }}
         </div>
 
@@ -75,7 +86,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Theme, Settings } from '@/entities/Settings'
+import { Animations, Settings, Theme } from '@/entities/Settings'
 
 export default defineComponent({
   emits: [
@@ -92,10 +103,17 @@ export default defineComponent({
   },
 
   methods: {
-    resetTutorial () {
-      this.settings.resetTutorial()
+    switchLanguage () {
+      const available = [
+        ...this.$i18n.availableLocales
+      ]
+      const current = this.$i18n.locale
+      const next = available[available.findIndex(language => current === language) + 1] ?? null
+
+      this.settings.setLanguage(next)
       this.$emit('save')
     },
+
     switchTheme () {
       switch (this.settings.getTheme()) {
         case Theme.auto:
@@ -112,15 +130,22 @@ export default defineComponent({
       this.$emit('save')
     },
 
-    switchLanguage () {
+    switchAnimations () {
       const available = [
-        ...this.$i18n.availableLocales
+        Animations.normal,
+        Animations.slow,
+        Animations.disabled,
+        Animations.fast
       ]
-      const current = this.$i18n.locale
-      const next = available[available.findIndex(language => current === language) + 1] ?? null
+      const current = this.settings.getAnimations()
+      const next = available[available.findIndex(animations => current === animations) + 1] ?? Animations.normal
 
-      this.settings.setLanguage(next)
-      this.$i18n.locale = this.settings.getLanguage()
+      this.settings.setAnimations(next)
+      this.$emit('save')
+    },
+
+    resetTutorial () {
+      this.settings.resetTutorial()
       this.$emit('save')
     }
   }
@@ -135,7 +160,7 @@ export default defineComponent({
     inset: 0;
     background-color: #fff5;
     backdrop-filter: blur(4px);
-    animation: fade 0.1s linear;
+    animation: fade calc(0.1s * var(--speed, 1)) linear;
     z-index: 3;
     overflow: hidden;
 
@@ -269,7 +294,7 @@ export default defineComponent({
     background-color: transparent;
     padding: 1rem 2rem;
     border-radius: 99rem;
-    transition: background-color 0.2s linear;
+    transition: background-color calc(0.2s * var(--speed, 1)) linear;
     cursor: pointer;
     place-self: end;
 

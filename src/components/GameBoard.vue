@@ -217,13 +217,17 @@ export default defineComponent({
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fff0;
-    text-shadow: 0 0.1rem 0.2rem #0000;
-    animation: appear 1.4s ease-in-out 2s,
-      blink 0.9s ease-in-out 3.4s alternate infinite;
+    color: #fffe;
+    text-shadow: 0 0.1rem 0.2rem #0008;
+    animation: appear calc(3.4s * var(--speed, 1)) linear,
+      blink calc(0.9s * var(--speed, 1)) linear calc(3.4s * var(--speed, 1)) alternate infinite;
 
     @keyframes appear {
       0% {
+        color: #fff0;
+        text-shadow: 0 0.1rem 0.2rem #0000;
+      }
+      60% {
         color: #fff0;
         text-shadow: 0 0.1rem 0.2rem #0000;
       }
@@ -262,7 +266,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s linear;
+    transition: transform calc(0.2s * var(--speed, 1)) linear;
 
     &--draggable {
       cursor: grab;
@@ -293,7 +297,7 @@ export default defineComponent({
       background-color: var(--color, transparent);
       position: fixed;
       transform: translate(-50%, -50%) scale(1.2);
-      animation: scale 0.1s linear;
+      animation: scale calc(0.1s * var(--speed, 1)) linear;
 
       @keyframes scale {
         0% {
