@@ -31,9 +31,11 @@
         <li>Daniel García Cañada</li>
         <li>Emmanuel Valverde Ramos</li>
         <li>Fabrizio Fasanando Sotelo</li>
-        <li>Fuensanta Sansano</li>
+        <li>Fuensanta Sansano Montoya</li>
         <li>Imanol Ramírez Poveda</li>
+        <li>Javier Pérez</li>
         <li>Jesús Valera Reales</li>
+        <li>Jonatan Galindo Álvarez</li>
         <li>José María Valera Reales</li>
         <li>Luz María Agulló Chazarra</li>
         <li>Melania Agulló Chazarra</li>
