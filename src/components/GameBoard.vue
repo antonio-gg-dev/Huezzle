@@ -59,6 +59,7 @@
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
         !cell.isFixed && board.isShuffled && !board.isSolved && settings.getMode() !== 'touch' && 'game-board__cell--draggable',
+        !cell.isFixed && board.isShuffled && !board.isSolved && (settings.getMode() === 'touch' || selected) && 'game-board__cell--touchable',
         fromId === cell.id && ghostActive && 'game-board__cell--grabbed',
       ]"
       :style="{
@@ -325,6 +326,10 @@ export default defineComponent({
 
     &--draggable {
       cursor: grab;
+    }
+
+    &--touchable {
+      cursor: pointer;
     }
 
     &--fixed {
