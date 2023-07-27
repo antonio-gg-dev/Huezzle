@@ -79,20 +79,14 @@ export class Board {
     this._isShuffled = true
 
     let movableIndex = 0
-    // const shuffleAmount = Math.round(this.random.minMax(5, 10))
+    const shuffleAmount = Math.round(this.random.minMax(5, 10))
     const movableCells = this._cells
       .flat()
       .filter((cell) => !cell.isFixed)
 
-    // for (let i = 0; i < shuffleAmount; i++) {
-    //   movableCells.sort(() => this.random.minMax(-1, 1))
-    // }
-    const tmp = movableCells[0]
-    movableCells[0] = movableCells[1]
-    movableCells[1] = movableCells[2]
-    movableCells[2] = movableCells[3]
-    movableCells[3] = movableCells[4]
-    movableCells[4] = tmp
+    for (let i = 0; i < shuffleAmount; i++) {
+      movableCells.sort(() => this.random.minMax(-1, 1))
+    }
 
     this._cells = this._cells.map((cell) => {
       if (cell.isFixed) {
