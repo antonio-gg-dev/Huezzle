@@ -123,7 +123,7 @@ export default defineComponent({
         this.ghostLeft !== null &&
         (
           this.settings.getMode() === Mode.grab ||
-          (DateTime.now().diff(this.touchStart ?? DateTime.now()).toMillis() ?? 0) > 2000
+          (DateTime.now().diff(this.touchStart ?? DateTime.now()).toMillis() ?? 0) > 200
         )
     }
   },
@@ -220,7 +220,7 @@ export default defineComponent({
         this.fromId === cellId &&
         !this.selected &&
         this.touchStart &&
-        (DateTime.now().diff(this.touchStart).toMillis() ?? Infinity) < 2000
+        (DateTime.now().diff(this.touchStart).toMillis() ?? Infinity) < 200
       ) {
         this.selected = true
         return
