@@ -28,7 +28,7 @@
     class="game-board__tutorial-grab"
     v-if="settings.showTutorial() && board.isShuffled && board.movements === 0"
   >
-    {{ $t('tutorial_grab_message') }}
+    {{ $t(settings.getMode() === 'touch' ? 'tutorial_touch_message' : 'tutorial_grab_message') }}
   </div>
 
   <div

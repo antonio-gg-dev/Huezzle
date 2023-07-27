@@ -10,6 +10,7 @@ export const en = {
   victory_next_huezzle_label: 'Next Huezzle:',
   tutorial_start_message: 'Touch to start',
   tutorial_grab_message: 'Drag one cell over another to swap their positions',
+  tutorial_touch_message: 'Touch one cell and then another to swap their positions',
   tutorial_sort_message: 'Sort all cells again to win',
   footer_victory_button_label: 'View score',
   footer_statistics_button_label: 'View stats',
