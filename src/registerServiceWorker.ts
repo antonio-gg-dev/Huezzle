@@ -1,6 +1,17 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
+import { reactive } from 'vue'
+
+export const enum UpdateStatus {
+  noUpdates = 'noUpdates',
+  downloading = 'downloading',
+  ready = 'ready'
+}
+
+export const updateStatus = reactive({
+  status: UpdateStatus.noUpdates
+})
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
@@ -18,6 +29,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     updatefound () {
       console.log('New version is downloading.')
+      updateStatus.status = UpdateStatus.downloading
     },
     updated () {
       console.log('New version is available; reloading.')
@@ -26,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
           caches.delete(cacheName)
         })
       }).finally(() => {
-        window.location.reload()
+        updateStatus.status = UpdateStatus.ready
       })
     },
     offline () {
