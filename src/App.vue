@@ -56,7 +56,7 @@ import { bindings } from '@/bindings'
 import FooterOptions from '@/components/FooterOptions.vue'
 import StatisticsPopup from '@/components/StatisticsPopup.vue'
 import SettingsPopup from '@/components/SettingsPopup.vue'
-import { Theme, Animations } from '@/entities/Settings'
+import { Theme, Animations, Mode } from '@/entities/Settings'
 import CreditsPopup from '@/components/CreditsPopup.vue'
 
 export default defineComponent({
@@ -100,6 +100,7 @@ export default defineComponent({
       this.settingsRepository.store(this.settings)
 
       this.setLanguage()
+      this.setMode()
       this.setTheme()
       this.setAnimations()
     },
@@ -116,6 +117,16 @@ export default defineComponent({
       )
 
       document.body.classList.add(this.settings.getTheme())
+    },
+
+    setMode () {
+      document.body.classList.remove(
+        Mode.both,
+        Mode.grab,
+        Mode.touch
+      )
+
+      document.body.classList.add(this.settings.getMode())
     },
 
     setAnimations () {
@@ -175,6 +186,7 @@ export default defineComponent({
 
   created () {
     this.setLanguage()
+    this.setMode()
     this.setTheme()
     this.setAnimations()
   }

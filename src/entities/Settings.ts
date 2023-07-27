@@ -11,11 +11,18 @@ export const enum Animations {
   slow = 'slow'
 }
 
+export const enum Mode {
+  both = 'both',
+  grab = 'grab',
+  touch = 'touch'
+}
+
 export interface RawSettings {
-  tutorialDone: boolean | undefined,
-  theme: Theme | undefined,
+  tutorialDone: boolean | undefined
+  theme: Theme | undefined
   language: string | null | undefined
   animations: Animations | undefined
+  mode: Mode | undefined
 }
 
 export class Settings {
@@ -23,7 +30,8 @@ export class Settings {
     public tutorialDone: boolean,
     public theme: Theme,
     public language: string | null,
-    public animations: Animations
+    public animations: Animations,
+    public mode: Mode
   ) {}
 
   resetTutorial (): Settings {
@@ -69,21 +77,32 @@ export class Settings {
     return this.animations
   }
 
+  setMode (mode: Mode): Settings {
+    this.mode = mode
+    return this
+  }
+
+  getMode (): Mode {
+    return this.mode
+  }
+
   toRaw (): RawSettings {
     return {
       tutorialDone: this.tutorialDone,
       theme: this.theme,
       language: this.language,
-      animations: this.animations
+      animations: this.animations,
+      mode: this.mode
     }
   }
 
-  static fromRaw ({ tutorialDone, theme, language, animations }: RawSettings): Settings {
+  static fromRaw ({ tutorialDone, theme, language, animations, mode }: RawSettings): Settings {
     return new Settings(
       tutorialDone ?? false,
       theme ?? Theme.auto,
       language ?? null,
-      animations ?? Animations.normal
+      animations ?? Animations.normal,
+      mode ?? Mode.both
     )
   }
 }

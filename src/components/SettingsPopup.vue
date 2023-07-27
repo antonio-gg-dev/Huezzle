@@ -24,6 +24,17 @@
         </button>
 
         <div class="settings-popup__label">
+          {{ $t('settings_mode_label') }}
+        </div>
+
+        <button
+          @click="switchMode"
+          class="settings-popup__button"
+        >
+          {{ $t('settings_mode_button.' + settings.getMode()) }}
+        </button>
+
+        <div class="settings-popup__label">
           {{ $t('settings_animations_label') }}
         </div>
 
@@ -86,7 +97,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Animations, Settings, Theme } from '@/entities/Settings'
+import { Animations, Mode, Settings, Theme } from '@/entities/Settings'
 
 export default defineComponent({
   emits: [
@@ -109,6 +120,19 @@ export default defineComponent({
       const next = available[available.findIndex(language => current === language) + 1] ?? null
 
       this.settings.setLanguage(next)
+      this.$emit('save')
+    },
+
+    switchMode () {
+      const available = [
+        Mode.both,
+        Mode.grab,
+        Mode.touch
+      ]
+      const current = this.settings.getMode()
+      const next = available[available.findIndex(mode => current === mode) + 1] ?? Mode.both
+
+      this.settings.setMode(next)
       this.$emit('save')
     },
 

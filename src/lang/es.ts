@@ -1,4 +1,4 @@
-import { Animations, Theme } from '@/entities/Settings'
+import { Animations, Mode, Theme } from '@/entities/Settings'
 
 export const es = {
   clipboard_button_label: 'Copiar al portapapeles',
@@ -43,6 +43,12 @@ export const es = {
     [Animations.fast]: 'Rápidas',
     [Animations.normal]: 'Normales',
     [Animations.slow]: 'Lentas'
+  },
+  settings_mode_label: 'Modo de intercambio',
+  settings_mode_button: {
+    [Mode.both]: 'Ambos',
+    [Mode.grab]: 'Agarrar',
+    [Mode.touch]: 'Tocar'
   },
   settings_credits_label: 'Créditos',
   settings_credits_button: 'Ver',
