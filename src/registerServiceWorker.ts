@@ -26,13 +26,14 @@ if (process.env.NODE_ENV === 'production') {
     },
     cached () {
       console.log('Game has been cached for offline use.')
+      updateStatus.status = UpdateStatus.noUpdates
     },
     updatefound () {
       console.log('New version is downloading.')
       updateStatus.status = UpdateStatus.downloading
     },
     updated () {
-      console.log('New version is available; reloading.')
+      console.log('New version is available.')
       caches.keys().then((cacheNames) => {
         cacheNames.forEach((cacheName) => {
           caches.delete(cacheName)
