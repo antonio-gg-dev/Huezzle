@@ -61,5 +61,8 @@ export const es = {
   credits_thanks: 'Agradecimientos',
   credits_sub_thanks: 'por apoyar el desarrollo, aportar ideas y ayudar probando el juego',
   credits_libraries: 'Todas las personas que han desarrollado las bibliotecas y herramientas que me han ayudado a crear este juego',
-  credits_family: 'y en especial a mi familia y amigos'
+  credits_family: 'y en especial a mi familia y amigos',
+  updates_downloading_message: 'Descargando actualización...',
+  updates_ready_message: '¡Actualización lista!',
+  updates_ready_button: 'Aplicar'
 }
