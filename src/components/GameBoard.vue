@@ -46,7 +46,14 @@
       :style="{
         '--color': cell.color
       } as CSSStyleDeclaration"
-    />
+    >
+      <img
+        v-if="cell.isFixed"
+        class="game-board__fixed-image"
+        src="/img/fixed.svg"
+        alt=""
+      >
+    </div>
   </TransitionGroup>
 </template>
 
@@ -263,6 +270,7 @@ export default defineComponent({
   &__board {
     display: grid;
     grid-template-columns: repeat(var(--rowWidth), 1fr);
+    grid-auto-rows: 1fr;
     width: 100%;
     aspect-ratio: 4 / 5;
     background-color: #000;
@@ -293,23 +301,6 @@ export default defineComponent({
 
     &--fixed {
       pointer-events: none;
-      box-shadow: inset 0 0 0 1vh var(--color),
-        inset 0 0 0 1.25vh #fff6;
-
-      @media (prefers-color-scheme: dark) {
-        box-shadow: inset 0 0 0 1vh var(--color),
-          inset 0 0 0 1.25vh #0006;
-      }
-
-      .dark & {
-        box-shadow: inset 0 0 0 1vh var(--color),
-          inset 0 0 0 1.25vh #0006;
-      }
-
-      .light & {
-        box-shadow: inset 0 0 0 1vh var(--color),
-          inset 0 0 0 1.25vh #fff6;
-      }
     }
 
     &--grabbed {
@@ -318,6 +309,24 @@ export default defineComponent({
 
     &--grabbing {
       cursor: grabbing;
+    }
+  }
+
+  &__fixed-image {
+    height: 3vh;
+    opacity: 0.5;
+    filter: invert(1);
+
+    @media (prefers-color-scheme: dark) {
+      filter: invert(0);
+    }
+
+    .dark & {
+      filter: invert(0);
+    }
+
+    .light & {
+      filter: invert(1);
     }
   }
 
