@@ -3,6 +3,8 @@
     Huezzle
   </h1>
 
+  <UpdateBar />
+
   <GameBoard
     :board="board"
     :settings="settings"
@@ -58,9 +60,11 @@ import StatisticsPopup from '@/components/StatisticsPopup.vue'
 import SettingsPopup from '@/components/SettingsPopup.vue'
 import { Theme, Animations, Mode } from '@/entities/Settings'
 import CreditsPopup from '@/components/CreditsPopup.vue'
+import UpdateBar from '@/components/UpdateBar.vue'
 
 export default defineComponent({
   components: {
+    UpdateBar,
     CreditsPopup,
     SettingsPopup,
     StatisticsPopup,
