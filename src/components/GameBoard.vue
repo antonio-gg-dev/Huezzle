@@ -4,6 +4,7 @@
     :class="[
       'game-board__ghost',
       ghostActive && 'game-board__ghost--active',
+      selected && 'game-board__ghost--selected',
     ]"
     :style="{
       '--color': ghostColor,
@@ -57,8 +58,8 @@
       :class="[
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
-        !cell.isFixed && board.isShuffled && !board.isSolved && 'game-board__cell--draggable',
-        fromId === cell.id && ghostActive && 'game-board__cell--grabbed'
+        !cell.isFixed && board.isShuffled && !board.isSolved && settings.getMode() !== 'touch' && 'game-board__cell--draggable',
+        fromId === cell.id && ghostActive && 'game-board__cell--grabbed',
       ]"
       :style="{
         '--color': cell.color
@@ -71,12 +72,15 @@
 import { defineComponent, PropType } from 'vue'
 import { Board } from '@/entities/Board'
 import { Cell } from '@/entities/Cell'
-import { Settings } from '@/entities/Settings'
+import { Mode, Settings } from '@/entities/Settings'
+import { DateTime } from 'luxon'
 
 export default defineComponent({
   data () {
     return {
       fromId: null as Cell['id'] | null,
+      touchStart: null as DateTime | null,
+      selected: false,
       ghostColor: null as Cell['color'] | null,
       ghostWidth: null as string | null,
       ghostHeight: null as string | null,
@@ -108,19 +112,27 @@ export default defineComponent({
 
   computed: {
     ghostActive (): boolean {
-      return this.ghostColor !== null &&
+      return this.settings.getMode() !== Mode.touch &&
+        this.ghostColor !== null &&
         this.ghostWidth !== null &&
         this.ghostHeight !== null &&
         this.ghostStartTop !== null &&
         this.ghostStartLeft !== null &&
         this.ghostTop !== null &&
-        this.ghostLeft !== null
+        this.ghostLeft !== null &&
+        (
+          this.settings.getMode() === Mode.grab ||
+          (DateTime.now().diff(this.touchStart ?? DateTime.now()).toMillis() ?? 0) > 2000
+        )
     }
   },
 
   methods: {
     shuffle () {
-      if (this.board.isShuffled || this.alreadyPlayed) {
+      if (
+        this.board.isShuffled ||
+        this.alreadyPlayed
+      ) {
         return
       }
 
@@ -128,8 +140,23 @@ export default defineComponent({
       this.$emit('start')
     },
 
+    reset () {
+      this.fromId = null
+      this.ghostColor = null
+      this.ghostWidth = null
+      this.ghostHeight = null
+      this.ghostStartTop = null
+      this.ghostStartLeft = null
+      this.ghostTop = null
+      this.ghostLeft = null
+      this.selected = false
+    },
+
     grab (event: MouseEvent | TouchEvent) {
-      if (!this.board.isShuffled || this.board.isSolved) {
+      if (
+        !this.board.isShuffled ||
+        this.board.isSolved
+      ) {
         return
       }
 
@@ -142,6 +169,18 @@ export default defineComponent({
         return
       }
 
+      const cellId = cell.getAttribute('data-cell-id') ?? null
+
+      if (
+        this.selected &&
+        this.fromId &&
+        cellId
+      ) {
+        this.board.swap(this.fromId, cellId)
+        this.reset()
+        return
+      }
+
       const rect = cell.getBoundingClientRect()
 
       this.ghostStartTop = `${rect.top}px`
@@ -151,16 +190,17 @@ export default defineComponent({
 
       this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
       this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
-      this.fromId = cell.getAttribute('data-cell-id') ?? null
+      this.fromId = cellId
       this.ghostColor = cell.getAttribute('data-cell-color') ?? null
+      this.touchStart = DateTime.now()
     },
 
     drop (event: MouseEvent | TouchEvent) {
-      if (!this.board.isShuffled || this.board.isSolved) {
-        return
-      }
-
-      if (this.fromId === null) {
+      if (
+        !this.board.isShuffled ||
+        this.board.isSolved ||
+        this.fromId === null
+      ) {
         return
       }
 
@@ -169,22 +209,37 @@ export default defineComponent({
         'pageY' in event ? event.pageY : event.changedTouches[0].pageY
       )?.getAttribute('data-cell-id')
 
-      if (cellId) {
-        this.board.swap(this.fromId, cellId)
+      if (!cellId) {
+        this.reset()
+        return
       }
 
-      this.fromId = null
-      this.ghostColor = null
-      this.ghostWidth = null
-      this.ghostHeight = null
-      this.ghostStartTop = null
-      this.ghostStartLeft = null
-      this.ghostTop = null
-      this.ghostLeft = null
+      if (
+        this.settings.getMode() !== Mode.grab &&
+        this.fromId === cellId &&
+        !this.selected &&
+        this.touchStart &&
+        (DateTime.now().diff(this.touchStart).toMillis() ?? Infinity) < 2000
+      ) {
+        this.selected = true
+        return
+      }
+
+      if (this.settings.getMode() === Mode.touch) {
+        return
+      }
+
+      this.board.swap(this.fromId, cellId)
+      this.reset()
     },
 
     over (event: MouseEvent | TouchEvent) {
-      if (!this.board.isShuffled || this.board.isSolved) {
+      if (
+        !this.board.isShuffled ||
+        this.board.isSolved ||
+        this.settings.getMode() === Mode.touch ||
+        this.selected
+      ) {
         return
       }
 
@@ -312,9 +367,9 @@ export default defineComponent({
       background-color: var(--color, transparent);
       position: fixed;
       transform: translate(-50%, -50%) scale(1.2);
-      animation: scale calc(0.1s * var(--speed, 1)) linear;
+      animation: scale-active calc(0.1s * var(--speed, 1)) linear;
 
-      @keyframes scale {
+      @keyframes scale-active {
         0% {
           top: var(--startTop, 0);
           left: var(--startLeft, 0);
@@ -324,6 +379,27 @@ export default defineComponent({
           top: var(--top, 0);
           left: var(--left, 0);
           transform: translate(-50%, -50%) scale(1.2);
+        }
+      }
+    }
+
+    &--selected {
+      display: block;
+      width: var(--width, 0);
+      height: var(--height, 0);
+      top: var(--startTop, 0);
+      left: var(--startLeft, 0);
+      background-color: var(--color, transparent);
+      position: fixed;
+      transform: scale(1.2);
+      animation: scale-selected calc(0.1s * var(--speed, 1)) linear;
+
+      @keyframes scale-selected {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.2);
         }
       }
     }
