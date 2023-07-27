@@ -17,27 +17,6 @@
     }"
   />
 
-  <div
-    class="game-board__tutorial-start"
-    v-if="settings.showTutorial() && !board.isShuffled && !alreadyPlayed"
-  >
-    {{ $t('tutorial_start_message') }}
-  </div>
-
-  <div
-    class="game-board__tutorial-grab"
-    v-if="settings.showTutorial() && board.isShuffled && board.movements === 0"
-  >
-    {{ $t(settings.getMode() === 'touch' ? 'tutorial_touch_message' : 'tutorial_grab_message') }}
-  </div>
-
-  <div
-    class="game-board__tutorial-sort"
-    v-if="settings.showTutorial() && board.isShuffled && board.movements === 1"
-  >
-    {{ $t('tutorial_sort_message') }}
-  </div>
-
   <TransitionGroup
     tag="div"
     :class="[
@@ -281,49 +260,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .game-board {
-  &__tutorial-start,
-  &__tutorial-grab,
-  &__tutorial-sort {
-    pointer-events: none;
-    text-align: center;
-    font-weight: 700;
-    font-size: 2rem;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fffe;
-    text-shadow: 0 0.1rem 0.2rem #0008;
-    animation: appear calc(3.4s * var(--speed, 1)) linear,
-      blink calc(0.9s * var(--speed, 1)) linear calc(3.4s * var(--speed, 1)) alternate infinite;
-
-    @keyframes appear {
-      0% {
-        color: #fff0;
-        text-shadow: 0 0.1rem 0.2rem #0000;
-      }
-      60% {
-        color: #fff0;
-        text-shadow: 0 0.1rem 0.2rem #0000;
-      }
-      100% {
-        color: #fffe;
-        text-shadow: 0 0.1rem 0.2rem #0008;
-      }
-    }
-
-    @keyframes blink {
-      0% {
-        color: #fffe;
-        text-shadow: 0 0.1rem 0.2rem #0008;
-      }
-      100% {
-        color: #fff5;
-        text-shadow: 0 0.1rem 0.2rem #0000;
-      }
-    }
-  }
-
   &__board {
     display: grid;
     grid-template-columns: repeat(var(--rowWidth), 1fr);

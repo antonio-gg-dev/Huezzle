@@ -5,6 +5,12 @@
 
   <UpdateBar />
 
+  <OnboardingTutorial
+    :board="board"
+    :settings="settings"
+    :already-played="!!score"
+  />
+
   <GameBoard
     :board="board"
     :settings="settings"
@@ -61,9 +67,11 @@ import SettingsPopup from '@/components/SettingsPopup.vue'
 import { Theme, Animations, Mode } from '@/entities/Settings'
 import CreditsPopup from '@/components/CreditsPopup.vue'
 import UpdateBar from '@/components/UpdateBar.vue'
+import OnboardingTutorial from '@/components/OnboardingTutorial.vue'
 
 export default defineComponent({
   components: {
+    OnboardingTutorial,
     UpdateBar,
     CreditsPopup,
     SettingsPopup,
