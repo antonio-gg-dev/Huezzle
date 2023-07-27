@@ -3,7 +3,7 @@
     ref="ghost"
     :class="[
       'game-board__ghost',
-      ghostActive && 'game-board__ghost--active',
+      isGhostActive && 'game-board__ghost--active',
       selected && 'game-board__ghost--selected',
     ]"
     :style="{
@@ -42,7 +42,8 @@
     tag="div"
     :class="[
       'game-board__board',
-      !board.isShuffled && !alreadyPlayed && 'game-board__board--not-shuffled'
+      !board.isShuffled && !alreadyPlayed && 'game-board__board--not-shuffled',
+      isGhostActive && 'game-board__board--grabbing'
     ]"
     @click="shuffle"
     name="game-board__fade"
@@ -58,9 +59,10 @@
       :class="[
         'game-board__cell',
         cell.isFixed && 'game-board__cell--fixed',
-        !cell.isFixed && board.isShuffled && !board.isSolved && settings.getMode() !== 'touch' && 'game-board__cell--draggable',
-        !cell.isFixed && board.isShuffled && !board.isSolved && (settings.getMode() === 'touch' || selected) && 'game-board__cell--touchable',
-        fromId === cell.id && ghostActive && 'game-board__cell--grabbed',
+        isDraggable(cell) && 'game-board__cell--draggable',
+        isTouchable(cell) && 'game-board__cell--touchable',
+        fromId === cell.id && isGhostActive && 'game-board__cell--grabbed',
+        isGhostActive && 'game-board__cell--grabbing',
       ]"
       :style="{
         '--color': cell.color
@@ -112,7 +114,7 @@ export default defineComponent({
   ],
 
   computed: {
-    ghostActive (): boolean {
+    isGhostActive (): boolean {
       return this.settings.getMode() !== Mode.touch &&
         this.ghostColor !== null &&
         this.ghostWidth !== null &&
@@ -246,6 +248,23 @@ export default defineComponent({
 
       this.ghostTop = `${'pageY' in event ? event.pageY : event.touches[0].pageY}px`
       this.ghostLeft = `${'pageX' in event ? event.pageX : event.touches[0].pageX}px`
+    },
+
+    isDraggable (cell: Cell): boolean {
+      return !cell.isFixed &&
+        this.board.isShuffled &&
+        !this.board.isSolved &&
+        this.settings.getMode() !== 'touch'
+    },
+
+    isTouchable (cell: Cell): boolean {
+      return !cell.isFixed &&
+        this.board.isShuffled &&
+        !this.board.isSolved &&
+        (
+          this.settings.getMode() === 'touch' ||
+          this.selected
+        )
     }
   },
 
@@ -315,6 +334,10 @@ export default defineComponent({
     &--not-shuffled {
       cursor: pointer;
     }
+
+    &--grabbing {
+      cursor: grabbing;
+    }
   }
 
   &__cell {
@@ -355,6 +378,10 @@ export default defineComponent({
 
     &--grabbed {
       background-color: transparent;
+    }
+
+    &--grabbing {
+      cursor: grabbing;
     }
   }
 
