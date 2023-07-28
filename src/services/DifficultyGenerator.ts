@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
 
 export const enum Difficulty {
-  chill = 'chill',
-  skilled = 'skilled',
-  challenge = 'challenge',
+  easy = 'easy',
+  normal = 'normal',
+  hard = 'hard',
 }
 
 export class DifficultyGenerator {
@@ -14,21 +14,21 @@ export class DifficultyGenerator {
   public generate (): Difficulty {
     switch (this.date.weekday) {
       case (1): /* Monday */
-        return Difficulty.skilled
+        return Difficulty.normal
       case (2): /* Tuesday */
-        return Difficulty.chill
+        return Difficulty.easy
       case (3): /* Wednesday */
-        return Difficulty.chill
+        return Difficulty.easy
       case (4): /* Thursday */
-        return Difficulty.chill
+        return Difficulty.easy
       case (5): /* Friday */
-        return Difficulty.skilled
+        return Difficulty.normal
       case (6): /* Saturday */
-        return Difficulty.challenge
+        return Difficulty.hard
       case (7): /* Sunday */
-        return Difficulty.challenge
+        return Difficulty.hard
     }
 
-    return Difficulty.chill
+    return Difficulty.easy
   }
 }

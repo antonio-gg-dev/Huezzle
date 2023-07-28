@@ -19,14 +19,14 @@ export class FrozenCellsGenerator {
 
   public generate (): Coordinate[] {
     switch (this.difficulty) {
-      case Difficulty.chill:
+      case Difficulty.easy:
         return this.random.from([
           () => this.generateChess(),
           () => this.generateDots(),
           () => this.generateWindow(),
           () => this.generateSquare()
         ])()
-      case Difficulty.skilled:
+      case Difficulty.normal:
         return this.random.from([
           () => this.generateChess(),
           () => this.generateDots(),
@@ -35,7 +35,7 @@ export class FrozenCellsGenerator {
           () => this.generateXSides(),
           () => this.generateYSides()
         ])()
-      case Difficulty.challenge:
+      case Difficulty.hard:
         return this.random.from([
           () => this.generateSquare(),
           () => this.generateXSides(),

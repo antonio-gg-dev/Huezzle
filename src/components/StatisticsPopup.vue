@@ -30,14 +30,14 @@
         <button
           :class="[
             'statistics-popup__button',
-            page === 'chill' && 'statistics-popup__button--active'
+            page === 'easy' && 'statistics-popup__button--active'
           ]"
-          :title="$t('difficulty_chill')"
-          @click="page = 'chill'"
+          :title="$t('difficulty_easy')"
+          @click="page = 'easy'"
         >
           <img
             class="statistics-popup__icon"
-            src="/img/statistics-chill.svg"
+            src="/img/statistics-easy.svg"
             alt=""
           >
         </button>
@@ -45,14 +45,14 @@
         <button
           :class="[
           'statistics-popup__button',
-          page === 'skilled' && 'statistics-popup__button--active'
+          page === 'normal' && 'statistics-popup__button--active'
         ]"
-          :title="$t('difficulty_skilled')"
-          @click="page = 'skilled'"
+          :title="$t('difficulty_normal')"
+          @click="page = 'normal'"
         >
           <img
             class="statistics-popup__icon"
-            src="/img/statistics-skilled.svg"
+            src="/img/statistics-normal.svg"
             alt=""
           >
         </button>
@@ -60,14 +60,14 @@
         <button
           :class="[
             'statistics-popup__button',
-            page === 'challenge' && 'statistics-popup__button--active'
+            page === 'hard' && 'statistics-popup__button--active'
           ]"
-          :title="$t('difficulty_challenge')"
-          @click="page = 'challenge'"
+          :title="$t('difficulty_hard')"
+          @click="page = 'hard'"
         >
           <img
             class="statistics-popup__icon"
-            src="/img/statistics-challenge.svg"
+            src="/img/statistics-hard.svg"
             alt=""
           >
         </button>
@@ -91,46 +91,46 @@
       <StatisticsPage
         :class="[
           'statistics-popup__page',
-          page === 'chill' && 'statistics-popup__page--active'
+          page === 'easy' && 'statistics-popup__page--active'
         ]"
-        difficulty="chill"
-        :played-games="statistics.chill.playedGames"
-        :total-time="statistics.chill.totalTime"
-        :total-movements="statistics.chill.totalMovements"
-        :average-time="statistics.chill.averageTime"
-        :average-movements="statistics.chill.averageMovements"
-        :best-time="statistics.chill.bestTime"
-        :best-movements="statistics.chill.bestMovements"
+        difficulty="easy"
+        :played-games="statistics.easy.playedGames"
+        :total-time="statistics.easy.totalTime"
+        :total-movements="statistics.easy.totalMovements"
+        :average-time="statistics.easy.averageTime"
+        :average-movements="statistics.easy.averageMovements"
+        :best-time="statistics.easy.bestTime"
+        :best-movements="statistics.easy.bestMovements"
       />
 
       <StatisticsPage
         :class="[
           'statistics-popup__page',
-          page === 'skilled' && 'statistics-popup__page--active'
+          page === 'normal' && 'statistics-popup__page--active'
         ]"
-        difficulty="skilled"
-        :played-games="statistics.skilled.playedGames"
-        :total-time="statistics.skilled.totalTime"
-        :total-movements="statistics.skilled.totalMovements"
-        :average-time="statistics.skilled.averageTime"
-        :average-movements="statistics.skilled.averageMovements"
-        :best-time="statistics.skilled.bestTime"
-        :best-movements="statistics.skilled.bestMovements"
+        difficulty="normal"
+        :played-games="statistics.normal.playedGames"
+        :total-time="statistics.normal.totalTime"
+        :total-movements="statistics.normal.totalMovements"
+        :average-time="statistics.normal.averageTime"
+        :average-movements="statistics.normal.averageMovements"
+        :best-time="statistics.normal.bestTime"
+        :best-movements="statistics.normal.bestMovements"
       />
 
       <StatisticsPage
         :class="[
           'statistics-popup__page',
-          page === 'challenge' && 'statistics-popup__page--active'
+          page === 'hard' && 'statistics-popup__page--active'
         ]"
-        difficulty="challenge"
-        :played-games="statistics.challenge.playedGames"
-        :total-time="statistics.challenge.totalTime"
-        :total-movements="statistics.challenge.totalMovements"
-        :average-time="statistics.challenge.averageTime"
-        :average-movements="statistics.challenge.averageMovements"
-        :best-time="statistics.challenge.bestTime"
-        :best-movements="statistics.challenge.bestMovements"
+        difficulty="hard"
+        :played-games="statistics.hard.playedGames"
+        :total-time="statistics.hard.totalTime"
+        :total-movements="statistics.hard.totalMovements"
+        :average-time="statistics.hard.averageTime"
+        :average-movements="statistics.hard.averageMovements"
+        :best-time="statistics.hard.bestTime"
+        :best-movements="statistics.hard.bestMovements"
       />
     </div>
   </div>
@@ -175,7 +175,7 @@ export default defineComponent({
         averageTime: Duration.fromObject({}),
         bestMovements: null as null | number,
         bestTime: null as null | Duration,
-        [Difficulty.chill]: {
+        [Difficulty.easy]: {
           playedGames: 0,
           totalMovements: 0,
           totalTime: Duration.fromObject({}),
@@ -184,7 +184,7 @@ export default defineComponent({
           bestMovements: null as null | number,
           bestTime: null as null | Duration
         },
-        [Difficulty.skilled]: {
+        [Difficulty.normal]: {
           playedGames: 0,
           totalMovements: 0,
           totalTime: Duration.fromObject({}),
@@ -193,7 +193,7 @@ export default defineComponent({
           bestMovements: null as null | number,
           bestTime: null as null | Duration
         },
-        [Difficulty.challenge]: {
+        [Difficulty.hard]: {
           playedGames: 0,
           totalMovements: 0,
           totalTime: Duration.fromObject({}),
@@ -238,19 +238,19 @@ export default defineComponent({
         statistics.averageTime = Duration.fromMillis(statistics.totalTime.toMillis() / statistics.playedGames)
       }
 
-      if (statistics.chill.playedGames) {
-        statistics.chill.averageMovements = statistics.chill.totalMovements / statistics.chill.playedGames
-        statistics.chill.averageTime = Duration.fromMillis(statistics.chill.totalTime.toMillis() / statistics.chill.playedGames)
+      if (statistics.easy.playedGames) {
+        statistics.easy.averageMovements = statistics.easy.totalMovements / statistics.easy.playedGames
+        statistics.easy.averageTime = Duration.fromMillis(statistics.easy.totalTime.toMillis() / statistics.easy.playedGames)
       }
 
-      if (statistics.skilled.playedGames) {
-        statistics.skilled.averageMovements = statistics.skilled.totalMovements / statistics.skilled.playedGames
-        statistics.skilled.averageTime = Duration.fromMillis(statistics.skilled.totalTime.toMillis() / statistics.skilled.playedGames)
+      if (statistics.normal.playedGames) {
+        statistics.normal.averageMovements = statistics.normal.totalMovements / statistics.normal.playedGames
+        statistics.normal.averageTime = Duration.fromMillis(statistics.normal.totalTime.toMillis() / statistics.normal.playedGames)
       }
 
-      if (statistics.challenge.playedGames) {
-        statistics.challenge.averageMovements = statistics.challenge.totalMovements / statistics.challenge.playedGames
-        statistics.challenge.averageTime = Duration.fromMillis(statistics.challenge.totalTime.toMillis() / statistics.challenge.playedGames)
+      if (statistics.hard.playedGames) {
+        statistics.hard.averageMovements = statistics.hard.totalMovements / statistics.hard.playedGames
+        statistics.hard.averageTime = Duration.fromMillis(statistics.hard.totalTime.toMillis() / statistics.hard.playedGames)
       }
 
       return statistics
