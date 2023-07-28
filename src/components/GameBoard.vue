@@ -255,11 +255,14 @@ export default defineComponent({
   },
 
   mounted () {
-    document.addEventListener('mousedown', this.grab)
+    if (!navigator.maxTouchPoints) {
+      document.addEventListener('mousedown', this.grab)
+      document.addEventListener('mousemove', this.over)
+      document.addEventListener('mouseup', this.drop)
+    }
+
     document.addEventListener('touchstart', this.grab)
-    document.addEventListener('mousemove', this.over)
     document.addEventListener('touchmove', this.over)
-    document.addEventListener('mouseup', this.drop)
     document.addEventListener('touchend', this.drop)
   }
 })
