@@ -65,5 +65,7 @@ export const es = {
   credits_family: 'y en especial a mi familia y amigos',
   updates_downloading_message: 'Descargando actualización...',
   updates_ready_message: '¡Actualización lista!',
-  updates_ready_button: 'Aplicar'
+  updates_ready_button: 'Aplicar',
+  new_puzzle_message: '¡Hay un nuevo Huezzle disponible!',
+  new_puzzle_button: 'Vamos'
 }

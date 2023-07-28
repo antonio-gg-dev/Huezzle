@@ -5,6 +5,8 @@
 
   <UpdateBar />
 
+  <NewPuzzle />
+
   <OnboardingTutorial
     :board="board"
     :settings="settings"
@@ -25,17 +27,17 @@
     @open-settings-popup="openPopup = 'settings'"
   />
 
+  <StatisticsPopup
+    v-if="openPopup === 'statistics'"
+    @close="openPopup = null"
+    :scores="scoreRepository.getAll()"
+  />
+
   <VictoryPopup
-    v-if="score && openPopup === 'victory'"
+    v-else-if="score && openPopup === 'victory'"
     :movements="score.movements"
     :time="score.time"
     @close="openPopup = null"
-  />
-
-  <StatisticsPopup
-    v-else-if="openPopup === 'statistics'"
-    @close="openPopup = null"
-    :scores="scoreRepository.getAll()"
   />
 
   <SettingsPopup
@@ -68,24 +70,26 @@ import { Theme, Animations, Mode } from '@/entities/Settings'
 import CreditsPopup from '@/components/CreditsPopup.vue'
 import UpdateBar from '@/components/UpdateBar.vue'
 import OnboardingTutorial from '@/components/OnboardingTutorial.vue'
+import NewPuzzle from '@/components/NewPuzzle.vue'
 
 export default defineComponent({
   components: {
-    OnboardingTutorial,
     UpdateBar,
-    CreditsPopup,
-    SettingsPopup,
-    StatisticsPopup,
+    NewPuzzle,
+    OnboardingTutorial,
+    GameBoard,
     FooterOptions,
+    StatisticsPopup,
     VictoryPopup,
-    GameBoard
+    SettingsPopup,
+    CreditsPopup
   },
 
   data () {
     return {
       ...bindings,
       board: new GameGenerator().generate(),
-      openPopup: 'victory' as null | 'victory' | 'statistics' | 'settings' | 'credits',
+      openPopup: 'victory' as null | 'statistics' | 'victory' | 'settings' | 'credits',
       startAt: null as DateTime | null,
       endAt: null as DateTime | null,
       score: bindings.scoreRepository.get(DateTime.now()),
@@ -172,6 +176,7 @@ export default defineComponent({
         this.scoreRepository.save(this.startAt, this.score)
       }
     },
+
     'board.movements' () {
       if (this.settings.showTutorial() && this.board.movements > 1) {
         this.settingsRepository.store(this.settings.makeTutorial())
