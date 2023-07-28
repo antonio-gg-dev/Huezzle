@@ -41,7 +41,13 @@ export default defineComponent({
 
   methods: {
     apply () {
-      window.location.reload()
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          caches.delete(cacheName)
+        })
+      }).finally(() => {
+        window.location.reload()
+      })
     }
   }
 })
@@ -53,7 +59,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     font-size: 1rem;
     position: fixed;
     top: 0;
@@ -61,6 +67,9 @@ export default defineComponent({
     right: 0;
     background-color: #eee;
     height: 2.5rem;
+    text-align: center;
+    overflow: hidden;
+    padding: 0 1rem;
     z-index: 10;
 
     @media (prefers-color-scheme: dark) {

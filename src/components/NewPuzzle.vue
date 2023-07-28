@@ -60,7 +60,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     font-size: 1rem;
     position: fixed;
     top: 0;
@@ -68,6 +68,9 @@ export default defineComponent({
     right: 0;
     background-color: #eee;
     height: 2.5rem;
+    text-align: center;
+    overflow: hidden;
+    padding: 0 1rem;
     z-index: 9;
 
     @media (prefers-color-scheme: dark) {
