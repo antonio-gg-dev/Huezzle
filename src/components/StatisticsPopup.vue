@@ -304,7 +304,7 @@ export default defineComponent({
     border-radius: 0.1rem;
     box-shadow: 0 0.1rem 0.2rem 0 #0006;
     z-index: 4;
-    max-height: 70vh;
+    max-height: 70svh;
     overflow-x: hidden;
     overflow-y: auto;
 

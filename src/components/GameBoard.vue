@@ -316,7 +316,7 @@ export default defineComponent({
   }
 
   &__fixed-image {
-    height: 3vh;
+    height: 3svh;
     opacity: 0.5;
     filter: invert(1);
 

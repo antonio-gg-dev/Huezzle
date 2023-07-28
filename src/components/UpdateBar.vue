@@ -88,27 +88,27 @@ export default defineComponent({
 
     &--downloading {
       &::before {
-        width: 90vw;
+        width: 90svw;
         animation: downloading 30s ease-out;
 
         @keyframes downloading {
           0% { width: 0; }
-          1% { width: 10vw; }
-          2% { width: 15vw; }
-          3% { width: 20vw; }
-          4% { width: 25vw; }
-          7% { width: 30vw; }
-          9% { width: 35vw; }
-          10% { width: 40vw; }
-          80% { width: 80vw; }
-          100% { width: 90vw; }
+          1% { width: 10svw; }
+          2% { width: 15svw; }
+          3% { width: 20svw; }
+          4% { width: 25svw; }
+          7% { width: 30svw; }
+          9% { width: 35svw; }
+          10% { width: 40svw; }
+          80% { width: 80svw; }
+          100% { width: 90svw; }
         }
       }
     }
 
     &--ready {
       &::before {
-        width: 100vw;
+        width: 100svw;
         background-color: transparent;
         animation: ready 0.4s linear;
 
@@ -120,7 +120,7 @@ export default defineComponent({
             background-color: #44db86;
           }
           100% {
-            width: 100vw;
+            width: 100svw;
             background-color: transparent;
           }
         }
