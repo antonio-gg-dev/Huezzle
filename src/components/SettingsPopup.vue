@@ -204,6 +204,7 @@ export default defineComponent({
     transition: background-color calc(0.2s * var(--speed, 1)) linear;
     cursor: pointer;
     place-self: end;
+    text-align: center;
 
     @media (prefers-color-scheme: dark) {
       color: #fff;
