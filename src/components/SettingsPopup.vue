@@ -1,105 +1,104 @@
 <template>
-  <div
-    class="settings-popup__backdrop"
-    @click="$emit('close')"
+  <PopupContainer
+    @close="$emit('close')"
   >
-    <div
-      class="settings-popup__popup"
-      @click.stop
-    >
-      <h1 class="settings-popup__header">
-        {{ $t('settings_header') }}
-      </h1>
+    <template #header>
+      {{ $t('settings_header') }}
+    </template>
 
-      <div class="settings-popup__grid">
-        <div class="settings-popup__label">
-          {{ $t('settings_language_label') }}
-        </div>
-
-        <button
-          @click="switchLanguage"
-          class="settings-popup__button"
-        >
-          {{ $t(settings.language === null ? 'settings_language_auto' : 'settings_language_name') }}
-        </button>
-
-        <div class="settings-popup__label">
-          {{ $t('settings_mode_label') }}
-        </div>
-
-        <button
-          @click="switchMode"
-          class="settings-popup__button"
-        >
-          {{ $t('settings_mode_button.' + settings.getMode()) }}
-        </button>
-
-        <div class="settings-popup__label">
-          {{ $t('settings_animations_label') }}
-        </div>
-
-        <button
-          @click="switchAnimations"
-          class="settings-popup__button"
-        >
-          {{ $t('settings_animations_button.' + settings.getAnimations()) }}
-        </button>
-
-        <div class="settings-popup__label">
-          {{ $t('settings_theme_label') }}
-        </div>
-
-        <button
-          @click="switchTheme"
-          class="settings-popup__button"
-        >
-          {{ $t('settings_theme_button.' + settings.getTheme()) }}
-        </button>
-
-        <div class="settings-popup__label">
-          {{ $t('settings_tutorial_label') }}
-        </div>
-
-        <button
-          @click="resetTutorial"
-          class="settings-popup__button"
-          :disabled="settings.showTutorial()"
-        >
-          {{ $t('settings_tutorial_button') }}
-        </button>
-
-        <div class="settings-popup__label">
-          {{ $t('settings_credits_label') }}
-        </div>
-
-        <button
-          @click="$emit('credits')"
-          class="settings-popup__button"
-        >
-          {{ $t('settings_credits_button') }}
-        </button>
-
-        <div class="settings-popup__label">
-          {{ $t('settings_support_label') }}
-        </div>
-
-        <a
-          class="settings-popup__button"
-          target="_blank"
-          href="https://ko-fi.com/antoniogg"
-        >
-          Ko-fi
-        </a>
+    <div class="settings-popup__grid">
+      <div class="settings-popup__label">
+        {{ $t('settings_language_label') }}
       </div>
+
+      <button
+        @click="switchLanguage"
+        class="settings-popup__button"
+      >
+        {{ $t(settings.language === null ? 'settings_language_auto' : 'settings_language_name') }}
+      </button>
+
+      <div class="settings-popup__label">
+        {{ $t('settings_mode_label') }}
+      </div>
+
+      <button
+        @click="switchMode"
+        class="settings-popup__button"
+      >
+        {{ $t('settings_mode_button.' + settings.getMode()) }}
+      </button>
+
+      <div class="settings-popup__label">
+        {{ $t('settings_animations_label') }}
+      </div>
+
+      <button
+        @click="switchAnimations"
+        class="settings-popup__button"
+      >
+        {{ $t('settings_animations_button.' + settings.getAnimations()) }}
+      </button>
+
+      <div class="settings-popup__label">
+        {{ $t('settings_theme_label') }}
+      </div>
+
+      <button
+        @click="switchTheme"
+        class="settings-popup__button"
+      >
+        {{ $t('settings_theme_button.' + settings.getTheme()) }}
+      </button>
+
+      <div class="settings-popup__label">
+        {{ $t('settings_tutorial_label') }}
+      </div>
+
+      <button
+        @click="resetTutorial"
+        class="settings-popup__button"
+        :disabled="settings.showTutorial()"
+      >
+        {{ $t('settings_tutorial_button') }}
+      </button>
+
+      <div class="settings-popup__label">
+        {{ $t('settings_credits_label') }}
+      </div>
+
+      <button
+        @click="$emit('credits')"
+        class="settings-popup__button"
+      >
+        {{ $t('settings_credits_button') }}
+      </button>
+
+      <div class="settings-popup__label">
+        {{ $t('settings_support_label') }}
+      </div>
+
+      <a
+        class="settings-popup__button"
+        target="_blank"
+        href="https://ko-fi.com/antoniogg"
+      >
+        Ko-fi
+      </a>
     </div>
-  </div>
+  </PopupContainer>
 </template>
 
 <script lang="ts">
+import PopupContainer from '@/components/PopupContainer.vue'
 import { defineComponent, PropType } from 'vue'
 import { Animations, Mode, Settings, Theme } from '@/entities/Settings'
 
 export default defineComponent({
+  components: {
+    PopupContainer
+  },
+
   emits: [
     'close',
     'save',
@@ -173,114 +172,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .settings-popup {
-  &__backdrop {
-    cursor: pointer;
-    position: fixed;
-    inset: 0;
-    background-color: #fff5;
-    backdrop-filter: blur(4px);
-    animation: fade calc(0.1s * var(--speed, 1)) linear;
-    z-index: 3;
-    overflow: hidden;
-
-    @keyframes fade {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 100%;
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #1115;
-    }
-
-    .dark & {
-      background-color: #1115;
-    }
-
-    .light & {
-      background-color: #fff5;
-    }
-  }
-
-  &__popup {
-    position: fixed;
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    cursor: default;
-    background-color: #fff;
-    padding: 3rem 4rem;
-    border-radius: 0.1rem;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
-    z-index: 4;
-    max-height: 70svh;
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #222;
-    }
-
-    .dark & {
-      background-color: #222;
-    }
-
-    .light & {
-      background-color: #fff;
-    }
-
-    &:before {
-      content: "";
-      display: block;
-      position: sticky;
-      height: 5rem;
-      background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
-      margin-bottom: -5rem;
-      transform: translateY(-3rem);
-      top: -1px;
-      pointer-events: none;
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(0deg, #2220 0%, #222f 100%);
-      }
-
-      .dark & {
-        background: linear-gradient(0deg, #2220 0%, #222f 100%);
-      }
-
-      .light & {
-        background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
-      }
-    }
-
-    &:after {
-      content: "";
-      display: block;
-      position: sticky;
-      height: 5rem;
-      background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
-      margin-top: -5rem;
-      transform: translateY(3rem);
-      bottom: -1px;
-      pointer-events: none;
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(0deg, #222f 0%, #2220 100%);
-      }
-
-      .dark & {
-        background: linear-gradient(0deg, #222f 0%, #2220 100%);
-      }
-
-      .light & {
-        background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
-      }
-    }
-  }
-
   &__grid {
     display: grid;
     gap: 2rem 4rem;
@@ -289,15 +180,6 @@ export default defineComponent({
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
-  }
-
-  &__header {
-    all: unset;
-    display: block;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 300;
-    margin-bottom: 2rem;
   }
 
   &__label {

@@ -1,139 +1,133 @@
 <template>
-  <div
-    class="statistics-popup__backdrop"
-    @click="$emit('close')"
+  <PopupContainer
+    @close="$emit('close')"
   >
-    <div
-      class="statistics-popup__popup"
-      @click.stop
-    >
-      <h1 class="statistics-popup__header">
-        {{ $t('statistics_header') }}
-      </h1>
+    <template #header>
+      {{ $t('statistics_header') }}
+    </template>
 
-      <div class="statistics-popup__buttons">
-        <button
-          :class="[
-            'statistics-popup__button',
-            page === null && 'statistics-popup__button--active'
-          ]"
-          :title="$t('difficulty_all')"
-          @click="page = null"
-        >
-          <img
-            class="statistics-popup__icon"
-            src="/img/statistics-all.svg"
-            alt=""
-          >
-        </button>
-
-        <button
-          :class="[
-            'statistics-popup__button',
-            page === 'easy' && 'statistics-popup__button--active'
-          ]"
-          :title="$t('difficulty_easy')"
-          @click="page = 'easy'"
-        >
-          <img
-            class="statistics-popup__icon"
-            src="/img/statistics-easy.svg"
-            alt=""
-          >
-        </button>
-
-        <button
-          :class="[
+    <div class="statistics-popup__buttons-container">
+      <button
+        :class="[
           'statistics-popup__button',
-          page === 'normal' && 'statistics-popup__button--active'
+          page === null && 'statistics-popup__button--active'
         ]"
-          :title="$t('difficulty_normal')"
-          @click="page = 'normal'"
+        :title="$t('difficulty_all')"
+        @click="page = null"
+      >
+        <img
+          class="statistics-popup__icon"
+          src="/img/statistics-all.svg"
+          alt=""
         >
-          <img
-            class="statistics-popup__icon"
-            src="/img/statistics-normal.svg"
-            alt=""
-          >
-        </button>
+      </button>
 
-        <button
-          :class="[
-            'statistics-popup__button',
-            page === 'hard' && 'statistics-popup__button--active'
-          ]"
-          :title="$t('difficulty_hard')"
-          @click="page = 'hard'"
+      <button
+        :class="[
+          'statistics-popup__button',
+          page === 'easy' && 'statistics-popup__button--active'
+        ]"
+        :title="$t('difficulty_easy')"
+        @click="page = 'easy'"
+      >
+        <img
+          class="statistics-popup__icon"
+          src="/img/statistics-easy.svg"
+          alt=""
         >
-          <img
-            class="statistics-popup__icon"
-            src="/img/statistics-hard.svg"
-            alt=""
-          >
-        </button>
-      </div>
+      </button>
 
-      <StatisticsPage
+      <button
         :class="[
-          'statistics-popup__page',
-          page === null && 'statistics-popup__page--active'
-        ]"
-        :difficulty="null"
-        :played-games="statistics.playedGames"
-        :total-time="statistics.totalTime"
-        :total-movements="statistics.totalMovements"
-        :average-time="statistics.averageTime"
-        :average-movements="statistics.averageMovements"
-        :best-time="statistics.bestTime"
-        :best-movements="statistics.bestMovements"
-      />
+        'statistics-popup__button',
+        page === 'normal' && 'statistics-popup__button--active'
+      ]"
+        :title="$t('difficulty_normal')"
+        @click="page = 'normal'"
+      >
+        <img
+          class="statistics-popup__icon"
+          src="/img/statistics-normal.svg"
+          alt=""
+        >
+      </button>
 
-      <StatisticsPage
+      <button
         :class="[
-          'statistics-popup__page',
-          page === 'easy' && 'statistics-popup__page--active'
+          'statistics-popup__button',
+          page === 'hard' && 'statistics-popup__button--active'
         ]"
-        difficulty="easy"
-        :played-games="statistics.easy.playedGames"
-        :total-time="statistics.easy.totalTime"
-        :total-movements="statistics.easy.totalMovements"
-        :average-time="statistics.easy.averageTime"
-        :average-movements="statistics.easy.averageMovements"
-        :best-time="statistics.easy.bestTime"
-        :best-movements="statistics.easy.bestMovements"
-      />
-
-      <StatisticsPage
-        :class="[
-          'statistics-popup__page',
-          page === 'normal' && 'statistics-popup__page--active'
-        ]"
-        difficulty="normal"
-        :played-games="statistics.normal.playedGames"
-        :total-time="statistics.normal.totalTime"
-        :total-movements="statistics.normal.totalMovements"
-        :average-time="statistics.normal.averageTime"
-        :average-movements="statistics.normal.averageMovements"
-        :best-time="statistics.normal.bestTime"
-        :best-movements="statistics.normal.bestMovements"
-      />
-
-      <StatisticsPage
-        :class="[
-          'statistics-popup__page',
-          page === 'hard' && 'statistics-popup__page--active'
-        ]"
-        difficulty="hard"
-        :played-games="statistics.hard.playedGames"
-        :total-time="statistics.hard.totalTime"
-        :total-movements="statistics.hard.totalMovements"
-        :average-time="statistics.hard.averageTime"
-        :average-movements="statistics.hard.averageMovements"
-        :best-time="statistics.hard.bestTime"
-        :best-movements="statistics.hard.bestMovements"
-      />
+        :title="$t('difficulty_hard')"
+        @click="page = 'hard'"
+      >
+        <img
+          class="statistics-popup__icon"
+          src="/img/statistics-hard.svg"
+          alt=""
+        >
+      </button>
     </div>
-  </div>
+
+    <StatisticsPage
+      :class="[
+        'statistics-popup__page',
+        page === null && 'statistics-popup__page--active'
+      ]"
+      :difficulty="null"
+      :played-games="statistics.playedGames"
+      :total-time="statistics.totalTime"
+      :total-movements="statistics.totalMovements"
+      :average-time="statistics.averageTime"
+      :average-movements="statistics.averageMovements"
+      :best-time="statistics.bestTime"
+      :best-movements="statistics.bestMovements"
+    />
+
+    <StatisticsPage
+      :class="[
+        'statistics-popup__page',
+        page === 'easy' && 'statistics-popup__page--active'
+      ]"
+      difficulty="easy"
+      :played-games="statistics.easy.playedGames"
+      :total-time="statistics.easy.totalTime"
+      :total-movements="statistics.easy.totalMovements"
+      :average-time="statistics.easy.averageTime"
+      :average-movements="statistics.easy.averageMovements"
+      :best-time="statistics.easy.bestTime"
+      :best-movements="statistics.easy.bestMovements"
+    />
+
+    <StatisticsPage
+      :class="[
+        'statistics-popup__page',
+        page === 'normal' && 'statistics-popup__page--active'
+      ]"
+      difficulty="normal"
+      :played-games="statistics.normal.playedGames"
+      :total-time="statistics.normal.totalTime"
+      :total-movements="statistics.normal.totalMovements"
+      :average-time="statistics.normal.averageTime"
+      :average-movements="statistics.normal.averageMovements"
+      :best-time="statistics.normal.bestTime"
+      :best-movements="statistics.normal.bestMovements"
+    />
+
+    <StatisticsPage
+      :class="[
+        'statistics-popup__page',
+        page === 'hard' && 'statistics-popup__page--active'
+      ]"
+      difficulty="hard"
+      :played-games="statistics.hard.playedGames"
+      :total-time="statistics.hard.totalTime"
+      :total-movements="statistics.hard.totalMovements"
+      :average-time="statistics.hard.averageTime"
+      :average-movements="statistics.hard.averageMovements"
+      :best-time="statistics.hard.bestTime"
+      :best-movements="statistics.hard.bestMovements"
+    />
+  </PopupContainer>
 </template>
 
 <script lang="ts">
@@ -142,9 +136,11 @@ import { Score } from '@/entities/Score'
 import { Duration } from 'luxon'
 import { Difficulty } from '@/services/DifficultyGenerator'
 import StatisticsPage from '@/components/StatisticsPage.vue'
+import PopupContainer from '@/components/PopupContainer.vue'
 
 export default defineComponent({
   components: {
+    PopupContainer,
     StatisticsPage
   },
 
@@ -263,124 +259,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .statistics-popup {
-  &__backdrop {
-    cursor: pointer;
-    position: fixed;
-    inset: 0;
-    background-color: #fff5;
-    backdrop-filter: blur(4px);
-    animation: fade calc(0.1s * var(--speed, 1)) linear;
-    z-index: 3;
-    overflow: hidden;
-
-    @keyframes fade {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 100%;
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #1115;
-    }
-
-    .dark & {
-      background-color: #1115;
-    }
-
-    .light & {
-      background-color: #fff5;
-    }
-  }
-
-  &__popup {
-    position: fixed;
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    cursor: default;
-    background-color: #fff;
-    padding: 3rem 4rem;
-    border-radius: 0.1rem;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
-    z-index: 4;
-    max-height: 70svh;
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #222;
-    }
-
-    .dark & {
-      background-color: #222;
-    }
-
-    .light & {
-      background-color: #fff;
-    }
-
-    &:before {
-      content: "";
-      display: block;
-      position: sticky;
-      height: 5rem;
-      background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
-      margin-bottom: -5rem;
-      transform: translateY(-3rem);
-      top: -1px;
-      pointer-events: none;
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(0deg, #2220 0%, #222f 100%);
-      }
-
-      .dark & {
-        background: linear-gradient(0deg, #2220 0%, #222f 100%);
-      }
-
-      .light & {
-        background: linear-gradient(0deg, #fff0 0%, #ffff 100%);
-      }
-    }
-
-    &:after {
-      content: "";
-      display: block;
-      position: sticky;
-      height: 5rem;
-      background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
-      margin-top: -5rem;
-      transform: translateY(3rem);
-      bottom: -1px;
-      pointer-events: none;
-
-      @media (prefers-color-scheme: dark) {
-        background: linear-gradient(0deg, #222f 0%, #2220 100%);
-      }
-
-      .dark & {
-        background: linear-gradient(0deg, #222f 0%, #2220 100%);
-      }
-
-      .light & {
-        background: linear-gradient(0deg, #ffff 0%, #fff0 100%);
-      }
-    }
-  }
-
-  &__header {
-    all: unset;
-    display: block;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 3rem;
-    font-weight: 300;
-  }
-
-  &__buttons {
+  &__buttons-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
