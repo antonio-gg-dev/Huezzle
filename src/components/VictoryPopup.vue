@@ -1,5 +1,7 @@
 <template>
   <PopupContainer
+    v-if="score"
+    :is-open="isOpen"
     @close="$emit('close')"
   >
     <template #header>
@@ -14,7 +16,7 @@
           alt=""
         >
         {{ $t('victory_time_label') }}
-        <strong>{{ time.toFormat('m:ss') }}</strong>
+        <strong>{{ score.time.toFormat('m:ss') }}</strong>
       </span>
 
       <span class="victory-popup__score">
@@ -24,13 +26,13 @@
           alt=""
         >
         {{ $t('victory_movements_label') }}
-        <strong>{{ movements }}</strong>
+        <strong>{{ score.movements }}</strong>
       </span>
     </div>
 
     <ShareButtons
-      :time="time"
-      :movements="movements"
+      :time="score.time"
+      :movements="score.movements"
     />
 
     <div
@@ -50,6 +52,7 @@ import { defineComponent, PropType } from 'vue'
 import { DateTime, Duration } from 'luxon'
 import ShareButtons from '@/components/ShareButtons.vue'
 import PopupContainer from '@/components/PopupContainer.vue'
+import { Score } from '@/entities/Score'
 
 export default defineComponent({
   components: {
@@ -62,13 +65,13 @@ export default defineComponent({
   ],
 
   props: {
-    movements: {
-      required: true,
-      type: Number as PropType<number>
+    score: {
+      default: null,
+      type: Score as PropType<Score | null>
     },
-    time: {
-      required: true,
-      type: Object as PropType<Duration>
+    isOpen: {
+      default: false,
+      type: Boolean as PropType<boolean>
     }
   },
 

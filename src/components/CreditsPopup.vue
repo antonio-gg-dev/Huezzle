@@ -1,5 +1,6 @@
 <template>
   <PopupContainer
+    :is-open="isOpen"
     @close="$emit('close')"
   >
     <template #header>
@@ -52,12 +53,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import PopupContainer from '@/components/PopupContainer.vue'
+import { PropType } from 'vue/dist/vue'
 
 export default defineComponent({
   components: { PopupContainer },
   emits: [
     'close'
-  ]
+  ],
+
+  props: {
+    isOpen: {
+      default: false,
+      type: Boolean as PropType<boolean>
+    }
+  }
 })
 </script>
 

@@ -1,64 +1,73 @@
 <template>
-  <div
-    class="popup-container__backdrop"
-    @click="$emit('close')"
-  >
-    <div class="popup-container__wrapper">
-      <div
-        class="popup-container__popup"
-        @click.stop
-      >
-        <h1 class="popup-container__header">
-          <slot name="header" />
-        </h1>
-
-        <slot />
-      </div>
-
-      <button
-        class="popup-container__button"
-        @click="$emit('close')"
-        :title="$t('popup_close')"
-      >
-        <img
-          class="popup-container__icon"
-          src="/img/close.svg"
-          alt=""
+  <Transition name="popup-container__fade">
+    <div
+      v-if="isOpen"
+      class="popup-container__backdrop"
+      @click="$emit('close')"
+    >
+      <div class="popup-container__wrapper">
+        <div
+          class="popup-container__popup"
+          @click.stop
         >
-      </button>
+          <h1 class="popup-container__header">
+            <slot name="header" />
+          </h1>
+
+          <slot />
+        </div>
+
+        <button
+          class="popup-container__button"
+          @click="$emit('close')"
+          :title="$t('popup_close')"
+        >
+          <img
+            class="popup-container__icon"
+            src="/img/close.svg"
+            alt=""
+          >
+        </button>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { PropType } from 'vue/dist/vue'
 
 export default defineComponent({
   emits: [
     'close'
-  ]
+  ],
+
+  props: {
+    isOpen: {
+      default: false,
+      type: Boolean as PropType<boolean>
+    }
+  }
 })
 </script>
 
 <style scoped lang="scss">
 .popup-container {
+  $parent: &;
+
   &__backdrop {
     cursor: pointer;
     position: fixed;
     inset: 0;
     background-color: #fff5;
     backdrop-filter: blur(4px);
-    animation: fade calc(0.1s * var(--speed, 1)) linear;
+    transition: opacity calc(0.1s * var(--speed, 1)) linear;
     z-index: 3;
     overflow: hidden;
 
-    @keyframes fade {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 100%;
-      }
+    &#{$parent}__fade-enter-from,
+    &#{$parent}__fade-leave-to {
+      opacity: 0;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -81,7 +90,13 @@ export default defineComponent({
     width: fit-content;
     height: fit-content;
     z-index: 4;
+    transition: transform calc(0.1s * var(--speed, 1)) linear;
     transform: translate(50%, 50%);
+
+    #{$parent}__fade-enter-from &,
+    #{$parent}__fade-leave-to &{
+      transform: translate(50%, calc(50% + 4rem));
+    }
   }
 
   &__popup {

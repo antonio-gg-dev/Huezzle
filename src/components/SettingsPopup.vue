@@ -1,5 +1,6 @@
 <template>
   <PopupContainer
+    :is-open="isOpen"
     @close="$emit('close')"
   >
     <template #header>
@@ -109,6 +110,10 @@ export default defineComponent({
     settings: {
       required: true,
       type: Settings as PropType<Settings>
+    },
+    isOpen: {
+      default: false,
+      type: Boolean as PropType<boolean>
     }
   },
 

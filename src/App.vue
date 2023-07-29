@@ -28,20 +28,19 @@
   />
 
   <StatisticsPopup
-    v-if="openPopup === 'statistics'"
+    :is-open="openPopup === 'statistics'"
     @close="openPopup = null"
     :scores="scoreRepository.getAll()"
   />
 
   <VictoryPopup
-    v-else-if="score && openPopup === 'victory'"
-    :movements="score.movements"
-    :time="score.time"
+    :is-open="score !== null && openPopup === 'victory'"
+    :score="score"
     @close="openPopup = null"
   />
 
   <SettingsPopup
-    v-else-if="openPopup === 'settings'"
+    :is-open="openPopup === 'settings'"
     @close="openPopup = null"
     @save="saveSettings"
     @credits="openPopup = 'credits'"
@@ -49,7 +48,7 @@
   />
 
   <CreditsPopup
-    v-else-if="openPopup === 'credits'"
+    :is-open="openPopup === 'credits'"
     @close="openPopup = null"
   />
 </template>

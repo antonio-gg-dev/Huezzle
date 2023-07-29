@@ -226,6 +226,9 @@ export default defineComponent({
   &__label {
     font-size: 1rem;
     font-weight: 300;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__value {
@@ -234,6 +237,9 @@ export default defineComponent({
     font-weight: 700;
     margin-top: 0.5rem;
     text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>

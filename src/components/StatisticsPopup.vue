@@ -1,5 +1,6 @@
 <template>
   <PopupContainer
+    :is-open="isOpen"
     @close="$emit('close')"
   >
     <template #header>
@@ -68,65 +69,69 @@
       </button>
     </div>
 
-    <StatisticsPage
-      :class="[
-        'statistics-popup__page',
-        page === null && 'statistics-popup__page--active'
-      ]"
-      :difficulty="null"
-      :played-games="statistics.playedGames"
-      :total-time="statistics.totalTime"
-      :total-movements="statistics.totalMovements"
-      :average-time="statistics.averageTime"
-      :average-movements="statistics.averageMovements"
-      :best-time="statistics.bestTime"
-      :best-movements="statistics.bestMovements"
-    />
+    <TransitionGroup
+      name="statistics-popup__fade"
+    >
+      <StatisticsPage
+        :class="[
+          'statistics-popup__page',
+          page === null && 'statistics-popup__page--active'
+        ]"
+        :difficulty="null"
+        :played-games="statistics.playedGames"
+        :total-time="statistics.totalTime"
+        :total-movements="statistics.totalMovements"
+        :average-time="statistics.averageTime"
+        :average-movements="statistics.averageMovements"
+        :best-time="statistics.bestTime"
+        :best-movements="statistics.bestMovements"
+      />
 
-    <StatisticsPage
-      :class="[
-        'statistics-popup__page',
-        page === 'easy' && 'statistics-popup__page--active'
-      ]"
-      difficulty="easy"
-      :played-games="statistics.easy.playedGames"
-      :total-time="statistics.easy.totalTime"
-      :total-movements="statistics.easy.totalMovements"
-      :average-time="statistics.easy.averageTime"
-      :average-movements="statistics.easy.averageMovements"
-      :best-time="statistics.easy.bestTime"
-      :best-movements="statistics.easy.bestMovements"
-    />
+      <StatisticsPage
+        :class="[
+          'statistics-popup__page',
+          page === 'easy' && 'statistics-popup__page--active'
+        ]"
+        difficulty="easy"
+        :played-games="statistics.easy.playedGames"
+        :total-time="statistics.easy.totalTime"
+        :total-movements="statistics.easy.totalMovements"
+        :average-time="statistics.easy.averageTime"
+        :average-movements="statistics.easy.averageMovements"
+        :best-time="statistics.easy.bestTime"
+        :best-movements="statistics.easy.bestMovements"
+      />
 
-    <StatisticsPage
-      :class="[
-        'statistics-popup__page',
-        page === 'normal' && 'statistics-popup__page--active'
-      ]"
-      difficulty="normal"
-      :played-games="statistics.normal.playedGames"
-      :total-time="statistics.normal.totalTime"
-      :total-movements="statistics.normal.totalMovements"
-      :average-time="statistics.normal.averageTime"
-      :average-movements="statistics.normal.averageMovements"
-      :best-time="statistics.normal.bestTime"
-      :best-movements="statistics.normal.bestMovements"
-    />
+      <StatisticsPage
+        :class="[
+          'statistics-popup__page',
+          page === 'normal' && 'statistics-popup__page--active'
+        ]"
+        difficulty="normal"
+        :played-games="statistics.normal.playedGames"
+        :total-time="statistics.normal.totalTime"
+        :total-movements="statistics.normal.totalMovements"
+        :average-time="statistics.normal.averageTime"
+        :average-movements="statistics.normal.averageMovements"
+        :best-time="statistics.normal.bestTime"
+        :best-movements="statistics.normal.bestMovements"
+      />
 
-    <StatisticsPage
-      :class="[
-        'statistics-popup__page',
-        page === 'hard' && 'statistics-popup__page--active'
-      ]"
-      difficulty="hard"
-      :played-games="statistics.hard.playedGames"
-      :total-time="statistics.hard.totalTime"
-      :total-movements="statistics.hard.totalMovements"
-      :average-time="statistics.hard.averageTime"
-      :average-movements="statistics.hard.averageMovements"
-      :best-time="statistics.hard.bestTime"
-      :best-movements="statistics.hard.bestMovements"
-    />
+      <StatisticsPage
+        :class="[
+          'statistics-popup__page',
+          page === 'hard' && 'statistics-popup__page--active'
+        ]"
+        difficulty="hard"
+        :played-games="statistics.hard.playedGames"
+        :total-time="statistics.hard.totalTime"
+        :total-movements="statistics.hard.totalMovements"
+        :average-time="statistics.hard.averageTime"
+        :average-movements="statistics.hard.averageMovements"
+        :best-time="statistics.hard.bestTime"
+        :best-movements="statistics.hard.bestMovements"
+      />
+    </TransitionGroup>
   </PopupContainer>
 </template>
 
@@ -152,6 +157,10 @@ export default defineComponent({
     scores: {
       required: true,
       type: Object as PropType<Record<string, Score>>
+    },
+    isOpen: {
+      default: false,
+      type: Boolean as PropType<boolean>
     }
   },
 
@@ -315,12 +324,22 @@ export default defineComponent({
   &__page {
     overflow: hidden;
     visibility: hidden;
+    transition: opacity calc(0.2s * var(--speed, 1)) linear;
+    opacity: 0;
     height: 0;
 
     &--active {
       visibility: visible;
       height: auto;
+      opacity: 1;
     }
+  }
+
+  &__fade-enter-from,
+  &__fade-leave-to {
+    overflow: visible;
+    height: 0;
+    opacity: 0;
   }
 }
 </style>
