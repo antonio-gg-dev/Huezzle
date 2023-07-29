@@ -67,5 +67,6 @@ export const es = {
   updates_ready_message: '¡Actualización lista!',
   updates_ready_button: 'Aplicar',
   new_puzzle_message: '¡Hay un nuevo Huezzle disponible!',
-  new_puzzle_button: 'Vamos'
+  new_puzzle_button: 'Vamos',
+  popup_close: 'Cerrar'
 }

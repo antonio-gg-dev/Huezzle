@@ -189,7 +189,8 @@ export default defineComponent({
   &__button {
     all: unset;
     display: inline-block;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
+    box-shadow: 0 0 0.1rem 0 #0006,
+      0 0.1rem 0.3rem 0 #0006;
     align-items: center;
     font-size: 1.5rem;
     background-color: transparent;

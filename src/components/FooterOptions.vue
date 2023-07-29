@@ -76,7 +76,7 @@ export default defineComponent({
   &__button {
     all: unset;
     display: grid;
-    height: 50%;
+    height: min(50%, 30svw);
     aspect-ratio: 1 / 1;
     border-radius: 100%;
     transition: all calc(0.2s * var(--speed, 1)) linear;

@@ -89,7 +89,8 @@ export default defineComponent({
 .share-buttons {
   &__button {
     all: unset;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
+    box-shadow: 0 0 0.1rem 0 #0006,
+      0 0.1rem 0.3rem 0 #0006;
     display: flex;
     gap: 1rem;
     align-items: center;

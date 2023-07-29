@@ -3,15 +3,29 @@
     class="popup-container__backdrop"
     @click="$emit('close')"
   >
-    <div
-      class="popup-container__popup"
-      @click.stop
-    >
-      <h1 class="popup-container__header">
-        <slot name="header" />
-      </h1>
+    <div class="popup-container__wrapper">
+      <div
+        class="popup-container__popup"
+        @click.stop
+      >
+        <h1 class="popup-container__header">
+          <slot name="header" />
+        </h1>
 
-      <slot />
+        <slot />
+      </div>
+
+      <button
+        class="popup-container__button"
+        @click="$emit('close')"
+        :title="$t('popup_close')"
+      >
+        <img
+          class="popup-container__icon"
+          src="/img/close.svg"
+          alt=""
+        >
+      </button>
     </div>
   </div>
 </template>
@@ -60,17 +74,23 @@ export default defineComponent({
     }
   }
 
-  &__popup {
+  &__wrapper {
     position: fixed;
     bottom: 50%;
     right: 50%;
+    width: fit-content;
+    height: fit-content;
+    z-index: 4;
     transform: translate(50%, 50%);
+  }
+
+  &__popup {
     cursor: default;
     background-color: #fff;
     padding: 3rem 4rem;
     border-radius: 0.1rem;
-    box-shadow: 0 0.1rem 0.2rem 0 #0006;
-    z-index: 4;
+    box-shadow: 0 0 0.1rem 0 #0006,
+      0 0.1rem 0.3rem 0 #0006;
     max-height: 70svh;
     overflow-x: hidden;
     overflow-y: auto;
@@ -143,6 +163,70 @@ export default defineComponent({
     font-size: 3rem;
     font-weight: 300;
     margin-bottom: 2rem;
+  }
+
+  &__button {
+    all: unset;
+    display: grid;
+    width: 5rem;
+    height: 5rem;
+    max-width: 10svh;
+    max-height: 10svh;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    transition: all calc(0.2s * var(--speed, 1)) linear;
+    cursor: pointer;
+    place-items: center;box-shadow: 0 0 0.1rem 0 #0006,
+      0 0.1rem 0.3rem 0 #0006;
+    background-color: #fff;
+    position: absolute;
+    transform: translate(50%, 100%);
+    right: 50%;
+    bottom: -1rem;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #222;
+    }
+
+    .dark & {
+      background-color: #222;
+    }
+
+    .light & {
+      background-color: #fff;
+    }
+
+    &:hover, &:focus {
+      background-color: #eee;
+
+      @media (prefers-color-scheme: dark) {
+        background-color: #333;
+      }
+
+      .dark & {
+        background-color: #333;
+      }
+
+      .light & {
+        background-color: #eee;
+      }
+    }
+  }
+
+  &__icon {
+    height: 2rem;
+
+    @media (prefers-color-scheme: dark) {
+      filter: invert(1);
+    }
+
+    .dark & {
+      filter: invert(1);
+    }
+
+    .light & {
+      filter: invert(0);
+    }
   }
 }
 </style>
