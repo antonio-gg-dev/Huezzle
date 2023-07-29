@@ -55,34 +55,36 @@ export default defineComponent({
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fffe;
-    text-shadow: 0 0.1rem 0.2rem #0008;
+    color: #fff;
+    background-color: #0008;
+    padding: 1rem 2rem;
+    max-width: calc(100svw - 2rem);
+    border-radius: 0.1rem;
+    z-index: 1;
     animation: appear calc(3.4s * var(--speed, 1)) linear,
       blink calc(0.9s * var(--speed, 1)) linear calc(3.4s * var(--speed, 1)) alternate infinite;
 
     @keyframes appear {
       0% {
         color: #fff0;
-        text-shadow: 0 0.1rem 0.2rem #0000;
+        background-color: #0000;
       }
       60% {
         color: #fff0;
-        text-shadow: 0 0.1rem 0.2rem #0000;
+        background-color: #0000;
       }
       100% {
-        color: #fffe;
-        text-shadow: 0 0.1rem 0.2rem #0008;
+        color: #fff;
+        background-color: #0008;
       }
     }
 
     @keyframes blink {
       0% {
-        color: #fffe;
-        text-shadow: 0 0.1rem 0.2rem #0008;
+        color: #fff;
       }
       100% {
-        color: #fff5;
-        text-shadow: 0 0.1rem 0.2rem #0000;
+        color: #fff8;
       }
     }
   }
