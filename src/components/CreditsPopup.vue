@@ -42,6 +42,7 @@
         <li>Noah Cuadrado</li>
         <li>Rocío Tomé</li>
         <li>Roger Vila Crespo</li>
+        <li>Yaiza Maestre Deltell</li>
 
         <li class="credits-popup__long">{{ $t('credits_libraries') }}</li>
         <li>{{ $t('credits_family') }}</li>
