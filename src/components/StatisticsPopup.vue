@@ -220,17 +220,19 @@ export default defineComponent({
 
         const difficulty = score.difficulty
 
-        statistics[difficulty].playedGames++
-        statistics[difficulty].totalMovements += score.movements
-        statistics[difficulty].totalTime = statistics[difficulty].totalTime.plus(score.time)
-        statistics[difficulty].bestMovements =
-          score.movements < (statistics[difficulty].bestMovements ?? Infinity)
-            ? score.movements
-            : statistics[difficulty].bestMovements
-        statistics[difficulty].bestTime =
-          score.time.toMillis() < (statistics[difficulty].bestTime?.toMillis() ?? Infinity)
-            ? score.time
-            : statistics[difficulty].bestTime
+        if (statistics[difficulty]) {
+          statistics[difficulty].playedGames++
+          statistics[difficulty].totalMovements += score.movements
+          statistics[difficulty].totalTime = statistics[difficulty].totalTime.plus(score.time)
+          statistics[difficulty].bestMovements =
+            score.movements < (statistics[difficulty].bestMovements ?? Infinity)
+              ? score.movements
+              : statistics[difficulty].bestMovements
+          statistics[difficulty].bestTime =
+            score.time.toMillis() < (statistics[difficulty].bestTime?.toMillis() ?? Infinity)
+              ? score.time
+              : statistics[difficulty].bestTime
+        }
       }
 
       if (statistics.playedGames) {
