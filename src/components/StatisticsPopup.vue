@@ -76,14 +76,14 @@
           page === null && 'statistics-popup__page--active'
         ]"
         :difficulty="null"
-        :played-games="statistics.playedGames"
-        :total-time="statistics.totalTime"
-        :total-movements="statistics.totalMovements"
-        :average-time="statistics.averageTime"
-        :average-movements="statistics.averageMovements"
-        :best-time="statistics.bestTime"
-        :best-movements="statistics.bestMovements"
-        :hints="statistics.hints"
+        :played-games="all.playedGames"
+        :total-time="all.totalTime"
+        :total-movements="all.totalMovements"
+        :average-time="all.averageTime"
+        :average-movements="all.averageMovements"
+        :best-time="all.bestTime"
+        :best-movements="all.bestMovements"
+        :hints="all.hints"
       />
 
       <StatisticsPage
@@ -92,14 +92,14 @@
           page === 'easy' && 'statistics-popup__page--active'
         ]"
         difficulty="easy"
-        :played-games="statistics.easy.playedGames"
-        :total-time="statistics.easy.totalTime"
-        :total-movements="statistics.easy.totalMovements"
-        :average-time="statistics.easy.averageTime"
-        :average-movements="statistics.easy.averageMovements"
-        :best-time="statistics.easy.bestTime"
-        :best-movements="statistics.easy.bestMovements"
-        :hints="statistics.easy.hints"
+        :played-games="easy.playedGames"
+        :total-time="easy.totalTime"
+        :total-movements="easy.totalMovements"
+        :average-time="easy.averageTime"
+        :average-movements="easy.averageMovements"
+        :best-time="easy.bestTime"
+        :best-movements="easy.bestMovements"
+        :hints="easy.hints"
       />
 
       <StatisticsPage
@@ -108,14 +108,14 @@
           page === 'normal' && 'statistics-popup__page--active'
         ]"
         difficulty="normal"
-        :played-games="statistics.normal.playedGames"
-        :total-time="statistics.normal.totalTime"
-        :total-movements="statistics.normal.totalMovements"
-        :average-time="statistics.normal.averageTime"
-        :average-movements="statistics.normal.averageMovements"
-        :best-time="statistics.normal.bestTime"
-        :best-movements="statistics.normal.bestMovements"
-        :hints="statistics.normal.hints"
+        :played-games="normal.playedGames"
+        :total-time="normal.totalTime"
+        :total-movements="normal.totalMovements"
+        :average-time="normal.averageTime"
+        :average-movements="normal.averageMovements"
+        :best-time="normal.bestTime"
+        :best-movements="normal.bestMovements"
+        :hints="normal.hints"
       />
 
       <StatisticsPage
@@ -124,14 +124,14 @@
           page === 'hard' && 'statistics-popup__page--active'
         ]"
         difficulty="hard"
-        :played-games="statistics.hard.playedGames"
-        :total-time="statistics.hard.totalTime"
-        :total-movements="statistics.hard.totalMovements"
-        :average-time="statistics.hard.averageTime"
-        :average-movements="statistics.hard.averageMovements"
-        :best-time="statistics.hard.bestTime"
-        :best-movements="statistics.hard.bestMovements"
-        :hints="statistics.hard.hints"
+        :played-games="hard.playedGames"
+        :total-time="hard.totalTime"
+        :total-movements="hard.totalMovements"
+        :average-time="hard.averageTime"
+        :average-movements="hard.averageMovements"
+        :best-time="hard.bestTime"
+        :best-movements="hard.bestMovements"
+        :hints="hard.hints"
       />
     </div>
   </PopupContainer>
@@ -140,10 +140,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Score } from '@/entities/Score'
-import { Duration } from 'luxon'
 import { Difficulty } from '@/services/DifficultyGenerator'
 import StatisticsPage from '@/components/StatisticsPage.vue'
 import PopupContainer from '@/components/PopupContainer.vue'
+import { Statistics } from '@/entities/Statistics'
 
 export default defineComponent({
   components: {
@@ -168,107 +168,11 @@ export default defineComponent({
 
   data () {
     return {
-      page: null as null | Difficulty
-    }
-  },
-
-  computed: {
-    statistics () {
-      const statistics = {
-        playedGames: Object.keys(this.scores).length,
-        totalMovements: 0,
-        totalTime: Duration.fromObject({}),
-        averageMovements: 0,
-        averageTime: Duration.fromObject({}),
-        bestMovements: null as null | number,
-        bestTime: null as null | Duration,
-        hints: 0,
-        [Difficulty.easy]: {
-          playedGames: 0,
-          totalMovements: 0,
-          totalTime: Duration.fromObject({}),
-          averageMovements: 0,
-          averageTime: Duration.fromObject({}),
-          bestMovements: null as null | number,
-          bestTime: null as null | Duration,
-          hints: 0
-        },
-        [Difficulty.normal]: {
-          playedGames: 0,
-          totalMovements: 0,
-          totalTime: Duration.fromObject({}),
-          averageMovements: 0,
-          averageTime: Duration.fromObject({}),
-          bestMovements: null as null | number,
-          bestTime: null as null | Duration,
-          hints: 0
-        },
-        [Difficulty.hard]: {
-          playedGames: 0,
-          totalMovements: 0,
-          totalTime: Duration.fromObject({}),
-          averageMovements: 0,
-          averageTime: Duration.fromObject({}),
-          bestMovements: null as null | number,
-          bestTime: null as null | Duration,
-          hints: 0
-        }
-      }
-
-      for (const rawData in this.scores) {
-        const score = this.scores[rawData]
-
-        statistics.totalMovements += score.movements
-        statistics.totalTime = statistics.totalTime.plus(score.time)
-        statistics.bestMovements =
-          score.movements < (statistics.bestMovements ?? Infinity)
-            ? score.movements
-            : statistics.bestMovements
-        statistics.bestTime =
-          score.time.toMillis() < (statistics.bestTime?.toMillis() ?? Infinity)
-            ? score.time
-            : statistics.bestTime
-        statistics.hints += score.hints
-
-        const difficulty = score.difficulty
-
-        if (statistics[difficulty]) {
-          statistics[difficulty].playedGames++
-          statistics[difficulty].totalMovements += score.movements
-          statistics[difficulty].totalTime = statistics[difficulty].totalTime.plus(score.time)
-          statistics[difficulty].bestMovements =
-            score.movements < (statistics[difficulty].bestMovements ?? Infinity)
-              ? score.movements
-              : statistics[difficulty].bestMovements
-          statistics[difficulty].bestTime =
-            score.time.toMillis() < (statistics[difficulty].bestTime?.toMillis() ?? Infinity)
-              ? score.time
-              : statistics[difficulty].bestTime
-          statistics[difficulty].hints += score.hints
-        }
-      }
-
-      if (statistics.playedGames) {
-        statistics.averageMovements = statistics.totalMovements / statistics.playedGames
-        statistics.averageTime = Duration.fromMillis(statistics.totalTime.toMillis() / statistics.playedGames)
-      }
-
-      if (statistics.easy.playedGames) {
-        statistics.easy.averageMovements = statistics.easy.totalMovements / statistics.easy.playedGames
-        statistics.easy.averageTime = Duration.fromMillis(statistics.easy.totalTime.toMillis() / statistics.easy.playedGames)
-      }
-
-      if (statistics.normal.playedGames) {
-        statistics.normal.averageMovements = statistics.normal.totalMovements / statistics.normal.playedGames
-        statistics.normal.averageTime = Duration.fromMillis(statistics.normal.totalTime.toMillis() / statistics.normal.playedGames)
-      }
-
-      if (statistics.hard.playedGames) {
-        statistics.hard.averageMovements = statistics.hard.totalMovements / statistics.hard.playedGames
-        statistics.hard.averageTime = Duration.fromMillis(statistics.hard.totalTime.toMillis() / statistics.hard.playedGames)
-      }
-
-      return statistics
+      page: null as null | Difficulty,
+      all: new Statistics(Object.values(this.scores)),
+      easy: new Statistics(Object.values(this.scores), Difficulty.easy),
+      normal: new Statistics(Object.values(this.scores), Difficulty.normal),
+      hard: new Statistics(Object.values(this.scores), Difficulty.hard)
     }
   }
 })
