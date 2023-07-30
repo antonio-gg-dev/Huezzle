@@ -3,6 +3,7 @@ import { UnevenRowLengthError } from '@/exceptions/UnevenRowLengthError'
 import { FixedCellError } from '@/exceptions/FixedCellError'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 import { CellNotFound } from '@/exceptions/CellNotFound'
+import { Save } from '@/entities/Save'
 
 export class Board {
   private _movements = 0
