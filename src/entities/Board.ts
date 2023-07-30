@@ -4,6 +4,7 @@ import { FixedCellError } from '@/exceptions/FixedCellError'
 import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 import { CellNotFound } from '@/exceptions/CellNotFound'
 import { Save } from '@/entities/Save'
+import { IncompatibleSaveException } from '@/exceptions/IncompatibleSaveException'
 
 export class Board {
   private _movements = 0
@@ -64,7 +65,6 @@ export class Board {
 
   public get isSolved (): boolean {
     return this._cells
-      .flat()
       .every((cell, index) => this.colorsInitialState[index] === cell.color)
   }
 
@@ -108,7 +108,7 @@ export class Board {
       movableCells.length !== save.cellIds.length ||
       !movableCells.every(cell => save.cellIds.includes(cell.id))
     ) {
-      return this
+      throw new IncompatibleSaveException()
     }
 
     movableCells.sort((a, b) => save.cellIds.indexOf(a.id) - save.cellIds.indexOf(b.id))

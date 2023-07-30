@@ -4,35 +4,40 @@ import { Board } from '@/entities/Board'
 
 interface RawSave {
   cellIds: Cell['id'][],
-  startAt: string
+  startAt: string,
+  hints: number
 }
 
 export class Save {
   constructor (
     public readonly cellIds: Cell['id'][],
-    public readonly startAt: DateTime
+    public readonly startAt: DateTime,
+    public readonly hints: number
   ) {}
 
-  public static fromBoard (board: Board, startAt: DateTime): Save {
+  public static fromBoard (board: Board, startAt: DateTime, hints: number): Save {
     return new Save(
       board.cells
         .filter(cell => !cell.isFixed)
         .map(cell => cell.id),
-      startAt
+      startAt,
+      hints
     )
   }
 
   public toRaw (): RawSave {
     return {
       cellIds: this.cellIds,
-      startAt: this.startAt.toISO() ?? ''
+      startAt: this.startAt.toISO() ?? '',
+      hints: this.hints
     }
   }
 
-  public static fromRaw ({ cellIds, startAt }: RawSave): Save {
+  public static fromRaw ({ cellIds, startAt, hints }: RawSave): Save {
     return new Save(
       cellIds,
-      DateTime.fromISO(startAt)
+      DateTime.fromISO(startAt),
+      hints
     )
   }
 }

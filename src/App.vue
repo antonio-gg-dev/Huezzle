@@ -208,7 +208,7 @@ export default defineComponent({
     },
 
     'board.movements' () {
-      this.saveRepository.save(Save.fromBoard(this.board as Board, this.startAt as DateTime))
+      this.saveRepository.save(Save.fromBoard(this.board as Board, this.startAt as DateTime, this.requestedHints))
 
       if (this.settings.showTutorial() && this.board.movements > 1) {
         this.settingsRepository.store(this.settings.makeTutorial())
@@ -242,8 +242,12 @@ export default defineComponent({
     const save = this.saveRepository.get()
 
     if (save) {
-      this.board.loadSave(save)
-      this.startAt = save.startAt
+      try {
+        this.board.loadSave(save)
+
+        this.startAt = save.startAt
+        this.requestedHints = save.hints
+      } catch (_) {}
     }
   }
 })
