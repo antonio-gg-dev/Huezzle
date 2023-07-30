@@ -7,7 +7,7 @@ import { CellNotFound } from '@/exceptions/CellNotFound'
 export class Board {
   private _movements = 0
   private _isShuffled = false
-  private readonly colorsInitialState: string[]
+  public readonly colorsInitialState: string[]
   private _cells
   private readonly random: DayBasedRandomGenerator
   public readonly rowLength: number

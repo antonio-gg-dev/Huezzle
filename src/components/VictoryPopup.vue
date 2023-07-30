@@ -31,8 +31,7 @@
     </div>
 
     <ShareButtons
-      :time="score.time"
-      :movements="score.movements"
+      :score="score"
     />
 
     <div

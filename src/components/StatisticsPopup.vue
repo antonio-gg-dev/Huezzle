@@ -83,6 +83,7 @@
         :average-movements="statistics.averageMovements"
         :best-time="statistics.bestTime"
         :best-movements="statistics.bestMovements"
+        :hints="statistics.hints"
       />
 
       <StatisticsPage
@@ -98,6 +99,7 @@
         :average-movements="statistics.easy.averageMovements"
         :best-time="statistics.easy.bestTime"
         :best-movements="statistics.easy.bestMovements"
+        :hints="statistics.easy.hints"
       />
 
       <StatisticsPage
@@ -113,6 +115,7 @@
         :average-movements="statistics.normal.averageMovements"
         :best-time="statistics.normal.bestTime"
         :best-movements="statistics.normal.bestMovements"
+        :hints="statistics.normal.hints"
       />
 
       <StatisticsPage
@@ -128,6 +131,7 @@
         :average-movements="statistics.hard.averageMovements"
         :best-time="statistics.hard.bestTime"
         :best-movements="statistics.hard.bestMovements"
+        :hints="statistics.hard.hints"
       />
     </div>
   </PopupContainer>
@@ -178,6 +182,7 @@ export default defineComponent({
         averageTime: Duration.fromObject({}),
         bestMovements: null as null | number,
         bestTime: null as null | Duration,
+        hints: 0,
         [Difficulty.easy]: {
           playedGames: 0,
           totalMovements: 0,
@@ -185,7 +190,8 @@ export default defineComponent({
           averageMovements: 0,
           averageTime: Duration.fromObject({}),
           bestMovements: null as null | number,
-          bestTime: null as null | Duration
+          bestTime: null as null | Duration,
+          hints: 0
         },
         [Difficulty.normal]: {
           playedGames: 0,
@@ -194,7 +200,8 @@ export default defineComponent({
           averageMovements: 0,
           averageTime: Duration.fromObject({}),
           bestMovements: null as null | number,
-          bestTime: null as null | Duration
+          bestTime: null as null | Duration,
+          hints: 0
         },
         [Difficulty.hard]: {
           playedGames: 0,
@@ -203,7 +210,8 @@ export default defineComponent({
           averageMovements: 0,
           averageTime: Duration.fromObject({}),
           bestMovements: null as null | number,
-          bestTime: null as null | Duration
+          bestTime: null as null | Duration,
+          hints: 0
         }
       }
 
@@ -220,6 +228,7 @@ export default defineComponent({
           score.time.toMillis() < (statistics.bestTime?.toMillis() ?? Infinity)
             ? score.time
             : statistics.bestTime
+        statistics.hints += score.hints
 
         const difficulty = score.difficulty
 
@@ -235,6 +244,7 @@ export default defineComponent({
             score.time.toMillis() < (statistics[difficulty].bestTime?.toMillis() ?? Infinity)
               ? score.time
               : statistics[difficulty].bestTime
+          statistics[difficulty].hints += score.hints
         }
       }
 

@@ -5,14 +5,14 @@
     class="footer-options__container"
   >
     <button
-      key="victory"
+      key="settings"
       class="footer-options__button"
-      :title="$t('footer_statistics_button_label')"
-      @click="$emit('openStatisticsPopup')"
+      :title="$t('footer_settings_button_label')"
+      @click="$emit('openSettingsPopup')"
     >
       <img
         class="footer-options__icon"
-        src="/img/statistics.svg"
+        src="/img/settings.svg"
         alt=""
       >
     </button>
@@ -32,14 +32,29 @@
     </button>
 
     <button
-      key="settings"
+      v-if="showStatisticsButton"
+      key="statistics"
       class="footer-options__button"
-      :title="$t('footer_settings_button_label')"
-      @click="$emit('openSettingsPopup')"
+      :title="$t('footer_statistics_button_label')"
+      @click="$emit('openStatisticsPopup')"
     >
       <img
         class="footer-options__icon"
-        src="/img/settings.svg"
+        src="/img/statistics.svg"
+        alt=""
+      >
+    </button>
+
+    <button
+      v-if="showHintsButton"
+      key="hints"
+      class="footer-options__button"
+      :title="$t('footer_hints_button_label')"
+      @click="$emit('showHints')"
+    >
+      <img
+        class="footer-options__icon"
+        src="/img/hints.svg"
         alt=""
       >
     </button>
@@ -53,12 +68,21 @@ export default defineComponent({
   emits: [
     'openVictoryPopup',
     'openStatisticsPopup',
-    'openSettingsPopup'
+    'openSettingsPopup',
+    'showHints'
   ],
 
   props: {
+    showStatisticsButton: {
+      default: false,
+      type: Boolean as PropType<boolean>
+    },
+    showHintsButton: {
+      default: false,
+      type: Boolean as PropType<boolean>
+    },
     showVictoryButton: {
-      required: true,
+      default: false,
       type: Boolean as PropType<boolean>
     }
   }
@@ -69,6 +93,7 @@ export default defineComponent({
 .footer-options {
   &__container {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
   }

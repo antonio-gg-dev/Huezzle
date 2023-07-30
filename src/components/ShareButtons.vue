@@ -31,17 +31,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { PropType } from 'vue/dist/vue'
-import { DateTime, Duration } from 'luxon'
+import { DateTime } from 'luxon'
+import { Score } from '@/entities/Score'
 
 export default defineComponent({
   props: {
-    movements: {
+    score: {
       required: true,
-      type: Number as PropType<number>
-    },
-    time: {
-      required: true,
-      type: Object as PropType<Duration>
+      type: Score as PropType<Score>
     }
   },
 
@@ -57,8 +54,9 @@ export default defineComponent({
       const number = Math.floor(DateTime.now().diff(launchDate).as('days'))
       return this.$t('share_message', {
         number: number,
-        time: this.time.toFormat('m:ss'),
-        movements: this.movements
+        time: this.score.time.toFormat('m:ss'),
+        movements: this.score.movements,
+        hints: this.score.hints
       })
     },
     url (): string {

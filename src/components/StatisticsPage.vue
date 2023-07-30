@@ -58,6 +58,13 @@
         {{ integerToHuman(playedGames) }}
       </strong>
     </div>
+
+    <div class="statistics-page__label">
+      {{ $t('statistics_requested_hints') }}
+      <strong class="statistics-page__value">
+        {{ integerToHuman(hints) }}
+      </strong>
+    </div>
   </div>
 </template>
 
@@ -101,6 +108,10 @@ export default defineComponent({
       type: Object as PropType<Duration>
     },
     playedGames: {
+      required: true,
+      type: Number as PropType<number>
+    },
+    hints: {
       required: true,
       type: Number as PropType<number>
     }

@@ -25,13 +25,13 @@
       isGhostActive && 'game-board__board--grabbing'
     ]"
     @click="shuffle"
-    name="game-board__fade"
+    name="game-board__swap"
     :style="{
       '--rowWidth': board.rowLength
     }"
   >
     <div
-      v-for="cell in board.cells"
+      v-for="(cell, index) in board.cells"
       :key="cell.id"
       :data-cell-id="cell.id"
       :data-cell-color="cell.color"
@@ -41,18 +41,27 @@
         isDraggable(cell) && 'game-board__cell--draggable',
         isTouchable(cell) && 'game-board__cell--touchable',
         fromId === cell.id && isGhostActive && 'game-board__cell--grabbed',
-        isGhostActive && 'game-board__cell--grabbing',
+        isGhostActive && 'game-board__cell--grabbing'
       ]"
       :style="{
         '--color': cell.color
       } as CSSStyleDeclaration"
     >
-      <img
-        v-if="cell.isFixed"
-        class="game-board__fixed-image"
-        src="/img/fixed.svg"
-        alt=""
-      >
+      <Transition name="game-board__fade">
+        <img
+          v-if="cell.isFixed"
+          class="game-board__image"
+          src="/img/fixed.svg"
+          alt=""
+        >
+
+        <img
+          v-else-if="showHints && cell.color !== board.colorsInitialState[index]"
+          class="game-board__image"
+          src="/img/close.svg"
+          alt=""
+        >
+      </Transition>
     </div>
   </TransitionGroup>
 </template>
@@ -91,6 +100,10 @@ export default defineComponent({
     },
     alreadyPlayed: {
       required: true,
+      type: Boolean as PropType<boolean>
+    },
+    showHints: {
+      default: false,
       type: Boolean as PropType<boolean>
     }
   },
@@ -315,10 +328,11 @@ export default defineComponent({
     }
   }
 
-  &__fixed-image {
+  &__image {
     height: 3svh;
     opacity: 0.5;
     filter: invert(1);
+    transition: opacity calc(0.1s * var(--speed, 1)) linear;
 
     @media (prefers-color-scheme: dark) {
       filter: invert(0);
@@ -331,6 +345,11 @@ export default defineComponent({
     .light & {
       filter: invert(1);
     }
+  }
+
+  &__fade-enter-from,
+  &__fade-leave-to {
+    opacity: 0;
   }
 
   &__ghost {
@@ -385,7 +404,7 @@ export default defineComponent({
     }
   }
 
-  &__fade-move {
+  &__swap-move {
     pointer-events: none;
     z-index: 1;
   }

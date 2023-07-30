@@ -17,13 +17,17 @@
     :board="board"
     :settings="settings"
     :already-played="!!score"
+    :show-hints="showHints"
     @start="start"
   />
 
   <FooterOptions
+    :show-statistics-button="board.isSolved"
+    @open-statistics-popup="openPopup = 'statistics'"
+    :show-hints-button="!board.isSolved && showHintsButton && this.requestedHints < 3"
+    @show-hints="handleShowHints"
     :show-victory-button="!!score"
     @open-victory-popup="openPopup = 'victory'"
-    @open-statistics-popup="openPopup = 'statistics'"
     @open-settings-popup="openPopup = 'settings'"
   />
 
@@ -92,7 +96,10 @@ export default defineComponent({
       startAt: null as DateTime | null,
       endAt: null as DateTime | null,
       score: bindings.scoreRepository.get(DateTime.now()),
-      settings: bindings.settingsRepository.get()
+      settings: bindings.settingsRepository.get(),
+      showHints: false,
+      requestedHints: 0,
+      showHintsButton: false
     }
   },
 
@@ -109,6 +116,9 @@ export default defineComponent({
   methods: {
     start () {
       this.startAt = DateTime.now()
+      setTimeout(() => {
+        this.showHintsButton = true
+      }, 30_000)
     },
 
     saveSettings () {
@@ -153,6 +163,24 @@ export default defineComponent({
       )
 
       document.body.classList.add(this.settings.getAnimations())
+    },
+
+    handleShowHints () {
+      if (this.requestedHints >= 3) {
+        return
+      }
+
+      this.showHints = true
+      this.showHintsButton = false
+      this.requestedHints++
+
+      setTimeout(() => {
+        this.showHints = false
+      }, 5_000)
+
+      setTimeout(() => {
+        this.showHintsButton = true
+      }, 60_000)
     }
   },
 
@@ -169,7 +197,8 @@ export default defineComponent({
         this.score = new Score(
           new DifficultyGenerator(this.startAt).generate(),
           this.time,
-          this.board.movements
+          this.board.movements,
+          this.requestedHints
         )
 
         this.scoreRepository.save(this.startAt, this.score)
