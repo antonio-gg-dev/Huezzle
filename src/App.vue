@@ -74,6 +74,8 @@ import CreditsPopup from '@/components/CreditsPopup.vue'
 import UpdateBar from '@/components/UpdateBar.vue'
 import OnboardingTutorial from '@/components/OnboardingTutorial.vue'
 import NewPuzzle from '@/components/NewPuzzle.vue'
+import { Save } from '@/entities/Save'
+import { Board } from '@/entities/Board'
 
 export default defineComponent({
   components: {
@@ -176,7 +178,7 @@ export default defineComponent({
 
       setTimeout(() => {
         this.showHints = false
-      }, 5_000)
+      }, 10_000)
 
       setTimeout(() => {
         this.showHintsButton = true
@@ -206,6 +208,8 @@ export default defineComponent({
     },
 
     'board.movements' () {
+      this.saveRepository.save(Save.fromBoard(this.board as Board, this.startAt as DateTime))
+
       if (this.settings.showTutorial() && this.board.movements > 1) {
         this.settingsRepository.store(this.settings.makeTutorial())
       }
@@ -234,6 +238,13 @@ export default defineComponent({
     this.setMode()
     this.setTheme()
     this.setAnimations()
+
+    const save = this.saveRepository.get()
+
+    if (save) {
+      this.board.loadSave(save)
+      this.startAt = save.startAt
+    }
   }
 })
 </script>

@@ -34,59 +34,59 @@ export class Settings {
     public mode: Mode
   ) {}
 
-  resetTutorial (): Settings {
+  public resetTutorial (): Settings {
     this.tutorialDone = false
 
     return this
   }
 
-  makeTutorial (): Settings {
+  public makeTutorial (): Settings {
     this.tutorialDone = true
 
     return this
   }
 
-  showTutorial (): boolean {
+  public showTutorial (): boolean {
     return !this.tutorialDone
   }
 
-  setTheme (theme: Theme): Settings {
+  public setTheme (theme: Theme): Settings {
     this.theme = theme
     return this
   }
 
-  getTheme (): Theme {
+  public getTheme (): Theme {
     return this.theme
   }
 
-  setLanguage (language: string | null): Settings {
+  public setLanguage (language: string | null): Settings {
     this.language = language
     return this
   }
 
-  getLanguage (): string {
+  public getLanguage (): string {
     return this.language ?? navigator.language
   }
 
-  setAnimations (animation: Animations): Settings {
+  public setAnimations (animation: Animations): Settings {
     this.animations = animation
     return this
   }
 
-  getAnimations (): Animations {
+  public getAnimations (): Animations {
     return this.animations
   }
 
-  setMode (mode: Mode): Settings {
+  public setMode (mode: Mode): Settings {
     this.mode = mode
     return this
   }
 
-  getMode (): Mode {
+  public getMode (): Mode {
     return this.mode
   }
 
-  toRaw (): RawSettings {
+  public toRaw (): RawSettings {
     return {
       tutorialDone: this.tutorialDone,
       theme: this.theme,
@@ -96,7 +96,7 @@ export class Settings {
     }
   }
 
-  static fromRaw ({ tutorialDone, theme, language, animations, mode }: RawSettings): Settings {
+  public static fromRaw ({ tutorialDone, theme, language, animations, mode }: RawSettings): Settings {
     return new Settings(
       tutorialDone ?? false,
       theme ?? Theme.auto,

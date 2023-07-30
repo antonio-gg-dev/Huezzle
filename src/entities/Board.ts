@@ -98,4 +98,30 @@ export class Board {
 
     return this
   }
+
+  public loadSave (save: Save): Board {
+    const movableCells = this._cells
+      .filter((cell) => !cell.isFixed)
+
+    if (
+      movableCells.length !== save.cellIds.length ||
+      !movableCells.every(cell => save.cellIds.includes(cell.id))
+    ) {
+      return this
+    }
+
+    movableCells.sort((a, b) => save.cellIds.indexOf(a.id) - save.cellIds.indexOf(b.id))
+
+    let movableIndex = 0
+    this._cells = this._cells.map((cell) => {
+      if (cell.isFixed) {
+        return cell
+      }
+
+      return movableCells[movableIndex++]
+    })
+
+    this._isShuffled = true
+    return this
+  }
 }

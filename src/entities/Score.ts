@@ -16,7 +16,7 @@ export class Score {
     public readonly hints: number
   ) {}
 
-  toRaw (): RawScore {
+  public toRaw (): RawScore {
     return {
       difficulty: this.difficulty,
       time: this.time.toISO() ?? '',
@@ -25,7 +25,7 @@ export class Score {
     }
   }
 
-  static fromRaw ({ difficulty, time, movements, hints }: RawScore): Score {
+  public static fromRaw ({ difficulty, time, movements, hints }: RawScore): Score {
     return new Score(
       difficulty,
       Duration.fromISO(time),
