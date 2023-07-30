@@ -5,14 +5,16 @@ import { Board } from '@/entities/Board'
 interface RawSave {
   cellIds: Cell['id'][],
   startAt: string,
-  hints: number
+  hints: number,
+  movements: number
 }
 
 export class Save {
   constructor (
     public readonly cellIds: Cell['id'][],
     public readonly startAt: DateTime,
-    public readonly hints: number
+    public readonly hints: number,
+    public readonly movements: number
   ) {}
 
   public static fromBoard (board: Board, startAt: DateTime, hints: number): Save {
@@ -21,7 +23,8 @@ export class Save {
         .filter(cell => !cell.isFixed)
         .map(cell => cell.id),
       startAt,
-      hints
+      hints,
+      board.movements
     )
   }
 
@@ -29,15 +32,17 @@ export class Save {
     return {
       cellIds: this.cellIds,
       startAt: this.startAt.toISO() ?? '',
-      hints: this.hints
+      hints: this.hints,
+      movements: this.movements
     }
   }
 
-  public static fromRaw ({ cellIds, startAt, hints }: RawSave): Save {
+  public static fromRaw ({ cellIds, startAt, hints, movements }: RawSave): Save {
     return new Save(
       cellIds,
       DateTime.fromISO(startAt),
-      hints
+      hints,
+      movements
     )
   }
 }

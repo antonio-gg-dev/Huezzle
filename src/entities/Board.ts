@@ -123,6 +123,7 @@ export class Board {
     })
 
     this._isShuffled = true
+    this._movements = save.movements
     return this
   }
 }

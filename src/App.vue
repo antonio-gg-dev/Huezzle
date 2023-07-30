@@ -120,7 +120,7 @@ export default defineComponent({
       this.startAt = DateTime.now()
       setTimeout(() => {
         this.showHintsButton = true
-      }, 60_000)
+      }, 30_000)
     },
 
     saveSettings () {
