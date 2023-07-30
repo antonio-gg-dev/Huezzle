@@ -125,16 +125,7 @@ export default defineComponent({
 
   computed: {
     header () {
-      switch (this.difficulty) {
-        case Difficulty.easy:
-          return this.$t('difficulty_easy')
-        case Difficulty.normal:
-          return this.$t('difficulty_normal')
-        case Difficulty.hard:
-          return this.$t('difficulty_hard')
-      }
-
-      return this.$t('difficulty_all')
+      return this.$t(`difficulty.${this.difficulty ?? 'all'}`)
     }
   },
 

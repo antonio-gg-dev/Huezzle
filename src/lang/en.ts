@@ -1,4 +1,5 @@
 import { Animations, Mode, Theme } from '@/entities/Settings'
+import { Difficulty } from '@/services/DifficultyGenerator'
 
 export const en = {
   clipboard_button_label: 'Copy to clipboard',
@@ -8,10 +9,12 @@ export const en = {
   credits_libraries: 'All the people who have developed the libraries and tools that have helped me create this game',
   credits_sub_thanks: 'for supporting the development, providing ideas, and helping test the game',
   credits_thanks: 'Thanks',
-  difficulty_all: 'All',
-  difficulty_easy: 'Easy',
-  difficulty_hard: 'Hard',
-  difficulty_normal: 'Normal',
+  difficulty: {
+    [Difficulty.easy]: 'Easy',
+    [Difficulty.hard]: 'Hard',
+    [Difficulty.normal]: 'Normal',
+    all: 'All'
+  },
   footer_hints_button_label: 'Show hint',
   footer_settings_button_label: 'Settings',
   footer_statistics_button_label: 'View stats',
