@@ -69,9 +69,7 @@
       </button>
     </div>
 
-    <TransitionGroup
-      name="statistics-popup__fade"
-    >
+    <div class="statistics-popup__pages-container">
       <StatisticsPage
         :class="[
           'statistics-popup__page',
@@ -131,7 +129,7 @@
         :best-time="statistics.hard.bestTime"
         :best-movements="statistics.hard.bestMovements"
       />
-    </TransitionGroup>
+    </div>
   </PopupContainer>
 </template>
 
@@ -321,25 +319,20 @@ export default defineComponent({
     }
   }
 
-  &__page {
-    overflow: hidden;
-    visibility: hidden;
-    transition: opacity calc(0.2s * var(--speed, 1)) linear;
-    opacity: 0;
-    height: 0;
-
-    &--active {
-      visibility: visible;
-      height: auto;
-      opacity: 1;
-    }
+  &__pages-container {
+    white-space: nowrap;
   }
 
-  &__fade-enter-from,
-  &__fade-leave-to {
-    overflow: visible;
-    height: 0;
+  &__page {
+    display: inline-grid;
+    transition: opacity calc(0.1s * var(--speed, 1)) linear;
+    width: 100%;
+    margin-right: -100%;
     opacity: 0;
+
+    &--active {
+      opacity: 1;
+    }
   }
 }
 </style>
