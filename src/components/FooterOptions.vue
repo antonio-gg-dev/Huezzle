@@ -107,7 +107,7 @@ export default defineComponent({
   &__button {
     all: unset;
     position: relative;
-    display: grid;
+    display: flex;
     height: min(50%, 20svw);
     aspect-ratio: 1 / 1;
     border-radius: 100%;
@@ -115,6 +115,7 @@ export default defineComponent({
     background-color: transparent;
     cursor: pointer;
     place-items: center;
+    justify-content: center;
     box-shadow: 0 0 0.1rem 0 #0004,
       0 0.1rem 0.3rem 0 #0004;
 
