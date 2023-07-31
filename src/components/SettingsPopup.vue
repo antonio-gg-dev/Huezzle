@@ -79,13 +79,23 @@
         {{ $t('settings_support_label') }}
       </div>
 
-      <a
-        class="settings-popup__button"
-        target="_blank"
-        href="https://ko-fi.com/antoniogg"
-      >
-        Ko-fi
-      </a>
+      <div class="settings-popup__button-container">
+        <a
+          class="settings-popup__button settings-popup__button--no-wrap"
+          target="_blank"
+          href="https://ko-fi.com/antoniogg"
+        >
+          Ko-fi
+        </a>
+
+        <a
+          class="settings-popup__button"
+          target="_blank"
+          href="https://paypal.me/titokati"
+        >
+          PayPal
+        </a>
+      </div>
     </div>
   </PopupContainer>
 </template>
@@ -191,6 +201,12 @@ export default defineComponent({
     font-size: 1.5rem;
   }
 
+  &__button-container {
+    display: flex;
+    justify-content: right;
+    gap: 2rem;
+  }
+
   &__button {
     all: unset;
     display: inline-block;
@@ -239,6 +255,10 @@ export default defineComponent({
       background-color: transparent;
       opacity: 0.6;
       box-shadow: none;
+    }
+
+    &--no-wrap {
+      white-space: nowrap;
     }
   }
 }
