@@ -13,7 +13,7 @@
           'statistics-popup__button',
           page === null && 'statistics-popup__button--active'
         ]"
-        :title="$t('difficulty_all')"
+        :title="$t(`difficulty.all`)"
         @click="page = null"
       >
         <img
@@ -28,7 +28,7 @@
           'statistics-popup__button',
           page === Difficulty.easy && 'statistics-popup__button--active'
         ]"
-        :title="$t('difficulty_easy')"
+        :title="$t(`difficulty.${Difficulty.easy}`)"
         @click="page = Difficulty.easy"
       >
         <img
@@ -43,7 +43,7 @@
         'statistics-popup__button',
         page === Difficulty.normal && 'statistics-popup__button--active'
       ]"
-        :title="$t('difficulty_normal')"
+        :title="$t(`difficulty.${Difficulty.normal}`)"
         @click="page = Difficulty.normal"
       >
         <img
@@ -58,7 +58,7 @@
           'statistics-popup__button',
           page === Difficulty.hard && 'statistics-popup__button--active'
         ]"
-        :title="$t('difficulty_hard')"
+        :title="$t(`difficulty.${Difficulty.hard}`)"
         @click="page = Difficulty.hard"
       >
         <img
@@ -197,8 +197,7 @@ export default defineComponent({
   &__button {
     all: unset;
     display: grid;
-    width: 5rem;
-    height: 5rem;
+    width: min(5rem, 20svw);
     aspect-ratio: 1 / 1;
     border-radius: 100%;
     transition: all calc(0.2s * var(--speed, 1)) linear;
@@ -241,6 +240,8 @@ export default defineComponent({
 
   &__pages-container {
     white-space: nowrap;
+    max-width: calc(100svw - 8rem);
+    margin: 0 auto;
   }
 
   &__page {

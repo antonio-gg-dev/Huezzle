@@ -15,9 +15,9 @@ export class BoardSizeGenerator {
       case Difficulty.easy:
         return this.random.from([[7, 7], [7, 9]])
       case Difficulty.normal:
-        return this.random.from([[7, 7], [7, 9], [9, 9]])
+        return this.random.from([[7, 9], [9, 9]])
       case Difficulty.hard:
-        return this.random.from([[9, 9], [9, 11]])
+        return [9, 9]
     }
   }
 }

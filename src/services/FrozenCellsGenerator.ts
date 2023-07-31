@@ -22,6 +22,8 @@ export class FrozenCellsGenerator {
       case Difficulty.easy:
         return this.random.from([
           () => this.generateChess(),
+          () => this.generateChess(),
+          () => this.generateDots(),
           () => this.generateDots(),
           () => this.generateWindow(),
           () => this.generateSquare()
@@ -30,7 +32,10 @@ export class FrozenCellsGenerator {
         return this.random.from([
           () => this.generateChess(),
           () => this.generateDots(),
+          () => this.generateDots(),
           () => this.generateWindow(),
+          () => this.generateWindow(),
+          () => this.generateSquare(),
           () => this.generateSquare(),
           () => this.generateXSides(),
           () => this.generateYSides()
@@ -39,6 +44,8 @@ export class FrozenCellsGenerator {
         return this.random.from([
           () => this.generateSquare(),
           () => this.generateXSides(),
+          () => this.generateXSides(),
+          () => this.generateYSides(),
           () => this.generateYSides(),
           () => this.generateCorners()
         ])()
