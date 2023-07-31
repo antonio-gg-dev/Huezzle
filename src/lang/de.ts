@@ -1,0 +1,77 @@
+import { Animations, Mode, Theme } from '@/entities/Settings'
+import { Difficulty } from '@/services/DifficultyGenerator'
+
+export const de = {
+  clipboard_button_label: 'In die Zwischenablage kopieren',
+  credits_developer: 'ein Spiel entwickelt von',
+  credits_family: 'und insbesondere meiner Familie und Freunde',
+  credits_header: 'Huezzle',
+  credits_libraries: 'Alle Personen, die Bibliotheken und Werkzeuge entwickelt haben, die mir geholfen haben, dieses Spiel zu erstellen',
+  credits_sub_thanks: 'für die Unterstützung bei der Entwicklung, das Einbringen von Ideen und das Testen des Spiels',
+  credits_thanks: 'Danke',
+  difficulty: {
+    [Difficulty.easy]: 'Leicht',
+    [Difficulty.hard]: 'Schwer',
+    [Difficulty.normal]: 'Normal',
+    all: 'Alle'
+  },
+  footer_hints_button_label: 'Hinweis anzeigen',
+  footer_settings_button_label: 'Einstellungen',
+  footer_statistics_button_label: 'Statistiken anzeigen',
+  footer_victory_button_label: 'Ergebnis anzeigen',
+  meta_description: 'Ein neues Puzzle jeden Tag, ordne die farbigen Zellen und konkurriere mit deinen Freunden und deiner Familie.',
+  meta_title: 'Huezzle - Dein tägliches Puzzle',
+  new_puzzle_button: 'Los geht\'s',
+  new_puzzle_message: 'Es gibt ein neues Huezzle verfügbar!',
+  popup_close: 'Schließen',
+  settings_animations_button: {
+    [Animations.disabled]: 'Deaktiviert',
+    [Animations.fast]: 'Schnell',
+    [Animations.normal]: 'Normal',
+    [Animations.slow]: 'Langsam'
+  },
+  settings_animations_label: 'Animationen',
+  settings_credits_button: 'Anzeigen',
+  settings_credits_label: 'Credits',
+  settings_header: 'Einstellungen',
+  settings_language_auto: 'Automatisch (Spanisch)',
+  settings_language_label: 'Sprache',
+  settings_language_name: 'Spanisch',
+  settings_mode_button: {
+    [Mode.both]: 'Beides',
+    [Mode.grab]: 'Greifen',
+    [Mode.touch]: 'Berühren'
+  },
+  settings_mode_label: 'Austauschmodus',
+  settings_support_label: 'Entwickler unterstützen',
+  settings_theme_button: {
+    [Theme.auto]: 'Automatisch',
+    [Theme.dark]: 'Dunkel',
+    [Theme.light]: 'Hell'
+  },
+  settings_theme_label: 'Thema',
+  settings_tutorial_button: 'Neu starten',
+  settings_tutorial_label: 'Tutorial',
+  share_button_label: 'Teilen',
+  share_message: 'Das Huezzle des Tages #{number}:\n🕑 Zeit: {time}\n🔄 Züge: {movements}\n💡 Hinweise: {hints}\n',
+  statistics_average_movements: 'Durchschnittliche Züge',
+  statistics_average_time: 'Durchschnittliche Zeit',
+  statistics_best_movements: 'Beste Züge',
+  statistics_best_time: 'Beste Zeit',
+  statistics_header: 'Statistiken',
+  statistics_played_games: 'Gespielte Spiele',
+  statistics_requested_hints: 'Hinweise',
+  statistics_total_movements: 'Gesamtzahl der Züge',
+  statistics_total_time: 'Gesamtzeit',
+  tutorial_grab_message: 'Ziehe eine Zelle über eine andere, um ihre Positionen auszutauschen',
+  tutorial_sort_message: 'Ordne alle Zellen erneut, um zu gewinnen',
+  tutorial_start_message: 'Berühre, um zu beginnen',
+  tutorial_touch_message: 'Berühre eine Zelle und dann eine andere, um ihre Positionen auszutauschen',
+  updates_downloading_message: 'Update wird heruntergeladen...',
+  updates_ready_button: 'Anwenden',
+  updates_ready_message: 'Update bereit!',
+  victory_header: 'Geschafft!',
+  victory_movements_label: 'Bewegungen:',
+  victory_next_huezzle_label: 'Nächstes Huezzle:',
+  victory_time_label: 'Zeit:'
+}
