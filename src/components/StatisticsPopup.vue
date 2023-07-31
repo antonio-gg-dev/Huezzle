@@ -204,6 +204,8 @@ export default defineComponent({
     background-color: transparent;
     cursor: pointer;
     place-items: center;
+    box-shadow: 0 0 0.1rem 0 #0004,
+      0 0.1rem 0.3rem 0 #0004;
 
     &:hover, &:focus, &--active {
       background-color: #eee;

@@ -104,8 +104,8 @@ export default defineComponent({
     background-color: #fff;
     padding: 3rem 4rem;
     border-radius: 0.1rem;
-    box-shadow: 0 0 0.1rem 0 #0006,
-      0 0.1rem 0.3rem 0 #0006;
+    box-shadow: 0 0 0.1rem 0 #0004,
+      0 0.1rem 0.3rem 0 #0004;
     max-height: 70svh;
     overflow-x: hidden;
     overflow-y: auto;
@@ -175,9 +175,13 @@ export default defineComponent({
     all: unset;
     display: block;
     text-align: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 300;
     margin-bottom: 2rem;
+
+    @media (min-width: 768px) {
+      font-size: 3rem;
+    }
   }
 
   &__button {
@@ -191,13 +195,14 @@ export default defineComponent({
     border-radius: 100%;
     transition: all calc(0.2s * var(--speed, 1)) linear;
     cursor: pointer;
-    place-items: center;box-shadow: 0 0 0.1rem 0 #0006,
-      0 0.1rem 0.3rem 0 #0006;
+    place-items: center;
     background-color: #fff;
     position: absolute;
     transform: translate(50%, 100%);
     right: 50%;
     bottom: -1rem;
+    box-shadow: 0 0 0.1rem 0 #0004,
+      0 0.1rem 0.3rem 0 #0004;
 
     @media (prefers-color-scheme: dark) {
       background-color: #222;

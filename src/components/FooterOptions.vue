@@ -101,13 +101,15 @@ export default defineComponent({
   &__button {
     all: unset;
     display: grid;
-    height: min(50%, 30svw);
+    height: min(50%, 20svw);
     aspect-ratio: 1 / 1;
     border-radius: 100%;
     transition: all calc(0.2s * var(--speed, 1)) linear;
     background-color: transparent;
     cursor: pointer;
     place-items: center;
+    box-shadow: 0 0 0.1rem 0 #0004,
+      0 0.1rem 0.3rem 0 #0004;
 
     &:hover, &:focus {
       background-color: #eee;
