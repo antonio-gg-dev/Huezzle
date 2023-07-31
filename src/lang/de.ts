@@ -34,9 +34,9 @@ export const de = {
   settings_credits_button: 'Anzeigen',
   settings_credits_label: 'Credits',
   settings_header: 'Einstellungen',
-  settings_language_auto: 'Automatisch (Spanisch)',
+  settings_language_auto: 'Automatisch (Deutsch)',
   settings_language_label: 'Sprache',
-  settings_language_name: 'Spanisch',
+  settings_language_name: 'Deutsch',
   settings_mode_button: {
     [Mode.both]: 'Beides',
     [Mode.grab]: 'Greifen',
