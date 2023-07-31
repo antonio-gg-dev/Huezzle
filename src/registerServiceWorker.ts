@@ -3,7 +3,7 @@
 import { register } from 'register-service-worker'
 import { reactive } from 'vue'
 
-export const enum UpdateStatus {
+export enum UpdateStatus {
   noUpdates = 'noUpdates',
   downloading = 'downloading',
   ready = 'ready'

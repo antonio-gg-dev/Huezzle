@@ -1,17 +1,17 @@
-export const enum Theme {
+export enum Theme {
   auto = 'auto',
   dark = 'dark',
   light = 'light'
 }
 
-export const enum Animations {
+export enum Animations {
   disabled = 'disabled',
   fast = 'fast',
   normal = 'normal',
   slow = 'slow'
 }
 
-export const enum Mode {
+export enum Mode {
   both = 'both',
   grab = 'grab',
   touch = 'touch'
@@ -19,10 +19,10 @@ export const enum Mode {
 
 export interface RawSettings {
   tutorialDone: boolean | undefined
-  theme: Theme | undefined
+  theme: string | undefined
   language: string | null | undefined
-  animations: Animations | undefined
-  mode: Mode | undefined
+  animations: string | undefined
+  mode: string | undefined
 }
 
 export class Settings {
@@ -99,10 +99,10 @@ export class Settings {
   public static fromRaw ({ tutorialDone, theme, language, animations, mode }: RawSettings): Settings {
     return new Settings(
       tutorialDone ?? false,
-      theme ?? Theme.auto,
+      theme !== undefined && theme in Theme ? theme as Theme : Theme.auto,
       language ?? null,
-      animations ?? Animations.normal,
-      mode ?? Mode.both
+      animations !== undefined && animations in Animations ? animations as Animations : Animations.normal,
+      mode !== undefined && mode in Mode ? mode as Mode : Mode.both
     )
   }
 }

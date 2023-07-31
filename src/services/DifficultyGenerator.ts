@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 
-export const enum Difficulty {
+export enum Difficulty {
   easy = 'easy',
   normal = 'normal',
   hard = 'hard',

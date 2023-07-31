@@ -1,17 +1,17 @@
 <template>
   <div
-    v-if="downloading || ready"
+    v-if="updateStatus.status !== UpdateStatus.noUpdates"
     :class="[
       'update-bar__container',
-      downloading && 'update-bar__container--downloading',
-      ready && 'update-bar__container--ready'
+      updateStatus.status === UpdateStatus.downloading && 'update-bar__container--downloading',
+      updateStatus.status === UpdateStatus.ready && 'update-bar__container--ready'
     ]"
   >
-    <template v-if="downloading">
+    <template v-if="updateStatus.status === UpdateStatus.downloading">
       {{ $t('updates_downloading_message') }}
     </template>
 
-    <template v-else-if="ready">
+    <template v-else-if="updateStatus.status === UpdateStatus.ready">
       {{ $t('updates_ready_message') }}
 
       <button
@@ -30,12 +30,12 @@ import { UpdateStatus, updateStatus } from '@/registerServiceWorker'
 
 export default defineComponent({
   computed: {
-    downloading () {
-      return updateStatus.status === UpdateStatus.downloading
+    UpdateStatus () {
+      return UpdateStatus
     },
 
-    ready () {
-      return updateStatus.status === UpdateStatus.ready
+    updateStatus () {
+      return updateStatus
     }
   },
 

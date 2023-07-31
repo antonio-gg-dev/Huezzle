@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 import { Board } from '@/entities/Board'
 
 interface RawSave {
-  cellIds: Cell['id'][],
+  cellIds: string[],
   startAt: string,
   hints: number,
   movements: number
@@ -37,7 +37,7 @@ export class Save {
     }
   }
 
-  public static fromRaw ({ cellIds, startAt, hints, movements }: RawSave): Save {
+  public static fromRaw ({ cellIds, startAt, hints, movements }: RawSave): Save | null {
     return new Save(
       cellIds,
       DateTime.fromISO(startAt),

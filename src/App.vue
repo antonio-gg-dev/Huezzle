@@ -241,7 +241,10 @@ export default defineComponent({
 
     const save = this.saveRepository.get()
 
-    if (save) {
+    if (
+      save &&
+      this.startAt?.toISODate() === save.startAt.toISODate()
+    ) {
       try {
         this.board.loadSave(save)
 

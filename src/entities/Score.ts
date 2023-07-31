@@ -2,10 +2,10 @@ import { Difficulty } from '@/services/DifficultyGenerator'
 import { Duration } from 'luxon'
 
 export interface RawScore {
-  difficulty: Difficulty,
+  difficulty: string,
   time: string,
   movements: number,
-  hints: undefined | number
+  hints: number | undefined
 }
 
 export class Score {
@@ -27,7 +27,7 @@ export class Score {
 
   public static fromRaw ({ difficulty, time, movements, hints }: RawScore): Score {
     return new Score(
-      difficulty,
+      difficulty in Difficulty ? difficulty as Difficulty : Difficulty.easy,
       Duration.fromISO(time),
       movements,
       hints ?? 0

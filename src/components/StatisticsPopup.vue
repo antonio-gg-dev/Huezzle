@@ -26,10 +26,10 @@
       <button
         :class="[
           'statistics-popup__button',
-          page === 'easy' && 'statistics-popup__button--active'
+          page === Difficulty.easy && 'statistics-popup__button--active'
         ]"
         :title="$t('difficulty_easy')"
-        @click="page = 'easy'"
+        @click="page = Difficulty.easy"
       >
         <img
           class="statistics-popup__icon"
@@ -41,10 +41,10 @@
       <button
         :class="[
         'statistics-popup__button',
-        page === 'normal' && 'statistics-popup__button--active'
+        page === Difficulty.normal && 'statistics-popup__button--active'
       ]"
         :title="$t('difficulty_normal')"
-        @click="page = 'normal'"
+        @click="page = Difficulty.normal"
       >
         <img
           class="statistics-popup__icon"
@@ -56,10 +56,10 @@
       <button
         :class="[
           'statistics-popup__button',
-          page === 'hard' && 'statistics-popup__button--active'
+          page === Difficulty.hard && 'statistics-popup__button--active'
         ]"
         :title="$t('difficulty_hard')"
-        @click="page = 'hard'"
+        @click="page = Difficulty.hard"
       >
         <img
           class="statistics-popup__icon"
@@ -89,9 +89,9 @@
       <StatisticsPage
         :class="[
           'statistics-popup__page',
-          page === 'easy' && 'statistics-popup__page--active'
+          page === Difficulty.easy && 'statistics-popup__page--active'
         ]"
-        difficulty="easy"
+        :difficulty="Difficulty.easy"
         :played-games="easy.playedGames"
         :total-time="easy.totalTime"
         :total-movements="easy.totalMovements"
@@ -105,9 +105,9 @@
       <StatisticsPage
         :class="[
           'statistics-popup__page',
-          page === 'normal' && 'statistics-popup__page--active'
+          page === Difficulty.normal && 'statistics-popup__page--active'
         ]"
-        difficulty="normal"
+        :difficulty="Difficulty.normal"
         :played-games="normal.playedGames"
         :total-time="normal.totalTime"
         :total-movements="normal.totalMovements"
@@ -121,9 +121,9 @@
       <StatisticsPage
         :class="[
           'statistics-popup__page',
-          page === 'hard' && 'statistics-popup__page--active'
+          page === Difficulty.hard && 'statistics-popup__page--active'
         ]"
-        difficulty="hard"
+        :difficulty="Difficulty.hard"
         :played-games="hard.playedGames"
         :total-time="hard.totalTime"
         :total-movements="hard.totalMovements"
@@ -163,6 +163,12 @@ export default defineComponent({
     isOpen: {
       default: false,
       type: Boolean as PropType<boolean>
+    }
+  },
+
+  computed: {
+    Difficulty () {
+      return Difficulty
     }
   },
 
