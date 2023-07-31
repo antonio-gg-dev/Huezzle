@@ -76,6 +76,7 @@ import OnboardingTutorial from '@/components/OnboardingTutorial.vue'
 import NewPuzzle from '@/components/NewPuzzle.vue'
 import { Save } from '@/entities/Save'
 import { Board } from '@/entities/Board'
+import JSConfetti from 'js-confetti'
 
 export default defineComponent({
   components: {
@@ -196,6 +197,12 @@ export default defineComponent({
         }
 
         this.openPopup = 'victory'
+
+        const confetti = new JSConfetti()
+        confetti.addConfetti({
+          confettiColors: this.board.colorsInitialState
+        })
+
         this.score = new Score(
           new DifficultyGenerator(this.startAt).generate(),
           this.time,
@@ -260,7 +267,7 @@ export default defineComponent({
 .app {
   &__header {
     all: unset;
-    font-size: 3rem;
+    font-size: min(3rem, 20svw);
     text-align: center;
     font-weight: 300;
     align-self: center;

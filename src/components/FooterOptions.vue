@@ -97,6 +97,7 @@ export default defineComponent({
     flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
+    padding: 0 min(4rem, 10svw);
   }
 
   &__button {
@@ -243,7 +244,6 @@ export default defineComponent({
   &__fade-enter-from,
   &__fade-leave-to {
     opacity: 0;
-    transform: translateY(50%);
   }
 }
 </style>

@@ -2,7 +2,7 @@ import { RawScore, Score } from '@/entities/Score'
 import { DateTime } from 'luxon'
 
 export class ScoreRepository {
-  private readonly storageKey = 'score-historic'
+  private readonly storageKey = 'scores'
 
   constructor (
     private readonly storage: Storage

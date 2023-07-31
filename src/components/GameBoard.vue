@@ -333,6 +333,7 @@ export default defineComponent({
     opacity: 0.5;
     filter: invert(1);
     transition: opacity calc(0.1s * var(--speed, 1)) linear;
+    width: min(2rem, 60%);
 
     @media (prefers-color-scheme: dark) {
       filter: invert(0);
