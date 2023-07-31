@@ -15,7 +15,7 @@ export const en = {
     [Difficulty.normal]: 'Normal',
     all: 'All'
   },
-  footer_hints_button_label: 'Show hint',
+  footer_hints_button_label: 'Show hint {hints}/3',
   footer_settings_button_label: 'Settings',
   footer_statistics_button_label: 'View stats',
   footer_victory_button_label: 'View score',

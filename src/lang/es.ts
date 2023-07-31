@@ -15,7 +15,7 @@ export const es = {
     [Difficulty.normal]: 'Normal',
     all: 'Total'
   },
-  footer_hints_button_label: 'Mostrar pista',
+  footer_hints_button_label: 'Mostrar pista {hints}/3',
   footer_settings_button_label: 'Configuración',
   footer_statistics_button_label: 'Ver estadísticas',
   footer_victory_button_label: 'Ver resultado',

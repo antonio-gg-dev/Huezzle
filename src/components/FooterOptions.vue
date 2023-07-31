@@ -46,10 +46,10 @@
     </button>
 
     <button
-      v-if="!showStatisticsButton"
+      v-if="!showStatisticsButton && hints < 3"
       key="hints"
       class="footer-options__button"
-      :title="$t('footer_hints_button_label')"
+      :title="$t('footer_hints_button_label', { hints: hints })"
       @click="$emit('showHints')"
       :disabled="!showHintsButton"
     >
@@ -81,6 +81,10 @@ export default defineComponent({
     showHintsButton: {
       default: false,
       type: Boolean as PropType<boolean>
+    },
+    hints: {
+      required: true,
+      type: Number as PropType<number>
     },
     showVictoryButton: {
       default: false,

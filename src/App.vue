@@ -26,6 +26,7 @@
     @open-statistics-popup="openPopup = 'statistics'"
     :show-hints-button="!board.isSolved && showHintsButton && this.requestedHints < 3"
     @show-hints="handleShowHints"
+    :hints="requestedHints"
     :show-victory-button="!!score"
     @open-victory-popup="openPopup = 'victory'"
     @open-settings-popup="openPopup = 'settings'"
