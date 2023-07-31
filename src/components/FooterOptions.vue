@@ -46,11 +46,12 @@
     </button>
 
     <button
-      v-if="showHintsButton"
+      v-if="!showStatisticsButton"
       key="hints"
       class="footer-options__button"
       :title="$t('footer_hints_button_label')"
       @click="$emit('showHints')"
+      :disabled="!showHintsButton"
     >
       <img
         class="footer-options__icon"
@@ -100,6 +101,7 @@ export default defineComponent({
 
   &__button {
     all: unset;
+    position: relative;
     display: grid;
     height: min(50%, 20svw);
     aspect-ratio: 1 / 1;
@@ -110,6 +112,99 @@ export default defineComponent({
     place-items: center;
     box-shadow: 0 0 0.1rem 0 #0004,
       0 0.1rem 0.3rem 0 #0004;
+
+    &:disabled {
+      cursor: default;
+      overflow: hidden;
+      background-color: #eee;
+
+      @media (prefers-color-scheme: dark) {
+        background-color: #222;
+      }
+
+      .dark & {
+        background-color: #222;
+      }
+
+      .light & {
+        background-color: #eee;
+      }
+
+      &::after {
+        display: block;
+        content: "";
+        background-color: var(--color-disabled, #eee);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 50%;
+        bottom: 0;
+        z-index: 2;
+        animation: rotate-after 15s linear 15s;
+        transform-origin: center right;
+
+        @keyframes rotate-after {
+          0% {
+            transform: rotate(180deg);
+            background-color: var(--color-enabled, #fff);
+          }
+          100% {
+            transform: rotate(180deg);
+            background-color: var(--color-enabled, #fff);
+          }
+        }
+
+        @media (prefers-color-scheme: dark) {
+          --color-enabled: #111;
+          --color-disabled: #222;
+        }
+
+        .dark & {
+          --color-enabled: #111;
+          --color-disabled: #222;
+        }
+
+        .light & {
+          --color-enabled: #fff;
+          --color-disabled: #eee;
+        }
+      }
+
+      &::before {
+        display: block;
+        content: "";
+        background-color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 50%;
+        bottom: 0;
+        z-index: 1;
+        animation: rotate-before 30s linear;
+        transform-origin: center right;
+
+        @keyframes rotate-before {
+          0% {
+            transform: rotate(0);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+
+        @media (prefers-color-scheme: dark) {
+          background-color: #111;
+        }
+
+        .dark & {
+          background-color: #111;
+        }
+
+        .light & {
+          background-color: #fff;
+        }
+      }
+    }
 
     &:hover, &:focus {
       background-color: #eee;
@@ -130,6 +225,7 @@ export default defineComponent({
 
   &__icon {
     height: 40%;
+    z-index: 3;
 
     @media (prefers-color-scheme: dark) {
       filter: invert(1);

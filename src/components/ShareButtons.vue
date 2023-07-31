@@ -51,7 +51,7 @@ export default defineComponent({
     },
     message (): string {
       const launchDate = DateTime.fromISO('2023-08-01')
-      const number = Math.floor(DateTime.now().diff(launchDate).as('days'))
+      const number = Math.floor(DateTime.now().diff(launchDate).as('days')) + 1
       return this.$t('share_message', {
         number: number,
         time: this.score.time.toFormat('m:ss'),

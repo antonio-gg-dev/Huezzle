@@ -182,7 +182,7 @@ export default defineComponent({
 
       setTimeout(() => {
         this.showHintsButton = true
-      }, 60_000)
+      }, 30_000)
     }
   },
 

@@ -45,7 +45,7 @@ export default defineComponent({
         this.remaining = null
         clearInterval(this.loop ?? undefined)
       }
-    }, 60_000)
+    }, 30_000)
   },
 
   beforeUnmount () {
