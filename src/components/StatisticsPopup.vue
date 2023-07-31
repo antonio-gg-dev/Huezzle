@@ -169,16 +169,28 @@ export default defineComponent({
   computed: {
     Difficulty () {
       return Difficulty
+    },
+
+    all () {
+      return new Statistics(Object.values(this.scores))
+    },
+
+    easy () {
+      return new Statistics(Object.values(this.scores), Difficulty.easy)
+    },
+
+    normal () {
+      return new Statistics(Object.values(this.scores), Difficulty.normal)
+    },
+
+    hard () {
+      return new Statistics(Object.values(this.scores), Difficulty.hard)
     }
   },
 
   data () {
     return {
-      page: null as null | Difficulty,
-      all: new Statistics(Object.values(this.scores)),
-      easy: new Statistics(Object.values(this.scores), Difficulty.easy),
-      normal: new Statistics(Object.values(this.scores), Difficulty.normal),
-      hard: new Statistics(Object.values(this.scores), Difficulty.hard)
+      page: null as null | Difficulty
     }
   }
 })
