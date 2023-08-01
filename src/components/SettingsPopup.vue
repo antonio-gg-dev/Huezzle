@@ -213,6 +213,7 @@ export default defineComponent({
     display: flex;
     justify-content: right;
     gap: 2rem;
+    flex-wrap: wrap;
   }
 
   &__button {
