@@ -198,7 +198,7 @@ export default defineComponent({
   &__grid {
     display: grid;
     gap: 2rem 4rem;
-    align-items: center;
+    align-items: start;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
