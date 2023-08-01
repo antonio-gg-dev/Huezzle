@@ -95,6 +95,14 @@
         >
           PayPal
         </a>
+
+        <a
+          class="settings-popup__button"
+          target="_blank"
+          href="https://github.com/sponsors/Tito-Kati"
+        >
+          GitHub
+        </a>
       </div>
     </div>
   </PopupContainer>
