@@ -23,9 +23,13 @@ export class FrozenCellsGenerator {
         return this.random.from([
           () => this.generateChess(),
           () => this.generateChess(),
+          () => this.generateChess(),
+          () => this.generateChess(),
+          () => this.generateDots(),
           () => this.generateDots(),
           () => this.generateDots(),
           () => this.generateWindow(),
+          () => this.generateSquare(),
           () => this.generateSquare()
         ])()
       case Difficulty.normal:
