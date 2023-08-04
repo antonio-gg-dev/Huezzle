@@ -9,19 +9,19 @@ export class DayBasedRandomGenerator {
     this.random = SeedRandom(`${daySeed} ${seed}`)
   }
 
-  rnd (): number {
+  public rnd (): number {
     return this.random()
   }
 
-  minMax (min: number, max: number): number {
+  public minMax (min: number, max: number): number {
     return min + (this.random() * (max - min))
   }
 
-  from <T> (values: T[]): T {
+  public from <T> (values: T[]): T {
     return values[Math.floor(this.minMax(0, values.length))]
   }
 
-  hash (length = 6): string {
+  public hash (length = 6): string {
     let hash = ''
     while (hash.length < length) {
       hash += this.random().toString(36).substring(2, 20)
