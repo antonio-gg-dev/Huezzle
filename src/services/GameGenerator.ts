@@ -20,10 +20,10 @@ export class GameGenerator {
     this.random = new DayBasedRandomGenerator('game generator')
 
     this.difficulty = new DifficultyGenerator(this.date).generate()
-    const [width, height] = new BoardSizeGenerator(this.difficulty).generate()
+    const [width, height, frozenCells] = new BoardSizeGenerator(this.difficulty, new FrozenCellsGenerator()).generate()
     this.boardWidth = width
     this.boardHeight = height
-    this.frozenCells = new FrozenCellsGenerator(this.difficulty, width, height).generate()
+    this.frozenCells = frozenCells
   }
 
   public generate (): Board {
