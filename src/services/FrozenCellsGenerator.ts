@@ -1,33 +1,10 @@
-import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
-
 export interface Coordinate {
   x: number,
   y: number
 }
 
 export class FrozenCellsGenerator {
-  private readonly random: DayBasedRandomGenerator
-
-  constructor () {
-    this.random = new DayBasedRandomGenerator('frozen cells generator')
-  }
-
-  public generate (boardWidth: number, boardHeight: number): Coordinate[] {
-    return this.random.from([
-      () => this.generateChess(boardWidth, boardHeight),
-      () => this.generateChess(boardWidth, boardHeight),
-      () => this.generateChess(boardWidth, boardHeight),
-      () => this.generateChess(boardWidth, boardHeight),
-      () => this.generateDots(boardWidth, boardHeight),
-      () => this.generateDots(boardWidth, boardHeight),
-      () => this.generateDots(boardWidth, boardHeight),
-      () => this.generateWindow(boardWidth, boardHeight),
-      () => this.generateSquare(boardWidth, boardHeight),
-      () => this.generateSquare(boardWidth, boardHeight)
-    ])()
-  }
-
-  public generateChess (boardWidth: number, boardHeight: number) {
+  public static generateChess (boardWidth: number, boardHeight: number): Coordinate[] {
     const frozenCells = []
 
     for (let height = 0; height < boardHeight; height++) {
@@ -41,7 +18,7 @@ export class FrozenCellsGenerator {
     return frozenCells
   }
 
-  public generateDots (boardWidth: number, boardHeight: number) {
+  public static generateDots (boardWidth: number, boardHeight: number): Coordinate[] {
     const frozenCells = []
 
     for (let height = 0; height < boardHeight; height++) {
@@ -55,7 +32,7 @@ export class FrozenCellsGenerator {
     return frozenCells
   }
 
-  public generateWindow (boardWidth: number, boardHeight: number) {
+  public static generateWindow (boardWidth: number, boardHeight: number): Coordinate[] {
     const frozenCells = []
 
     for (let height = 0; height < boardHeight; height++) {
@@ -76,7 +53,7 @@ export class FrozenCellsGenerator {
     return frozenCells
   }
 
-  public generateSquare (boardWidth: number, boardHeight: number) {
+  public static generateSquare (boardWidth: number, boardHeight: number): Coordinate[] {
     const frozenCells = []
 
     for (let height = 0; height < boardHeight; height++) {
@@ -95,7 +72,7 @@ export class FrozenCellsGenerator {
     return frozenCells
   }
 
-  public generateXSides (boardWidth: number, boardHeight: number) {
+  public static generateXSides (boardWidth: number, boardHeight: number): Coordinate[] {
     const frozenCells = []
 
     for (let height = 0; height < boardHeight; height++) {
@@ -108,7 +85,7 @@ export class FrozenCellsGenerator {
     return frozenCells
   }
 
-  public generateYSides (boardWidth: number, boardHeight: number) {
+  public static generateYSides (boardWidth: number, boardHeight: number): Coordinate[] {
     const frozenCells = []
 
     for (let width = 0; width < boardWidth; width++) {
@@ -121,7 +98,7 @@ export class FrozenCellsGenerator {
     return frozenCells
   }
 
-  public generateCorners (boardWidth: number, boardHeight: number) {
+  public static generateCorners (boardWidth: number, boardHeight: number): Coordinate[] {
     return [{
       x: 0,
       y: 0

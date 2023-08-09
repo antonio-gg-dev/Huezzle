@@ -4,7 +4,7 @@ import { DayBasedRandomGenerator } from '@/services/DayBasedRandomGenerator'
 import Color from 'colorjs.io'
 import { Cell } from '@/entities/Cell'
 import { BoardSizeGenerator } from '@/services/BoardSizeGenerator'
-import { Coordinate, FrozenCellsGenerator } from '@/services/FrozenCellsGenerator'
+import { Coordinate } from '@/services/FrozenCellsGenerator'
 import { Difficulty, DifficultyGenerator } from '@/services/DifficultyGenerator'
 
 export class GameGenerator {
@@ -20,7 +20,7 @@ export class GameGenerator {
     this.random = new DayBasedRandomGenerator('game generator')
 
     this.difficulty = new DifficultyGenerator(this.date).generate()
-    const [width, height, frozenCells] = new BoardSizeGenerator(this.difficulty, new FrozenCellsGenerator()).generate()
+    const [width, height, frozenCells] = new BoardSizeGenerator(this.difficulty).generate()
     this.boardWidth = width
     this.boardHeight = height
     this.frozenCells = frozenCells
