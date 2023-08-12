@@ -69,7 +69,7 @@ export const en = {
   tutorial_touch_message: 'Touch one cell and then another to swap their positions',
   tweet_button_label: 'Post on X',
   twitter_tips_1: 'Follow',
-  twitter_tips_2: 'on X to get daily tips and stay updated on all the latest developments',
+  twitter_tips_2: 'on X to get daily tips and stay updated on all the latest developments.',
   updates_downloading_message: 'Downloading update...',
   updates_ready_button: 'Apply',
   updates_ready_message: 'Update ready!',
