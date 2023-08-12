@@ -14,8 +14,8 @@
     >
       {{ $t('twitter_tips_1') }}
       <strong class="statistics-popup__fake-link">
-        @Huezzle
-      </strong>
+        @Huezzle<!--
+      --></strong>
       {{ $t('twitter_tips_2') }}
     </a>
 

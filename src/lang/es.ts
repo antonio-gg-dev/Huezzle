@@ -67,7 +67,7 @@ export const es = {
   tutorial_sort_message: 'Ordena todas las celdas de nuevo para ganar',
   tutorial_start_message: 'Toca para comenzar',
   tutorial_touch_message: 'Toca una celda y luego otra para intercambiar sus posiciones',
-  tweet_button_label: 'Publicar en X',
+  tweet_button_label: 'Publicar',
   twitter_tips_1: 'Sigue a',
   twitter_tips_2: 'en X para recibir consejos diarios y estar al tanto de todas las actualizaciones.',
   updates_downloading_message: 'Descargando actualización...',
