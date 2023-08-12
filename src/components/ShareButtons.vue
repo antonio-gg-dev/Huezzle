@@ -13,6 +13,21 @@
     {{ $t('share_button_label') }}
   </button>
 
+  <a
+    @click="share"
+    class="share-buttons__button"
+    :href="tweetUrl"
+    target="_blank"
+  >
+    <img
+      class="share-buttons__icon"
+      src="/img/twitter.svg"
+      alt=""
+    >
+
+    {{ $t('tweet_button_label') }}
+  </a>
+
   <button
     v-if="canCopyToClipboard"
     @click="clipboard"
@@ -61,6 +76,14 @@ export default defineComponent({
     },
     url (): string {
       return 'https://huezzle.antonio.gg'
+    },
+    tweetUrl () {
+      const params = new URLSearchParams({
+        text: this.message.replace('Huezzle', '@Huezzle'),
+        url: this.url
+      })
+
+      return new URL(`https://twitter.com/intent/tweet?${params}`)
     }
   },
 
@@ -101,6 +124,7 @@ export default defineComponent({
     justify-self: center;
     margin: 0 auto 2rem;
     text-align: center;
+    width: fit-content;
 
     &:hover, &focus {
       background-color: #44db86;

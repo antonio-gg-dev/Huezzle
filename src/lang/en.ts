@@ -67,6 +67,7 @@ export const en = {
   tutorial_sort_message: 'Sort all cells again to win',
   tutorial_start_message: 'Touch to start',
   tutorial_touch_message: 'Touch one cell and then another to swap their positions',
+  tweet_button_label: 'Post on X',
   updates_downloading_message: 'Downloading update...',
   updates_ready_button: 'Apply',
   updates_ready_message: 'Update ready!',
