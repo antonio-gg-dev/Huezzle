@@ -83,6 +83,14 @@
         <a
           class="settings-popup__button settings-popup__button--no-wrap"
           target="_blank"
+          href="https://katarn.itch.io/"
+        >
+          itch.io
+        </a>
+
+        <a
+          class="settings-popup__button settings-popup__button--no-wrap"
+          target="_blank"
           href="https://ko-fi.com/antoniogg"
         >
           Ko-fi
