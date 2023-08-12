@@ -7,6 +7,18 @@
       {{ $t('statistics_header') }}
     </template>
 
+    <a
+      class="statistics-popup__twitter-tips"
+      href="https://twitter.com/huezzle"
+      target="_blank"
+    >
+      {{ $t('twitter_tips_1') }}
+      <strong class="statistics-popup__fake-link">
+        @Huezzle
+      </strong>
+      {{ $t('twitter_tips_2') }}
+    </a>
+
     <div class="statistics-popup__buttons-container">
       <button
         :class="[
@@ -198,6 +210,49 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .statistics-popup {
+  &__twitter-tips {
+    display: block;
+    border-left: #2ecc71 solid 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 0.1rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    color: #000;
+    background-color: #eafaf1;
+
+    @media (prefers-color-scheme: dark) {
+      color: #fff;
+      background-color: #05150c;
+    }
+
+    .dark & {
+      color: #fff;
+      background-color: #05150c;
+    }
+
+    .light & {
+      color: #000;
+      background: #eafaf1;
+    }
+  }
+
+  &__fake-link {
+    color: #17683a;
+    text-decoration: underline;
+
+    @media (prefers-color-scheme: dark) {
+      color: #2ecc71;
+    }
+
+    .dark & {
+      color: #2ecc71;
+    }
+
+    .light & {
+      color: #17683a;
+    }
+  }
+
   &__buttons-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
