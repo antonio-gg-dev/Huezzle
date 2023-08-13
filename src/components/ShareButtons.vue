@@ -14,7 +14,6 @@
   </button>
 
   <a
-    @click="share"
     class="share-buttons__button"
     :href="tweetUrl"
     target="_blank"
