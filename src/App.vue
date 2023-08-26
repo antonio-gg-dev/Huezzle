@@ -258,6 +258,9 @@ export default defineComponent({
 
         this.startAt = save.startAt
         this.requestedHints = save.hints
+        setTimeout(() => {
+          this.showHintsButton = true
+        }, 30_000)
       } catch (_) {}
     }
   }
