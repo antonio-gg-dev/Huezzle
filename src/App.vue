@@ -251,7 +251,7 @@ export default defineComponent({
 
     if (
       save &&
-      this.startAt?.toISODate() === save.startAt.toISODate()
+      DateTime.now().toISODate() === save.startAt.toISODate()
     ) {
       try {
         this.board.loadSave(save)
