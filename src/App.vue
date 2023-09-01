@@ -1,5 +1,8 @@
 <template>
-  <h1 class="app__header">
+  <h1
+    class="app__header"
+    @dblclick="easterEgg"
+  >
     Huezzle
   </h1>
 
@@ -192,6 +195,13 @@ export default defineComponent({
     importBackup (backup: string) {
       this.scoreRepository.import(backup)
       window.location.reload()
+    },
+
+    easterEgg () {
+      const confetti = new JSConfetti()
+      confetti.addConfetti({
+        confettiColors: this.board.colorsInitialState
+      })
     }
   },
 
