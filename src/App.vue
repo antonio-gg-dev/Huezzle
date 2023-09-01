@@ -198,6 +198,10 @@ export default defineComponent({
     },
 
     easterEgg () {
+      if (!this.score) {
+        return
+      }
+
       const confetti = new JSConfetti()
       confetti.addConfetti({
         confettiColors: this.board.colorsInitialState
