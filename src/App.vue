@@ -49,7 +49,9 @@
     @close="openPopup = null"
     @save="saveSettings"
     @credits="openPopup = 'credits'"
+    @import-backup="importBackup"
     :settings="settings"
+    :export="scoreRepository.export()"
   />
 
   <CreditsPopup
@@ -185,6 +187,11 @@ export default defineComponent({
       setTimeout(() => {
         this.showHintsButton = true
       }, 30_000)
+    },
+
+    importBackup (backup: string) {
+      this.scoreRepository.import(backup)
+      window.location.reload()
     }
   },
 

@@ -31,6 +31,9 @@ export const es = {
     [Animations.slow]: 'Lentas'
   },
   settings_animations_label: 'Animaciones',
+  settings_backup_export_button: 'Exportar',
+  settings_backup_import_button: 'Importar',
+  settings_backup_label: 'Respaldar estadísticas',
   settings_credits_button: 'Ver',
   settings_credits_label: 'Créditos',
   settings_header: 'Configuración',

@@ -36,6 +36,14 @@ export class ScoreRepository {
     return Score.fromRaw(raw)
   }
 
+  public export (): string {
+    return btoa(this.storage.getItem(this.storageKey) ?? '{}')
+  }
+
+  public import (backup: string) {
+    this.storage.setItem(this.storageKey, atob(backup))
+  }
+
   private getAllRaw (): Record<string, RawScore> {
     return JSON.parse(this.storage.getItem(this.storageKey) ?? '{}')
   }

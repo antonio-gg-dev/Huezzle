@@ -65,6 +65,33 @@
       </button>
 
       <div class="settings-popup__label">
+        {{ $t('settings_backup_label') }}
+      </div>
+
+      <div class="settings-popup__button-container">
+        <a
+          class="settings-popup__button settings-popup__button--no-wrap"
+          target="_blank"
+          :download="exportFileName"
+          :href="exportUrl"
+        >
+          {{ $t('settings_backup_export_button') }}
+        </a>
+
+        <label
+          class="settings-popup__button settings-popup__button--no-wrap"
+        >
+          <input
+            class="settings-popup__file-input"
+            type="file"
+            accept=".hsg"
+            @change="importBackup"
+          />
+          {{ $t('settings_backup_import_button') }}
+        </label>
+      </div>
+
+      <div class="settings-popup__label">
         {{ $t('settings_credits_label') }}
       </div>
 
@@ -120,6 +147,7 @@
 import PopupContainer from '@/components/PopupContainer.vue'
 import { defineComponent, PropType } from 'vue'
 import { Animations, Mode, Settings, Theme } from '@/entities/Settings'
+import { DateTime } from 'luxon'
 
 export default defineComponent({
   components: {
@@ -129,7 +157,8 @@ export default defineComponent({
   emits: [
     'close',
     'save',
-    'credits'
+    'credits',
+    'importBackup'
   ],
 
   props: {
@@ -140,6 +169,21 @@ export default defineComponent({
     isOpen: {
       default: false,
       type: Boolean as PropType<boolean>
+    },
+    export: {
+      required: true,
+      type: String as PropType<string>
+    }
+  },
+
+  computed: {
+    exportUrl () {
+      return URL.createObjectURL(new Blob([this.export], { type: 'text/plain' }))
+    },
+
+    exportFileName () {
+      const date = DateTime.now().toMillis()
+      return `huezzle_save_${date}.hsg`.replaceAll(/[^a-z0-9.]/g, '_')
     }
   },
 
@@ -196,6 +240,24 @@ export default defineComponent({
     resetTutorial () {
       this.settings.resetTutorial()
       this.$emit('save')
+    },
+
+    importBackup (event: Event) {
+      const input = event.target as HTMLInputElement
+      const file = input.files ? input.files[0] : null
+
+      if (!file) {
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = ({ target }: ProgressEvent<FileReader>) => {
+        if (target) {
+          this.$emit('importBackup', target.result)
+        }
+      }
+
+      reader.readAsText(file)
     }
   }
 })
@@ -277,6 +339,10 @@ export default defineComponent({
     &--no-wrap {
       white-space: nowrap;
     }
+  }
+
+  &__file-input {
+    display: none;
   }
 }
 </style>

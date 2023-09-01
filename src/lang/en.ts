@@ -31,6 +31,9 @@ export const en = {
     [Animations.slow]: 'Slow'
   },
   settings_animations_label: 'Animations',
+  settings_backup_export_button: 'Export',
+  settings_backup_import_button: 'Import',
+  settings_backup_label: 'Backup statistics',
   settings_credits_button: 'Show',
   settings_credits_label: 'Credits',
   settings_header: 'Settings',
