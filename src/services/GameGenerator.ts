@@ -7,6 +7,8 @@ import { BoardSizeGenerator } from '@/services/BoardSizeGenerator'
 import { Coordinate } from '@/services/FrozenCellsGenerator'
 import { Difficulty, DifficultyGenerator } from '@/services/DifficultyGenerator'
 
+type LchColor = Color & {h: number}
+
 export class GameGenerator {
   private readonly date: DateTime
   private readonly random: DayBasedRandomGenerator
@@ -27,22 +29,22 @@ export class GameGenerator {
   }
 
   public generate (): Board {
-    const contrast = this.random.minMax(60, 90)
-    const brightness = this.random.minMax(40, 60)
-    const firstColor = this.generateFirstColor(contrast, brightness)
-    const secondColor = this.generateSecondColor(contrast, brightness, firstColor)
-    const thirdColor = this.generateThirdColor(contrast, brightness, firstColor, secondColor)
-    const fourthColor = this.generateFourthColor(contrast, brightness, firstColor, secondColor, thirdColor)
+    const chroma = this.random.minMax(90, 135)
+    const lightness = this.random.minMax(40, 60)
+    const firstColor = this.generateFirstColor(chroma, lightness)
+    const secondColor = this.generateSecondColor(chroma, lightness, firstColor as Color & { h: number })
+    const thirdColor = this.generateThirdColor(chroma, lightness, firstColor, secondColor)
+    const fourthColor = this.generateFourthColor(chroma, lightness, firstColor, secondColor, thirdColor)
 
     const heightStepOptions = {
       space: 'srgb',
-      outputSpace: 'srgb',
+      outputSpace: 'lch',
       steps: this.boardHeight
     }
 
     const widthStepOptions = {
       space: 'srgb',
-      outputSpace: 'srgb',
+      outputSpace: 'lch',
       steps: this.boardWidth
     }
 
@@ -59,16 +61,16 @@ export class GameGenerator {
     )
 
     const leftGradient = Color.steps(topLeftColor, bottomLeftColor, heightStepOptions)
-      .map(color => new Color('srgb', color.coords).toString({ format: 'hex' }))
+      .map(color => new Color('lch', color.coords).toString({ format: 'lch' }))
     const rightGradient = Color.steps(topRightColor, bottomRightColor, heightStepOptions)
-      .map(color => new Color('srgb', color.coords).toString({ format: 'hex' }))
+      .map(color => new Color('lch', color.coords).toString({ format: 'lch' }))
 
     const cells: Cell[][] = []
 
     for (let height = 0; height < this.boardHeight; height++) {
       cells.push(Color.steps(leftGradient[height], rightGradient[height], widthStepOptions)
         .map((color, width) => new Cell(
-          new Color('srgb', color.coords).toString({ format: 'hex' }),
+          new Color('lch', color.coords).toString({ format: 'lch' }),
           this.frozenCells.findIndex(coordinate => coordinate.x === width && coordinate.y === height) !== -1
         )))
     }
@@ -76,70 +78,72 @@ export class GameGenerator {
     return new Board(cells)
   }
 
-  private generateFourthColor (contrast: number, brightness: number, firstColor: Color, secondColor: Color, thirdColor: Color) {
-    let fourthColor: Color
+  private generateFourthColor (chroma: number, lightness: number, firstColor: LchColor, secondColor: LchColor, thirdColor: LchColor): LchColor {
+    let fourthColor: LchColor
     let attempts = 0
 
     while (true) {
       if (attempts === 5) {
-        fourthColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness + this.random.minMax(30, 40)])
+        fourthColor = new Color('lch', [lightness + this.random.minMax(30, 40), chroma, this.random.minMax(0, 360)]) as LchColor
         break
       }
 
-      fourthColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+      fourthColor = new Color('lch', [lightness, chroma, this.random.minMax(0, 360)]) as LchColor
 
       if (
-        Color.contrast(fourthColor, firstColor, { algorithm: 'wcag21' }) > 2 &&
-        Color.contrast(fourthColor, secondColor, { algorithm: 'wcag21' }) > 2 &&
-        Color.contrast(fourthColor, thirdColor, { algorithm: 'wcag21' }) > 2
+        Math.abs(fourthColor.h - firstColor.h) > 60 &&
+        Math.abs(fourthColor.h - secondColor.h) > 60 &&
+        Math.abs(fourthColor.h - thirdColor.h) > 60
       ) {
         break
       }
 
       attempts++
     }
-    return fourthColor
+    return fourthColor as LchColor
   }
 
-  private generateThirdColor (contrast: number, brightness: number, firstColor: Color, secondColor: Color) {
-    let thirdColor: Color
+  private generateThirdColor (chroma: number, lightness: number, firstColor: LchColor, secondColor: LchColor): LchColor {
+    let thirdColor: LchColor
     let attempts = 0
 
     while (true) {
       if (attempts === 5) {
-        thirdColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness - this.random.minMax(30, 40)])
+        thirdColor = new Color('lch', [lightness - this.random.minMax(30, 40), chroma, this.random.minMax(0, 360)]) as LchColor
         break
       }
 
-      thirdColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+      thirdColor = new Color('lch', [lightness, chroma, this.random.minMax(0, 360)]) as LchColor
 
       if (
-        Color.contrast(thirdColor, firstColor, { algorithm: 'wcag21' }) > 2 &&
-        Color.contrast(thirdColor, secondColor, { algorithm: 'wcag21' }) > 2
+        Math.abs(thirdColor.h - firstColor.h) > 60 &&
+        Math.abs(thirdColor.h - secondColor.h) > 60
       ) {
         break
       }
 
       attempts++
     }
-    return thirdColor
+    return thirdColor as LchColor
   }
 
-  private generateSecondColor (contrast: number, brightness: number, firstColor: Color) {
-    let secondColor: Color
+  private generateSecondColor (chroma: number, lightness: number, firstColor: LchColor): LchColor {
+    let secondColor: LchColor
+
+    console.log({ firstColor })
 
     while (true) {
-      secondColor = new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+      secondColor = new Color('lch', [lightness, chroma, this.random.minMax(0, 360)]) as LchColor
 
-      if (Color.contrast(firstColor, secondColor, { algorithm: 'wcag21' }) > 2) {
+      if (Math.abs(firstColor.h - secondColor.h) > 60) {
         break
       }
     }
     return secondColor
   }
 
-  private generateFirstColor (contrast: number, brightness: number) {
-    return new Color('hsl', [this.random.minMax(0, 360), contrast, brightness])
+  private generateFirstColor (chroma: number, lightness: number): LchColor {
+    return new Color('lch', [lightness, chroma, this.random.minMax(0, 360)]) as LchColor
   }
 
   private orderColors (firstColor: Color, secondColor: Color, thirdColor: Color, fourthColor: Color): [Color, Color, Color, Color] {
