@@ -134,7 +134,7 @@
         <a
           class="settings-popup__button"
           target="_blank"
-          href="https://github.com/sponsors/Tito-Kati"
+          href="https://github.com/sponsors/antonio-gg-dev"
         >
           GitHub
         </a>
